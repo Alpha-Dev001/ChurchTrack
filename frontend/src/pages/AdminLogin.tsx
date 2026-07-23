@@ -114,7 +114,7 @@ export default function AdminLogin({ lang = 'EN', onNavigate }: AdminLoginProps)
                         <label className="text-[10px] font-bold uppercase text-navy-400 tracking-wider">{t.email}</label>
                         <input
                             type="email"
-                            placeholder="e.g. admin@sallehub.rw"
+                            placeholder="e.g. yours@gmail.com"
                             {...register('email')}
                             className={`w-full px-3 py-2 bg-navy-50 border rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 transition ${errors.email ? 'border-red-400 focus:ring-red-500/20' : 'border-navy-200 focus:ring-navy-900'
                                 }`}
