@@ -1,0 +1,452 @@
+{
+  "admins": [
+    {
+      "id": "admin-1",
+      "email": "admin@sallehub.com",
+      "password": "$2b$10$7sSI8fv/pgCOxaJYZq9Bu.fFGPKbLC0OgJkbbxSPV2RWebFYf9Q1O",
+      "name": "John Admin",
+      "role": "Administrator"
+    }
+  ],
+  "halls": [
+    {
+      "id": "grace-hall",
+      "name": "Grace Hall",
+      "location": "Kacyiru, Kigali",
+      "capacity": 500,
+      "price": 350,
+      "status": "Active",
+      "images": [
+        "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1478812954026-9c750f0e89fc?auto=format&fit=crop&w=600&q=80"
+      ],
+      "description": "Grace Hall is an elegant and spacious venue perfect for weddings, conferences, seminars, and celebrations. It offers modern facilities, a beautiful interior, and excellent service.",
+      "facilities": [
+        "Air Conditioning",
+        "Wi-Fi",
+        "Sound System",
+        "Projector",
+        "Stage",
+        "Restrooms",
+        "Kitchen",
+        "Backup Generator",
+        "Security"
+      ],
+      "workingHours": "09:00 AM - 08:00 PM",
+      "size": "1200 m²"
+    },
+    {
+      "id": "victory-hall",
+      "name": "Victory Hall",
+      "location": "Remera, Kigali",
+      "capacity": 300,
+      "price": 250,
+      "status": "Active",
+      "images": [
+        "https://images.unsplash.com/photo-1505232458729-4407780f1e22?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1543157148-f68f2d47a188?auto=format&fit=crop&w=600&q=80"
+      ],
+      "description": "Victory Hall provides a warm, accommodating space perfect for worship gatherings, wedding receptions, and large conferences. Features modern stage lighting and sound equipment.",
+      "facilities": [
+        "Air Conditioning",
+        "Wi-Fi",
+        "Sound System",
+        "Stage",
+        "Restrooms",
+        "Tables & Chairs",
+        "Security"
+      ],
+      "workingHours": "09:00 AM - 08:00 PM",
+      "size": "800 m²"
+    },
+    {
+      "id": "faith-conference-hall",
+      "name": "Faith Conference Hall",
+      "location": "Nyamirambo, Kigali",
+      "capacity": 200,
+      "price": 180,
+      "status": "Active",
+      "images": [
+        "https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "description": "An ideal space for corporate meetings, workshops, and seminars. Equipped with reliable audio-visual tools and comfortable seating arrangements.",
+      "facilities": [
+        "Wi-Fi",
+        "Sound System",
+        "Projector",
+        "Restrooms",
+        "Tables & Chairs",
+        "Accessible"
+      ],
+      "workingHours": "09:00 AM - 08:00 PM",
+      "size": "500 m²"
+    },
+    {
+      "id": "hope-celebration-hall",
+      "name": "Hope Celebration Hall",
+      "location": "Kicukiro, Kigali",
+      "capacity": 250,
+      "price": 220,
+      "status": "Active",
+      "images": [
+        "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "description": "Hope Celebration Hall offers an exquisite space for banquets, family events, and wedding dinners, with a fully-equipped kitchen.",
+      "facilities": [
+        "Air Conditioning",
+        "Wi-Fi",
+        "Sound System",
+        "Kitchen",
+        "Restrooms",
+        "Tables & Chairs",
+        "Security"
+      ],
+      "workingHours": "09:00 AM - 08:00 PM",
+      "size": "600 m²"
+    },
+    {
+      "id": "new-life-hall",
+      "name": "New Life Hall",
+      "location": "Gisenyi, Kigali",
+      "capacity": 150,
+      "price": 150,
+      "status": "Active",
+      "images": [
+        "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "description": "A cozy hall with stunning views, perfect for intimate community gatherings, small-scale seminars, or youth groups.",
+      "facilities": [
+        "Wi-Fi",
+        "Sound System",
+        "Restrooms",
+        "Tables & Chairs",
+        "Accessible"
+      ],
+      "workingHours": "09:00 AM - 08:00 PM",
+      "size": "400 m²"
+    },
+    {
+      "id": "community-hall",
+      "name": "Community Hall",
+      "location": "Nyamirambo, Kigali",
+      "capacity": 100,
+      "price": 120,
+      "status": "Inactive",
+      "images": [
+        "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "description": "A basic community-centered space for local meetups, neighborhood meetings, and volunteer training sessions.",
+      "facilities": [
+        "Restrooms",
+        "Tables & Chairs"
+      ],
+      "workingHours": "09:00 AM - 08:00 PM",
+      "size": "300 m²"
+    },
+    {
+      "id": "peace-hall",
+      "name": "Peace Hall",
+      "location": "Kimihurura, Kigali",
+      "capacity": 180,
+      "price": 170,
+      "status": "Active",
+      "images": [
+        "https://images.unsplash.com/photo-1478812954026-9c750f0e89fc?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "description": "Peace Hall boasts a serene environment with customizable layouts, excellent acoustics, and full accessibility support.",
+      "facilities": [
+        "Air Conditioning",
+        "Wi-Fi",
+        "Sound System",
+        "Restrooms",
+        "Tables & Chairs",
+        "Accessible",
+        "Security"
+      ],
+      "workingHours": "09:00 AM - 08:00 PM",
+      "size": "450 m²"
+    },
+    {
+      "id": "youth-hall",
+      "name": "Youth Hall",
+      "location": "Gikondo, Kigali",
+      "capacity": 120,
+      "price": 110,
+      "status": "Active",
+      "images": [
+        "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "description": "Modern and vibrant setting designed with youth activities, music rehearsals, and informal events in mind.",
+      "facilities": [
+        "Wi-Fi",
+        "Sound System",
+        "Stage",
+        "Restrooms",
+        "Tables & Chairs",
+        "Accessible"
+      ],
+      "workingHours": "09:00 AM - 08:00 PM",
+      "size": "350 m²"
+    }
+  ],
+  "bookings": [
+    {
+      "id": "#BK-1024",
+      "hallId": "grace-hall",
+      "hallName": "Grace Hall",
+      "customerName": "Alice Johnson",
+      "customerEmail": "alicejohnson@email.com",
+      "customerPhone": "+250 781 234 567",
+      "date": "2024-05-20",
+      "timeSlot": "10:00 AM - 02:00 PM",
+      "duration": "4 Hours",
+      "guests": 300,
+      "eventType": "Wedding",
+      "amount": 350,
+      "paymentStatus": "Pending",
+      "paymentMethod": "Bank Transfer",
+      "status": "Pending",
+      "additionalNotes": "We would like the hall to be decorated with white and gold theme.",
+      "createdAt": "2024-05-15T11:30:00Z",
+      "timeline": [
+        {
+          "status": "Pending",
+          "title": "Request Submitted",
+          "date": "May 15, 2024 - 11:30 AM",
+          "description": "Booking request has been received and is under review."
+        },
+        {
+          "status": "Pending",
+          "title": "Under Review",
+          "date": "May 15, 2024 - 11:35 AM",
+          "description": "Admin is reviewing hall availability for the requested slot."
+        }
+      ]
+    },
+    {
+      "id": "#BK-1023",
+      "hallId": "victory-hall",
+      "hallName": "Victory Hall",
+      "customerName": "Michael Brown",
+      "customerEmail": "michael.brown@outlook.com",
+      "customerPhone": "+250 782 999 888",
+      "date": "2024-05-21",
+      "timeSlot": "04:00 PM - 08:00 PM",
+      "duration": "4 Hours",
+      "guests": 120,
+      "eventType": "Conference",
+      "amount": 250,
+      "paymentStatus": "Pending",
+      "paymentMethod": "Mobile Money",
+      "status": "Pending",
+      "additionalNotes": "Will require microphone and podium setups.",
+      "createdAt": "2024-05-15T15:00:00Z",
+      "timeline": [
+        {
+          "status": "Pending",
+          "title": "Request Submitted",
+          "date": "May 15, 2024 - 03:00 PM",
+          "description": "Booking request has been received and is under review."
+        }
+      ]
+    },
+    {
+      "id": "#BK-1022",
+      "hallId": "faith-conference-hall",
+      "hallName": "Faith Conference Hall",
+      "customerName": "Sarah Williams",
+      "customerEmail": "sarah.w@techcorp.com",
+      "customerPhone": "+250 783 111 222",
+      "date": "2024-05-18",
+      "timeSlot": "09:00 AM - 01:00 PM",
+      "duration": "4 Hours",
+      "guests": 150,
+      "eventType": "Seminar",
+      "amount": 180,
+      "paymentStatus": "Paid",
+      "paymentMethod": "Mobile Money",
+      "status": "Approved",
+      "additionalNotes": "Catering team will arrive at 8:00 AM.",
+      "createdAt": "2024-05-14T09:00:00Z",
+      "timeline": [
+        {
+          "status": "Pending",
+          "title": "Request Submitted",
+          "date": "May 14, 2024 - 09:00 AM",
+          "description": "Booking request has been received."
+        },
+        {
+          "status": "Approved",
+          "title": "Request Approved",
+          "date": "May 14, 2024 - 11:00 AM",
+          "description": "Church admin approved your reserving slot."
+        },
+        {
+          "status": "Paid",
+          "title": "Payment Verified",
+          "date": "May 14, 2024 - 12:30 PM",
+          "description": "Mobile money payment of $180 successfully received and verified."
+        }
+      ]
+    },
+    {
+      "id": "#BK-1021",
+      "hallId": "hope-celebration-hall",
+      "hallName": "Hope Celebration Hall",
+      "customerName": "David Wilson",
+      "customerEmail": "david.wilson@gmail.com",
+      "customerPhone": "+250 788 444 555",
+      "date": "2024-05-16",
+      "timeSlot": "05:00 PM - 09:00 PM",
+      "duration": "4 Hours",
+      "guests": 200,
+      "eventType": "Celebration",
+      "amount": 320,
+      "paymentStatus": "Paid",
+      "paymentMethod": "Bank Transfer",
+      "status": "Approved",
+      "additionalNotes": "Setting up a mini stage for a birthday celebration.",
+      "createdAt": "2024-05-12T16:00:00Z",
+      "timeline": [
+        {
+          "status": "Pending",
+          "title": "Request Submitted",
+          "date": "May 12, 2024 - 04:00 PM",
+          "description": "Booking request has been received."
+        },
+        {
+          "status": "Approved",
+          "title": "Request Approved",
+          "date": "May 13, 2024 - 09:00 AM",
+          "description": "Admin approved the booking request."
+        },
+        {
+          "status": "Paid",
+          "title": "Payment Verified",
+          "date": "May 13, 2024 - 10:30 AM",
+          "description": "Bank payment verified successfully."
+        }
+      ]
+    },
+    {
+      "id": "#BK-1020",
+      "hallId": "grace-hall",
+      "hallName": "Grace Hall",
+      "customerName": "Emily Davis",
+      "customerEmail": "emily.davis@yahoo.com",
+      "customerPhone": "+250 785 777 666",
+      "date": "2024-05-16",
+      "timeSlot": "10:00 AM - 02:00 PM",
+      "duration": "4 Hours",
+      "guests": 250,
+      "eventType": "Seminar",
+      "amount": 350,
+      "paymentStatus": "Failed",
+      "paymentMethod": "Bank Transfer",
+      "status": "Cancelled",
+      "additionalNotes": "Need a high-speed projector.",
+      "createdAt": "2024-05-10T10:00:00Z",
+      "timeline": [
+        {
+          "status": "Pending",
+          "title": "Request Submitted",
+          "date": "May 10, 2024 - 10:00 AM",
+          "description": "Booking request submitted."
+        },
+        {
+          "status": "Cancelled",
+          "title": "Cancelled by User",
+          "date": "May 11, 2024 - 04:00 PM",
+          "description": "User requested cancellation due to schedule conflicts."
+        }
+      ]
+    }
+  ],
+  "payments": [
+    {
+      "id": "#PY-1005",
+      "bookingId": "#BK-1021",
+      "customerName": "David Wilson",
+      "amount": 320,
+      "method": "Bank Transfer",
+      "status": "Paid",
+      "date": "May 16, 2024"
+    },
+    {
+      "id": "#PY-1004",
+      "bookingId": "#BK-1022",
+      "customerName": "Sarah Williams",
+      "amount": 180,
+      "method": "Mobile Money",
+      "status": "Paid",
+      "date": "May 17, 2024"
+    },
+    {
+      "id": "#PY-1003",
+      "bookingId": "#BK-1018",
+      "customerName": "James Anderson",
+      "amount": 350,
+      "method": "Card",
+      "status": "Paid",
+      "date": "May 16, 2024"
+    },
+    {
+      "id": "#PY-1002",
+      "bookingId": "#BK-1023",
+      "customerName": "Michael Brown",
+      "amount": 250,
+      "method": "Mobile Money",
+      "status": "Pending",
+      "date": "May 15, 2024"
+    },
+    {
+      "id": "#PY-1001",
+      "bookingId": "#BK-1024",
+      "customerName": "Alice Johnson",
+      "amount": 350,
+      "method": "Bank Transfer",
+      "status": "Pending",
+      "date": "May 15, 2024"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "nt-1",
+      "type": "booking_received",
+      "title": "New booking request received",
+      "message": "Main Hall - May 20, 2024 from Alice Johnson.",
+      "createdAt": "2024-05-20T08:00:00Z",
+      "read": false
+    },
+    {
+      "id": "nt-2",
+      "type": "payment_received",
+      "title": "Payment received",
+      "message": "#BK-1019 - $850.00 from James Anderson.",
+      "createdAt": "2024-05-19T14:30:00Z",
+      "read": false
+    },
+    {
+      "id": "nt-3",
+      "type": "maintenance",
+      "title": "Hall maintenance scheduled",
+      "message": "Victory Hall - May 25, 2024.",
+      "createdAt": "2024-05-18T10:00:00Z",
+      "read": true
+    }
+  ],
+  "settings": {
+    "siteName": "SalleHub",
+    "siteTagline": "Smart Church Hall Booking & Management",
+    "timeZone": "(GMT+02:00) Africa/Kigali",
+    "dateFormat": "May 15, 2024",
+    "timeFormat": "12 Hours (AM/PM)",
+    "currency": "USD - US Dollar",
+    "workingHours": "09:00 AM - 08:00 PM",
+    "logoUrl": "/logo.png",
+    "faviconUrl": "/favicon.ico"
+  },
+  "bookingLogs": []
+}

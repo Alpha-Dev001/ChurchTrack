@@ -1,0 +1,6 @@
+{
+  "name": "SalleHub",
+  "description": "A modern church hall booking and management platform featuring a public visitor booking website and a premium admin management dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

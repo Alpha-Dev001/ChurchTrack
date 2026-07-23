@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="SalleHub">
+  <defs>
+    <linearGradient id="sh-bg" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#132a44"/>
+      <stop offset="1" stop-color="#0b1f33"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#sh-bg)"/>
+  <path
+    fill="#ffffff"
+    fill-rule="evenodd"
+    d="M32 8.5 51 24h-5v28H18V24h-5L32 8.5Zm0 18.2c-3.7 0-6.4 2.7-6.4 6.3V52h12.8V33c0-3.6-2.7-6.3-6.4-6.3Z"
+  />
+  <circle cx="32" cy="33" r="3.3" fill="#ffffff"/>
+</svg>
