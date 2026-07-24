@@ -19,7 +19,9 @@ export function bookingApiPath(id: string, suffix = ''): string {
 
 export async function safeFetchJson<T = any>(url: string, options?: RequestInit): Promise<T> {
   // Prepend API base URL for relative paths (e.g., /api/halls)
-  const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
+  // Ensure no double slashes between base URL and path
+  const path = url.startsWith('/') ? url : `/${url}`;
+  const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}${path}`;
   const res = await fetch(fullUrl, options);
   const text = await res.text();
   let data: any = null;
