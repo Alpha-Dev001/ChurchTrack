@@ -5,21 +5,26 @@ node_modules/
 build/
 dist/
 
-# Environment files (local overrides)
+# Environment & secrets — never commit real credentials
 .env
-.env.local
-.env.production
+.env.*
 !.env.example
+!**/.env.example
+*.pem
+credentials.json
+service-account*.json
 
 # Logs
 *.log
 npm-debug.log*
+yarn-error.log*
 
 # OS files
 .DS_Store
 Thumbs.db
+Desktop.ini
 
-# Coverage
+# Coverage / test
 coverage/
 
 # IDE
@@ -27,3 +32,9 @@ coverage/
 .idea/
 *.swp
 *.swo
+*~
+
+# Local / misc
+*.local
+.turbo/
+.cache/

@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { Hall } from "../types";
 import { safeFetchJson } from "../lib/api";
 import { bookingSchema, BookingFormData } from "../lib/schemas";
+import SEO from "../components/SEO";
 
 interface BookingRequestPageProps {
   lang?: string;
@@ -146,13 +147,36 @@ export default function BookingRequestPage({ lang = "EN", hall, selectedParams, 
   const [submitting, setSubmitting] = useState(false);
   const t = tBooking[lang] || tBooking["EN"];
 
+  const seoData = {
+    EN: {
+      title: `Book ${hall.name} - SalleHub`,
+      description: `Complete your booking request for ${hall.name}. Easy online reservation for ${hall.location}. Capacity: ${hall.capacity} guests.`,
+      keywords: `${hall.name}, booking request, parish hall booking, reserve hall, ${hall.location}`,
+      lang: "en"
+    },
+    FR: {
+      title: `Réserver ${hall.name} - SalleHub`,
+      description: `Complétez votre demande de réservation pour ${hall.name}. Réservation en ligne facile pour ${hall.location}.`,
+      keywords: `${hall.name}, demande de réservation, salle paroissiale, réserver, ${hall.location}`,
+      lang: "fr"
+    },
+    RW: {
+      title: `Gukodesha ${hall.name} - SalleHub`,
+      description: `Uzuza ubusabe bwo gukodesha ${hall.name}. Gukodesha mu buryo bworoshye ${hall.location}.`,
+      keywords: `${hall.name}, ubusabe, gukodesha, icyumba, ${hall.location}`,
+      lang: "rw"
+    }
+  };
+
+  const currentSeo = seoData[lang as keyof typeof seoData] || seoData.EN;
+
   const {
     register,
     handleSubmit,
     setValue,
     watch,
     formState: { errors }
-  } = useForm<BookingFormData>({
+  } = useForm({
     resolver: zodResolver(bookingSchema),
     defaultValues: {
       fullName: "",
@@ -183,7 +207,7 @@ export default function BookingRequestPage({ lang = "EN", hall, selectedParams, 
     return method;
   };
 
-  const onSubmit = async (data: BookingFormData) => {
+  const onSubmit = async (data: any) => {
     setSubmitting(true);
     try {
       const responseData = await safeFetchJson("/api/bookings", {
@@ -215,8 +239,17 @@ export default function BookingRequestPage({ lang = "EN", hall, selectedParams, 
   };
 
   return (
-    <div className="font-sans text-navy-800 text-left" id="booking-request-page-root">
-      {/* Breadcrumbs */}
+    <>
+      <SEO
+        title={currentSeo.title}
+        description={currentSeo.description}
+        keywords={currentSeo.keywords}
+        canonical={`https://sallehub.vercel.app/halls/${hall.id}`}
+        lang={currentSeo.lang}
+        noindex={true}
+      />
+      <div className="font-sans text-navy-800 text-left" id="booking-request-page-root">
+        {/* Breadcrumbs */}
       <section className="bg-navy-50 border-b border-navy-200/60 py-3.5 px-4">
         <div className="max-w-5xl mx-auto flex items-center gap-2 text-xs font-semibold text-navy-500 font-sans">
           <button onClick={() => onNavigate("visitor-home")} className="hover:text-navy-900 cursor-pointer">{t.home}</button>
@@ -475,6 +508,7 @@ export default function BookingRequestPage({ lang = "EN", hall, selectedParams, 
 
         </form>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

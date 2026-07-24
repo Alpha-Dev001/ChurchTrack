@@ -4,6 +4,7 @@ import { Hall } from "../types";
 import HallCard from "../components/HallCard";
 import { useData } from "../contexts/DataContext";
 import { HallCardSkeleton } from "../components/Skeletons";
+import SEO from "../components/SEO";
 
 interface CataloguePageProps {
   lang?: string;
@@ -57,6 +58,29 @@ export default function CataloguePage({ lang = "EN", halls, onNavigate }: Catalo
   const [searchTerm, setSearchTerm] = useState("");
   const t = tCatalogue[lang] || tCatalogue["EN"];
 
+  const seoData = {
+    EN: {
+      title: "Browse Church Halls - SalleHub",
+      description: "Browse our complete catalog of premium parish halls. Find the perfect venue for weddings, conferences, seminars, and special events.",
+      keywords: "church halls, parish venues, event spaces, wedding halls, conference rooms, seminar venues, hall directory",
+      lang: "en"
+    },
+    FR: {
+      title: "Parcourir les Salles d'Église - SalleHub",
+      description: "Parcourez notre catalogue complet de salles paroissiales premium. Trouvez le lieu parfait pour mariages, conférences, séminaires et événements.",
+      keywords: "salles d'église, salles paroissiales, lieux d'événements, salles de mariage, salles de conférence",
+      lang: "fr"
+    },
+    RW: {
+      title: "Shakisha Ibyumba bya Paruwasi - SalleHub",
+      description: "Reba urutonde rw'ibyumba byiza bya paruwasi. Shakisha icyumba gikwiranye n'ibirori byawe by'ubukwe, inama n'amahugurwa.",
+      keywords: "ibyumba bya paruwasi, ahantu y'ibirori, icyumba cy'ubukwe, icyumba cy'inama",
+      lang: "rw"
+    }
+  };
+
+  const currentSeo = seoData[lang as keyof typeof seoData] || seoData.EN;
+
   const filteredHalls = useMemo(() => {
     if (!searchTerm.trim()) return halls;
     const s = searchTerm.toLowerCase();
@@ -68,8 +92,16 @@ export default function CataloguePage({ lang = "EN", halls, onNavigate }: Catalo
   }, [halls, searchTerm]);
 
   return (
-    <div className="font-sans text-navy-800" id="catalogue-page-root">
-      {/* Top Banner Header */}
+    <>
+      <SEO
+        title={currentSeo.title}
+        description={currentSeo.description}
+        keywords={currentSeo.keywords}
+        canonical="https://sallehub.vercel.app/catalogue"
+        lang={currentSeo.lang}
+      />
+      <div className="font-sans text-navy-800" id="catalogue-page-root">
+        {/* Top Banner Header */}
       <section className="relative bg-navy-950 text-white py-12 px-4 overflow-hidden border-b border-navy-900">
         <div className="absolute inset-0">
           <img
@@ -149,6 +181,7 @@ export default function CataloguePage({ lang = "EN", halls, onNavigate }: Catalo
             )}
           </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

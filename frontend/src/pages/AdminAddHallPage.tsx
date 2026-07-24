@@ -27,7 +27,7 @@ import {
   Save,
   Info
 } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { addHallSchema, AddHallFormData } from "../lib/schemas";
@@ -184,7 +184,7 @@ export default function AdminAddHallPage({
     watch,
     formState: { errors }
   } = useForm<AddHallFormData>({
-    resolver: zodResolver(addHallSchema),
+    resolver: zodResolver(addHallSchema) as Resolver<AddHallFormData>,
     defaultValues: {
       name: "",
       location: "Kacyiru, Kigali",

@@ -12,6 +12,7 @@ import {
   formatTimeSlot,
   formatDurationLabel,
 } from "../lib/timeUtils";
+import SEO from "../components/SEO";
 
 interface HallDetailsPageProps {
   lang?: string;
@@ -129,6 +130,29 @@ export default function HallDetailsPage({ lang = "EN", hall, onNavigate }: HallD
   const [continuing, setContinuing] = useState(false);
   const [settings, setSettings] = useState<SystemSettings | null>(null);
 
+  const seoData = {
+    EN: {
+      title: `${hall.name} - Book This Hall | SalleHub`,
+      description: `Book ${hall.name} located in ${hall.location}. Capacity: ${hall.capacity} guests. Perfect for weddings, conferences, and special events. View details and check availability.`,
+      keywords: `${hall.name}, ${hall.location}, parish hall, church venue, wedding venue, event space, hall booking`,
+      lang: "en"
+    },
+    FR: {
+      title: `${hall.name} - Réserver cette salle | SalleHub`,
+      description: `Réservez ${hall.name} situé à ${hall.location}. Capacité: ${hall.capacity} invités. Parfait pour mariages, conférences et événements spéciaux.`,
+      keywords: `${hall.name}, ${hall.location}, salle paroissiale, lieu de mariage, espace événementiel, réservation`,
+      lang: "fr"
+    },
+    RW: {
+      title: `${hall.name} - Kodesha Icyumba | SalleHub`,
+      description: `Kodesha ${hall.name} iri mu ${hall.location}. Ubushobozi: ${hall.capacity} abatumirwa. Nziza ku bw'ubukwe, inama n'ibirori by'umuryango.`,
+      keywords: `${hall.name}, ${hall.location}, icyumba cya paruwasi, ahantu y'ibirori, gukodesha`,
+      lang: "rw"
+    }
+  };
+
+  const currentSeo = seoData[lang as keyof typeof seoData] || seoData.EN;
+
   useEffect(() => {
     safeFetchJson<SystemSettings>('/api/settings')
       .then(data => setSettings(data))
@@ -198,8 +222,22 @@ export default function HallDetailsPage({ lang = "EN", hall, onNavigate }: HallD
   const images = hall.images?.length ? hall.images : ["https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1200&q=80"];
 
   return (
-    <div className="font-sans text-navy-800" id="hall-details-page-root">
-      <section className="bg-navy-50 border-b border-navy-200 py-3.5 px-4">
+    <>
+      <SEO
+        title={currentSeo.title}
+        description={currentSeo.description}
+        keywords={currentSeo.keywords}
+        canonical={`https://sallehub.vercel.app/halls/${hall.id}`}
+        lang={currentSeo.lang}
+        structuredData={{
+          "@type": "WebPage",
+          "name": hall.name,
+          "description": hall.description,
+          "url": `https://sallehub.vercel.app/halls/${hall.id}`
+        }}
+      />
+      <div className="font-sans text-navy-800" id="hall-details-page-root">
+        <section className="bg-navy-50 border-b border-navy-200 py-3.5 px-4">
         <div className="max-w-5xl mx-auto flex items-center gap-2 text-xs font-medium text-navy-500">
           <button onClick={() => onNavigate("visitor-home")} className="hover:text-navy-900 cursor-pointer">
             {t.home}
@@ -548,6 +586,7 @@ export default function HallDetailsPage({ lang = "EN", hall, onNavigate }: HallD
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

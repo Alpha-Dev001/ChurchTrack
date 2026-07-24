@@ -38,7 +38,7 @@ export default function AdminCalendarPage({ lang = "EN", onNavigate }: AdminCale
         id: b.id,
         hallName: b.hallName,
         customerName: b.customerName,
-        date: b.date,
+        date: b.eventDate,
         timeSlot: b.timeSlot,
         eventType: b.eventType,
         status: (b.status === "Rejected" ? "Cancelled" : b.status) as

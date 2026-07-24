@@ -1,152 +1,213 @@
 <div align="center">
-<img width="1200" height="475" alt="SalleHub Banner" src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1200&q=80" />
+
+# SalleHub
+
+**Church hall booking & parish venue management**
+
+A public booking experience for visitors and a full admin dashboard for parish coordinators — halls, calendars, approvals, and settings in one place.
+
+[Features](#features) · [Quick start](#quick-start) · [Frontend](./frontend/README.md) · [Backend](./backend/README.md)
+
+<br />
+
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/React_19-61DAFB?style=flat-square&logo=react&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+
 </div>
 
-# SalleHub - Church Hall Booking & Management Platform
+---
 
-A modern church hall booking and management platform featuring a public visitor booking website and a premium admin management dashboard.
+## Overview
 
-## Architecture
+SalleHub is split into two independent apps so you can deploy the API and the UI on separate hosts:
 
-The project is split into **two independent applications** that can run on separate servers:
-
-- **Backend**: Express.js + TypeScript API server (port 3000)
-- **Frontend**: React + Vite + Tailwind CSS (port 5173)
-
-## Prerequisites
-
-- Node.js 18+ 
-- npm
-
-## Quick Start
-
-### 1. Install dependencies
-
-```bash
-# From the project root, install both frontend and backend
-cd backend && npm install
-cd ../frontend && npm install
-```
-
-### 2. Configure environment variables
-
-**Backend** (`backend/.env` - already created with defaults):
-```
-PORT=3000
-JWT_SECRET=sallehub-super-secure-jwt-secret-key-2026
-FRONTEND_URL=http://localhost:5173
-```
-
-**Frontend** (`frontend/.env` - already created with defaults):
-```
-VITE_API_URL=http://localhost:3000
-```
-
-### 3. Run the applications
-
-**Option A: Run both (two terminal windows)**
-
-Terminal 1 - Backend:
-```bash
-cd backend
-npm run dev
-```
-
-Terminal 2 - Frontend:
-```bash
-cd frontend
-npm run dev
-```
-
-**Option B: Run from root**
-```bash
-npm run dev:backend   # Start backend only
-npm run dev:frontend  # Start frontend only
-```
-
-### 4. Access the applications
-
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:3000
-- **Health Check**: http://localhost:3000/health
-
-### 5. Default Admin Credentials
-
-- **Email**: admin@sallehub.rw
-- **Password**: admin123
-
-## Project Structure
+| App | Stack | Default port | Docs |
+|-----|--------|--------------|------|
+| **Backend** | Express · TypeScript · MongoDB · Cloudinary | `3000` | [backend/README.md](./backend/README.md) |
+| **Frontend** | React · Vite · Tailwind CSS | `5173` | [frontend/README.md](./frontend/README.md) |
 
 ```
 sallehub/
-├── backend/                  # Express.js API server
-│   ├── .env                  # Backend environment variables
-│   ├── package.json
-│   ├── tsconfig.json
-│   ├── server-db.json        # JSON file database (default storage)
-│   └── src/
-│       ├── server.ts         # Entry point
-│       ├── app.ts            # Express app with CORS
-│       ├── config/
-│       │   └── env.ts        # Environment config
-│       ├── controllers/
-│       ├── middlewares/
-│       ├── routes/
-│       ├── services/
-│       └── utils/
-│
-├── frontend/                 # React + Vite UI
-│   ├── .env                  # Frontend environment variables
-│   ├── package.json
-│   ├── vite.config.ts
-│   ├── index.html
-│   └── src/
-│       ├── App.tsx           # Main app with routing
-│       ├── lib/
-│       │   └── api.ts        # API client (uses VITE_API_URL)
-│       ├── components/
-│       ├── pages/
-│       └── types.ts
-│
-├── .env.example              # Environment variable template
-└── package.json              # Root scripts
+├── backend/          # REST API (Express + MongoDB)
+├── frontend/         # Public site + admin dashboard
+├── .env.example      # Shared env reference (no secrets)
+└── package.json      # Convenience scripts for both apps
 ```
 
-## API Endpoints
-
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| POST | `/api/auth/login` | No | Admin login |
-| GET | `/api/auth/me` | JWT | Get current admin |
-| GET | `/api/stats` | No | Dashboard statistics |
-| GET | `/api/halls` | No | List all halls |
-| GET | `/api/halls/:id` | No | Get hall details |
-| POST | `/api/halls` | JWT | Create a hall |
-| PUT | `/api/halls/:id` | JWT | Update a hall |
-| PATCH | `/api/halls/:id` | JWT | Partial update hall |
-| DELETE | `/api/halls/:id` | JWT | Delete a hall |
-| GET | `/api/bookings` | No | List all bookings |
-| GET | `/api/bookings/:id` | No | Get booking details |
-| POST | `/api/bookings` | No | Create a booking |
-| PATCH | `/api/bookings/:id/approve` | JWT | Approve booking |
-| PATCH | `/api/bookings/:id/reject` | JWT | Reject booking |
-| POST | `/api/admin/reset-db` | No | Reset database |
-
-## Deployment
-
-### Backend Deployment
-1. Build: `cd backend && npm run build`
-2. Set environment variables on your hosting platform
-3. Start: `npm run start` (runs the compiled server)
-
-### Frontend Deployment
-1. Build: `cd frontend && npm run build`
-2. Set `VITE_API_URL` to your backend URL in the hosting platform
-3. Deploy the `dist/` folder to any static host (Vercel, Netlify, etc.)
+---
 
 ## Features
 
-- **Public**: Browse halls, filter & sort, book venues, track bookings
-- **Admin**: Dashboard with stats, manage halls, approve/reject bookings, settings
-- **Trilingual**: English, French, Kinyarwanda
-- **Responsive**: Mobile-first design with admin sidebar and bottom navigation
+**Public site**
+- Browse and filter parish halls
+- View hall details, capacity, pricing, and availability context
+- Submit booking requests
+- Track booking status
+- English · French · Kinyarwanda
+
+**Admin dashboard**
+- Stats overview
+- Hall CRUD with Cloudinary image uploads
+- Booking approve / reject workflow
+- Calendar view
+- Site settings
+
+---
+
+## Prerequisites
+
+- **Node.js** 18+
+- **npm**
+- **MongoDB** (local or [MongoDB Atlas](https://www.mongodb.com/atlas))
+- **Cloudinary** account (for hall image uploads)
+
+---
+
+## Quick start
+
+### 1. Clone & install
+
+```bash
+git clone https://github.com/YOUR_USERNAME/sallehub.git
+cd sallehub
+
+npm run install:all
+# or:
+# cd backend && npm install && cd ../frontend && npm install
+```
+
+### 2. Environment files
+
+Copy the examples and fill in **your own** values. Never commit real `.env` files.
+
+```bash
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+```
+
+**Minimal local setup**
+
+`backend/.env`
+```env
+PORT=3000
+JWT_SECRET=change-me-to-a-long-random-secret
+MONGO_URI=mongodb://127.0.0.1:27017/sallehub
+MONGO_DB_NAME=sallehub
+FRONTEND_URL=http://localhost:5173
+# Cloudinary keys required to upload hall images
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+```
+
+`frontend/.env`
+```env
+VITE_API_URL=http://localhost:3000
+```
+
+See [`.env.example`](./.env.example) for the full list of variables.
+
+### 3. Run locally
+
+Two terminals (or use the root scripts):
+
+```bash
+# Terminal 1 — API
+npm run dev:backend
+
+# Terminal 2 — UI
+npm run dev:frontend
+```
+
+| Service | URL |
+|---------|-----|
+| Frontend | http://localhost:5173 |
+| Backend API | http://localhost:3000 |
+| Health check | http://localhost:3000/health |
+
+### 4. Default admin (local development only)
+
+On first MongoDB connect, the API seeds a default admin if none exists:
+
+| Field | Value |
+|-------|--------|
+| Email | `name@gmail.com` |
+| Password | `password` |
+
+> **Security:** Change this password (or recreate the admin) before any public deployment. Do not reuse these credentials in production.
+
+---
+
+## Deployment
+
+### Backend
+
+1. Set env vars on your host (`MONGO_URI`, `JWT_SECRET`, Cloudinary, `FRONTEND_URL`, etc.).
+2. Build and start:
+
+```bash
+cd backend
+npm run build
+npm start
+```
+
+### Frontend
+
+1. Set `VITE_API_URL` to your live API URL **at build time**.
+2. Build and deploy `frontend/dist` (Vercel, Netlify, etc.):
+
+```bash
+cd frontend
+npm run build
+```
+
+`frontend/vercel.json` already includes SPA rewrites for client-side routing.
+
+---
+
+## Security checklist (before GitHub / production)
+
+- [x] Real `.env` files are gitignored
+- [ ] `JWT_SECRET` is a unique strong value (not the example placeholder)
+- [ ] MongoDB user has a strong password; URI is never committed
+- [ ] Cloudinary keys live only in host env / secrets manager
+- [ ] Default admin password is changed
+- [ ] `FRONTEND_URL` matches your production frontend origin
+- [ ] `NODE_ENV=production` on the API host
+
+---
+
+## Tech stack
+
+| Layer | Technologies |
+|-------|----------------|
+| Frontend | React 19, React Router, Vite, Tailwind CSS 4, Motion, Zod, React Hook Form |
+| Backend | Express, TypeScript, Mongoose, JWT, bcrypt, Multer, Cloudinary |
+| Data | MongoDB |
+| Media | Cloudinary |
+
+---
+
+## Contributing
+
+1. Fork the repo and create a feature branch
+2. Keep secrets out of commits — use `.env.example` only
+3. Open a pull request with a clear description
+
+---
+
+## License
+
+Private / all rights reserved unless a license file is added to this repository.
+
+---
+
+<div align="center">
+
+Made for parish venue management · [Frontend docs](./frontend/README.md) · [Backend docs](./backend/README.md)
+
+</div>

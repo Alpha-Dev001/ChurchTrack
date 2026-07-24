@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Plus, Trash2, X, MapPin, History, Calendar, Clock, Search, ChevronRight, Clock3, AlertCircle } from "lucide-react";
+import { Plus, Trash2, X, MapPin, History, Calendar, Clock, Search, ChevronRight, Clock3, AlertCircle, Users } from "lucide-react";
 import toast from "react-hot-toast";
 import { Hall, Booking } from "../types";
 import Pagination from "../components/Pagination";
@@ -288,11 +288,11 @@ export default function AdminHallsPage({
     : [];
 
   const totalVenueCount = venueBookings.length;
-  const upcomingVenueCount = venueBookings.filter(b => b.date >= todayStr).length;
-  const pastVenueCount = venueBookings.filter(b => b.date < todayStr).length;
+  const upcomingVenueCount = venueBookings.filter(b => b.eventDate >= todayStr).length;
+  const pastVenueCount = venueBookings.filter(b => b.eventDate < todayStr).length;
   const totalVenueRevenue = venueBookings
     .filter(b => b.status === "Approved" || b.paymentStatus === "Paid")
-    .reduce((sum, b) => sum + (b.amount || 0), 0);
+    .reduce((sum, b) => sum + (b.totalAmount || 0), 0);
 
   const filteredVenueBookings = venueBookings.filter(b => {
     // Search query filter
@@ -307,10 +307,10 @@ export default function AdminHallsPage({
 
     // Status / Time filter
     if (logFilterStatus === "Upcoming") {
-      return b.date >= todayStr;
+      return b.eventDate >= todayStr;
     }
     if (logFilterStatus === "Past") {
-      return b.date < todayStr;
+      return b.eventDate < todayStr;
     }
     if (logFilterStatus === "Pending") {
       return b.status === "Pending";
@@ -706,7 +706,7 @@ export default function AdminHallsPage({
                   </div>
                 ) : (
                   filteredVenueBookings.map(b => {
-                    const isUpcoming = b.date >= todayStr;
+                    const isUpcoming = b.eventDate >= todayStr;
                     const isPending = b.status === "Pending";
                     const isApproved = b.status === "Approved";
                     const isRejected = b.status === "Rejected";
@@ -768,7 +768,7 @@ export default function AdminHallsPage({
                         <div className="bg-navy-50 rounded-xl p-2.5 border border-navy-100 flex items-center justify-between text-xs font-semibold text-navy-700">
                           <div className="flex items-center gap-1.5 text-navy-800 font-bold">
                             <Calendar className="w-3.5 h-3.5 text-navy-600 shrink-0" />
-                            <span>{b.date}</span>
+                            <span>{b.eventDate}</span>
                           </div>
                           <div className="flex items-center gap-1 text-navy-500 text-[11px]">
                             <Clock className="w-3.5 h-3.5 text-navy-400 shrink-0" />
@@ -780,7 +780,7 @@ export default function AdminHallsPage({
                         <div className="flex items-center justify-between pt-1">
                           <div className="flex items-center gap-1.5">
                             <span className="text-[10px] font-bold text-navy-400">{t.amount}:</span>
-                            <span className="text-sm font-black text-navy-950">RWF {Number(b.amount || 0).toLocaleString()}</span>
+                            <span className="text-sm font-black text-navy-950">RWF {Number(b.totalAmount || 0).toLocaleString()}</span>
                             <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded-md ${b.paymentStatus === "Paid" ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"
                               }`}>
                               {b.paymentStatus || "Pending"}

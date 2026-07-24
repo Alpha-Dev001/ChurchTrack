@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Search, HelpCircle, Info, User, Calendar, Clock, Users } from "lucide-react";
+import { Search, HelpCircle, Info, User, Calendar, Clock, Users, Mail, Hash, FileText } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { safeFetchJson } from "../lib/api";
 import { trackBookingSchema, TrackBookingFormData } from "../lib/schemas";
 import { TrackBookingSkeleton } from "../components/Skeletons";
+import SEO from "../components/SEO";
 
 interface TrackBookingPageProps {
   lang?: string;
@@ -41,6 +42,14 @@ const tTrack: Record<string, any> = {
     selectHint: "Select a booking to view progress",
     refLabel: "Reference",
     guestLabel: "Guest",
+    emptyTitle: "Find your reservation",
+    emptyDesc: "Use any of these details from your confirmation email to pull up live status.",
+    tipRefTitle: "Booking reference",
+    tipRefDesc: "The code sent after you submit a request (for example SH-2041).",
+    tipEmailTitle: "Email address",
+    tipEmailDesc: "The email you used when requesting the hall.",
+    tipNameTitle: "Full name",
+    tipNameDesc: "The guest name on the booking, spelled as submitted.",
   },
   FR: {
     eyebrow: "Suivi en direct",
@@ -69,6 +78,14 @@ const tTrack: Record<string, any> = {
     selectHint: "Sélectionnez une réservation pour voir la progression",
     refLabel: "Référence",
     guestLabel: "Invité",
+    emptyTitle: "Retrouvez votre réservation",
+    emptyDesc: "Utilisez l'un de ces éléments de votre e-mail de confirmation pour voir le statut en direct.",
+    tipRefTitle: "Référence de réservation",
+    tipRefDesc: "Le code envoyé après votre demande (par exemple SH-2041).",
+    tipEmailTitle: "Adresse e-mail",
+    tipEmailDesc: "L'e-mail utilisé lors de la demande de salle.",
+    tipNameTitle: "Nom complet",
+    tipNameDesc: "Le nom de l'invité sur la réservation, tel qu'indiqué.",
   },
   RW: {
     eyebrow: "Gukurikirana ubusabe",
@@ -97,6 +114,14 @@ const tTrack: Record<string, any> = {
     selectHint: "Hitamo ubusabe urebe aho bugeze",
     refLabel: "Kode",
     guestLabel: "Umukiriya",
+    emptyTitle: "Shakisha ubusabe bwawe",
+    emptyDesc: "Koresha kimwe muri ibi bivuye mu imeri yawe yo kwemeza kugira ngo urebe aho bugeze.",
+    tipRefTitle: "Kode y'ubusabe",
+    tipRefDesc: "Kode woherejwe nyuma yo kohereza ubusabe (urugero SH-2041).",
+    tipEmailTitle: "Aderesi ya imeri",
+    tipEmailDesc: "Imeri wakoresheje usaba icyumba.",
+    tipNameTitle: "Amazina yose",
+    tipNameDesc: "Amazina y'umukiriya ku busabe, nkuko byanditswe.",
   },
 };
 
@@ -108,6 +133,29 @@ export default function TrackBookingPage({ lang = "EN", initialCode = "" }: Trac
   const [errorMsg, setErrorMsg] = useState("");
 
   const t = tTrack[lang] || tTrack.EN;
+
+  const seoData = {
+    EN: {
+      title: "Track Your Booking - SalleHub",
+      description: "Track your parish hall booking status. Enter your booking reference to see real-time updates on your reservation.",
+      keywords: "track booking, booking status, parish hall booking, reservation tracker, booking reference",
+      lang: "en"
+    },
+    FR: {
+      title: "Suivre Votre Réservation - SalleHub",
+      description: "Suivez le statut de votre réservation de salle paroissiale. Entrez votre référence pour voir les mises à jour en temps réel.",
+      keywords: "suivi réservation, statut réservation, salle paroissiale, tracker réservation, référence",
+      lang: "fr"
+    },
+    RW: {
+      title: "Kurikirana Ubusabe Bwawe - SalleHub",
+      description: "Reba aho ubusabe bwawe bwo kukodesha icyumba bgeze. Andika kode yawe ubone amakuru y'igihe nyacyo.",
+      keywords: "kurikirana ubusabe, aho ubusabe bgeze, kukodesha icyumba, kode y'ubusabe",
+      lang: "rw"
+    }
+  };
+
+  const currentSeo = seoData[lang as keyof typeof seoData] || seoData.EN;
 
   const {
     register,
@@ -228,6 +276,13 @@ export default function TrackBookingPage({ lang = "EN", initialCode = "" }: Trac
 
   return (
     <div className="font-sans text-navy-800 text-left" id="track-booking-root">
+      <SEO
+        title={currentSeo.title}
+        description={currentSeo.description}
+        keywords={currentSeo.keywords}
+        canonical="https://sallehub.vercel.app/track"
+        lang={currentSeo.lang}
+      />
       <section className="relative bg-navy-950 text-white py-12 px-4 overflow-hidden border-b border-navy-900">
         <div className="absolute inset-0">
           <img
@@ -285,6 +340,61 @@ export default function TrackBookingPage({ lang = "EN", initialCode = "" }: Trac
         </div>
 
         {loading && <TrackBookingSkeleton />}
+
+        {!loading && !searched && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="md:col-span-2 card-surface p-6 space-y-5 shadow-sm">
+              <div>
+                <h2 className="text-lg font-serif text-navy-950 tracking-tight">{t.emptyTitle}</h2>
+                <p className="text-[12px] text-navy-500 font-medium mt-1.5 leading-relaxed max-w-lg">{t.emptyDesc}</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="space-y-2 p-4 rounded-lg bg-navy-50 border border-navy-100">
+                  <div className="w-8 h-8 rounded-lg bg-white border border-navy-200 flex items-center justify-center">
+                    <Hash className="w-4 h-4 text-navy-700" />
+                  </div>
+                  <p className="text-xs font-semibold text-navy-950">{t.tipRefTitle}</p>
+                  <p className="text-[11px] text-navy-500 font-medium leading-relaxed">{t.tipRefDesc}</p>
+                </div>
+                <div className="space-y-2 p-4 rounded-lg bg-navy-50 border border-navy-100">
+                  <div className="w-8 h-8 rounded-lg bg-white border border-navy-200 flex items-center justify-center">
+                    <Mail className="w-4 h-4 text-navy-700" />
+                  </div>
+                  <p className="text-xs font-semibold text-navy-950">{t.tipEmailTitle}</p>
+                  <p className="text-[11px] text-navy-500 font-medium leading-relaxed">{t.tipEmailDesc}</p>
+                </div>
+                <div className="space-y-2 p-4 rounded-lg bg-navy-50 border border-navy-100">
+                  <div className="w-8 h-8 rounded-lg bg-white border border-navy-200 flex items-center justify-center">
+                    <FileText className="w-4 h-4 text-navy-700" />
+                  </div>
+                  <p className="text-xs font-semibold text-navy-950">{t.tipNameTitle}</p>
+                  <p className="text-[11px] text-navy-500 font-medium leading-relaxed">{t.tipNameDesc}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="card-surface bg-navy-50 p-5 space-y-4">
+              <h3 className="section-eyebrow flex items-center gap-2 border-b border-navy-200 pb-2.5">
+                <HelpCircle className="w-4 h-4 text-navy-600" />
+                {t.guideTitle}
+              </h3>
+              <div className="space-y-4 text-xs">
+                <div>
+                  <p className="font-semibold text-navy-900 uppercase text-[10px] tracking-wide mb-1">{t.pendingStatus}</p>
+                  <p className="text-navy-500 font-medium text-[11px] leading-relaxed">{t.pendingDesc}</p>
+                </div>
+                <div>
+                  <p className="font-semibold text-navy-900 uppercase text-[10px] tracking-wide mb-1">{t.approvedStatus}</p>
+                  <p className="text-navy-500 font-medium text-[11px] leading-relaxed">{t.approvedDesc}</p>
+                </div>
+                <div>
+                  <p className="font-semibold text-navy-900 uppercase text-[10px] tracking-wide mb-1">{t.verifiedStatus}</p>
+                  <p className="text-navy-500 font-medium text-[11px] leading-relaxed">{t.verifiedDesc}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {!loading && searched && results.length > 1 && (
           <div className="card-surface p-5 space-y-3">

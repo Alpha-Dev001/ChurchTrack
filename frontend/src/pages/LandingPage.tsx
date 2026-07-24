@@ -5,6 +5,7 @@ import HallCard from "../components/HallCard";
 import heroChurchBuildingImg from "../assets/images/parish_hero_building_1784664516350.jpg";
 import { useData } from "../contexts/DataContext";
 import { HallCardSkeleton } from "../components/Skeletons";
+import SEO from "../components/SEO";
 
 interface LandingPageProps {
   lang?: string;
@@ -253,6 +254,29 @@ export default function LandingPage({ lang = "EN", halls, onNavigate, onSearch }
   const { hallsLoading } = useData();
   const [testimonialIdx, setTestimonialIdx] = useState(1); // Default center slide active
 
+  const seoData = {
+    EN: {
+      title: "Premium Parish Hall Booking - SalleHub",
+      description: "Discover, book, and manage beautiful church halls for weddings, conferences, seminars, and all your special occasions. Easy online booking with live availability.",
+      keywords: "parish hall booking, church hall rental, wedding venue, conference hall, seminar venue, event space, parish events, hall reservation",
+      lang: "en"
+    },
+    FR: {
+      title: "Réservation de Salles Paroissiales - SalleHub",
+      description: "Découvrez et réservez de belles salles d'église pour mariages, conférences, séminaires et toutes vos occasions spéciales. Réservation en ligne facile.",
+      keywords: "réservation salle paroissiale, location salle d'église, lieu de mariage, salle de conférence, espace événementiel, réservation paroisse",
+      lang: "fr"
+    },
+    RW: {
+      title: "Gukodesha Ibyumba bya Paruwasi - SalleHub",
+      description: "Gura cyangwa ukodeshe ibyumba byiza bya paruwasi ku bw'ubukwe, inama, amahugurwa n'ibindi birori by'umuryango.",
+      keywords: "gukodesha icyumba cya paruwasi, icyumba cy'umuryango, ahantu ho gusabiriza, gahunda y'ibirori",
+      lang: "rw"
+    }
+  };
+
+  const currentSeo = seoData[lang as keyof typeof seoData] || seoData.EN;
+
   const activeHalls = halls.filter(h => h.status === "Active");
   const featuredHalls = activeHalls.length >= 4 ? activeHalls.slice(0, 4) : halls.slice(0, 4);
 
@@ -292,8 +316,21 @@ export default function LandingPage({ lang = "EN", halls, onNavigate, onSearch }
   const t = tLanding[lang] || tLanding["EN"];
 
   return (
-    <div className="font-sans text-navy-900" id="landing-page-root">
-      {/* Hero Section — brand-first dark blue + white */}
+    <>
+      <SEO
+        title={currentSeo.title}
+        description={currentSeo.description}
+        keywords={currentSeo.keywords}
+        canonical="https://sallehub.vercel.app/"
+        lang={currentSeo.lang}
+        structuredData={{
+          "@type": "WebPage",
+          "name": "SalleHub - Premium Parish Hall Booking",
+          "description": "Discover, book, and manage beautiful church halls for weddings, conferences, seminars, and all your special occasions."
+        }}
+      />
+      <div className="font-sans text-navy-900" id="landing-page-root">
+        {/* Hero Section — brand-first dark blue + white */}
       <section className="relative min-h-[100vh] bg-navy-950 text-white flex flex-col justify-center overflow-hidden py-8 md:py-24 px-4">
         <div className="absolute inset-0 z-0">
           <img
@@ -557,5 +594,6 @@ export default function LandingPage({ lang = "EN", halls, onNavigate, onSearch }
         </div>
       </section>
     </div>
+    </>
   );
 }

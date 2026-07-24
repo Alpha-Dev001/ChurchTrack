@@ -95,3 +95,18 @@ export interface SystemSettings {
   timeZone?: string;
   dateFormat?: string;
 }
+
+export type SupportedLang = 'EN' | 'FR' | 'RW';
+
+export interface AdminUser {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+}
+
+export interface LoginResponse {
+  token: string;
+  user?: AdminUser;
+  admin?: AdminUser;
+}

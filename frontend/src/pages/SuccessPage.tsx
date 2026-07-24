@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Check, Copy, Calendar, Users, Clock, Home, Search, Sparkles } from "lucide-react";
+import SEO from "../components/SEO";
 
 interface SuccessPageProps {
   lang?: string;
@@ -85,6 +86,29 @@ export default function SuccessPage({ lang = "EN", bookingDetails, onNavigate }:
 
   const t = tSuccess[lang] || tSuccess["EN"];
 
+  const seoData = {
+    EN: {
+      title: "Booking Confirmed - SalleHub",
+      description: "Your booking request has been submitted successfully. Use your booking reference to track the status of your reservation.",
+      keywords: "booking confirmed, booking reference, parish hall booking, reservation submitted",
+      lang: "en"
+    },
+    FR: {
+      title: "Réservation Confirmée - SalleHub",
+      description: "Votre demande de réservation a été soumise avec succès. Utilisez votre référence pour suivre le statut.",
+      keywords: "réservation confirmée, référence réservation, salle paroissiale, demande soumise",
+      lang: "fr"
+    },
+    RW: {
+      title: "Gukodesha Byemejwe - SalleHub",
+      description: "Ubusabe bwo gukodesha bwoherejwe neza. Koresha kode yawe ukurikira aho ubusabe bgeze.",
+      keywords: "gukodesha, kode y'ubusabe, icyumba cya paruwasi, ubusabe bwoherejwe",
+      lang: "rw"
+    }
+  };
+
+  const currentSeo = seoData[lang as keyof typeof seoData] || seoData.EN;
+
   const bookingId = bookingDetails?.id || "#BK-1025";
   const hallName = bookingDetails?.hallName || "Grace Hall";
   const date = bookingDetails?.date || "2024-05-20";
@@ -98,8 +122,17 @@ export default function SuccessPage({ lang = "EN", bookingDetails, onNavigate }:
   };
 
   return (
-    <div className="font-sans text-navy-800 text-center py-16 px-4 max-w-2xl mx-auto space-y-8 animate-fade-in" id="success-page-root">
-      {/* Green Check Icon */}
+    <>
+      <SEO
+        title={currentSeo.title}
+        description={currentSeo.description}
+        keywords={currentSeo.keywords}
+        canonical="https://sallehub.vercel.app/success"
+        lang={currentSeo.lang}
+        noindex={true}
+      />
+      <div className="font-sans text-navy-800 text-center py-16 px-4 max-w-2xl mx-auto space-y-8 animate-fade-in" id="success-page-root">
+        {/* Green Check Icon */}
       <div className="space-y-4">
         <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto border border-emerald-200 shadow-md">
           <Check className="w-8 h-8" />
@@ -203,6 +236,7 @@ export default function SuccessPage({ lang = "EN", bookingDetails, onNavigate }:
           <span>{t.homeBtn}</span>
         </button>
       </div>
-    </div>
-  );
-}
+      </div>
+      </>
+    );
+  }
