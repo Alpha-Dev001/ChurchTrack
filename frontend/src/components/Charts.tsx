@@ -15,7 +15,7 @@ const NAVY = {
 
 const STATUS_COLORS = {
   approved: NAVY[950],
-  pending: "#b45309", // amber — matches existing pending badges
+  pending: NAVY[700],
   rejected: NAVY[300],
 } as const;
 

@@ -91,13 +91,13 @@ export default function Navbar({
         <div className="flex items-center gap-2">
           {/* Language Switcher Dropdown */}
           <div className="relative" id="lang-dropdown-container">
-            <button
-              onClick={() => onSetLangDropdownOpen(prev => !prev)}
-              className="flex items-center gap-1.5 border border-navy-200 bg-white hover:bg-navy-50 px-2.5 py-1.5 sm:px-3 rounded-lg text-xs font-semibold text-navy-700 transition cursor-pointer"
-              id="lang-switcher-btn"
-              aria-label="Change language"
-              aria-expanded={langDropdownOpen ? "true" : "false"}
-            >
+          <button
+            onClick={() => onSetLangDropdownOpen(prev => !prev)}
+            className="flex items-center gap-1.5 border border-navy-200 bg-white hover:bg-navy-50 px-2.5 py-1.5 sm:px-3 rounded-lg text-xs font-semibold text-navy-700 transition cursor-pointer min-touch"
+            id="lang-switcher-btn"
+            aria-label="Change language"
+            aria-expanded={langDropdownOpen ? "true" : "false"}
+          >
               <Globe className="w-3.5 h-3.5 text-navy-500" />
               <span>{lang === "EN" ? "EN" : lang === "FR" ? "FR" : "RW"}</span>
             </button>
@@ -148,7 +148,7 @@ export default function Navbar({
           {/* Responsive Hamburger Toggle Button */}
           <button
             onClick={() => onSetMobileMenuOpen(prev => !prev)}
-            className="flex md:hidden items-center justify-center p-2.5 rounded-lg border border-navy-200 bg-white text-navy-700 transition"
+            className="flex md:hidden items-center justify-center p-2.5 rounded-lg border border-navy-200 bg-white text-navy-700 transition min-touch"
             id="hamburger-menu-btn"
             aria-label="Toggle Navigation Menu"
             aria-expanded={mobileMenuOpen ? "true" : "false"}

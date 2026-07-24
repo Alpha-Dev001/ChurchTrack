@@ -52,7 +52,7 @@ export default function HallCard({ hall, lang = "EN", onNavigate }: HallCardProp
           openHall();
         }
       }}
-      className="group relative w-full aspect-[16/10] rounded-lg overflow-hidden bg-navy-950 hover:-translate-y-1 transition-transform duration-300 ease-out cursor-pointer border border-navy-200 select-none flex flex-col justify-between p-5"
+      className="group relative w-full aspect-[4/3] md:aspect-[16/10] rounded-lg overflow-hidden bg-navy-950 hover:-translate-y-1 transition-transform duration-300 ease-out cursor-pointer border border-navy-200 select-none flex flex-col justify-between p-5"
       id={`hall-card-${hall.id}`}
     >
       <img

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search, Calendar, User, MapPin, Sparkles, Building, ShieldCheck, Clock, CheckCircle, ChevronLeft, ChevronRight, Mail, ArrowRight, Phone, Heart, Star, FileEdit } from "lucide-react";
+import { Search, Calendar, User, MapPin, Sparkles, Building, ShieldCheck, Clock, CheckCircle, ChevronLeft, ChevronRight, Mail, ArrowRight, Phone, Heart, Star, FileEdit, ChevronDown } from "lucide-react";
 import { Hall } from "../types";
 import HallCard from "../components/HallCard";
 import heroChurchBuildingImg from "../assets/images/parish_hero_building_1784664516350.jpg";
@@ -294,7 +294,7 @@ export default function LandingPage({ lang = "EN", halls, onNavigate, onSearch }
   return (
     <div className="font-sans text-navy-900" id="landing-page-root">
       {/* Hero Section — brand-first dark blue + white */}
-      <section className="relative min-h-[calc(100vh-64px)] bg-navy-950 text-white flex flex-col justify-center overflow-hidden py-16 md:py-24 px-4">
+      <section className="relative min-h-[100vh] bg-navy-950 text-white flex flex-col justify-center overflow-hidden py-8 md:py-24 px-4">
         <div className="absolute inset-0 z-0">
           <img
             src={heroChurchBuildingImg}
@@ -305,24 +305,24 @@ export default function LandingPage({ lang = "EN", halls, onNavigate, onSearch }
           <div className="absolute inset-0 bg-navy-950/85" />
         </div>
 
-        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-7 my-auto">
-          <p className="font-serif text-4xl md:text-6xl tracking-tight text-white">
+        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-5 md:space-y-7">
+          <p className="font-serif text-3xl md:text-7xl tracking-tight text-white leading-none">
             SalleHub
           </p>
 
-          <h1 className="text-2xl md:text-4xl font-serif font-normal tracking-tight text-white/90 max-w-3xl mx-auto leading-snug">
+          <h1 className="text-xl md:text-5xl font-serif font-normal tracking-tight text-white/90 max-w-3xl mx-auto leading-snug">
             {t.heroTitle1}{" "}
-            <span className="italic font-light text-white">{t.heroTitle2}</span>
+            <span className="italic font-light text-white/80">{t.heroTitle2}</span>
           </h1>
 
-          <p className="text-white/70 text-base md:text-lg max-w-2xl mx-auto leading-relaxed font-sans font-light">
+          <p className="text-white/70 text-xs md:text-lg max-w-2xl mx-auto leading-relaxed font-sans font-light">
             {t.heroDesc}
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-3 pt-1 min-touch">
             <button
               onClick={() => onNavigate("visitor-catalogue")}
-              className="btn-primary bg-white text-navy-950 hover:bg-navy-50"
+              className="btn-primary bg-white text-navy-950 hover:bg-navy-50 w-full sm:w-auto"
               id="hero-explore-btn"
             >
               <span>{t.btnBrowse}</span>
@@ -333,9 +333,22 @@ export default function LandingPage({ lang = "EN", halls, onNavigate, onSearch }
               onClick={() => {
                 document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" });
               }}
-              className="btn-ghost"
+              className="btn-ghost w-full sm:w-auto"
             >
               {t.btnHowItWorks}
+            </button>
+          </div>
+
+          {/* Scroll indicator - hidden on desktop, visible on mobile */}
+          <div className="md:hidden flex justify-center mt-8 animate-bounce">
+            <button
+              onClick={() => {
+                document.getElementById("popular-halls-grid")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="text-white/60 hover:text-white/90 transition-colors"
+              aria-label="Scroll down to explore"
+            >
+              <ChevronDown className="w-8 h-8" />
             </button>
           </div>
         </div>

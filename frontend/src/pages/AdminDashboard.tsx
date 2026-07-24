@@ -214,7 +214,7 @@ export default function AdminDashboard({
     style: "currency",
     currency: "RWF",
     maximumFractionDigits: 0,
-  }).format(stats.totalRevenue);
+  }).format(stats.totalRevenue).replace("RWF", "RWF ");
 
   const displayStats = [
     { label: t.totalBookings, val: stats.totalBookings, desc: t.totalBookingsDesc, icon: FileText },
@@ -246,7 +246,7 @@ export default function AdminDashboard({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="admin-metrics-row">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4" id="admin-metrics-row">
         {displayStats.map((stat) => {
           const Icon = stat.icon;
           return (

@@ -9,7 +9,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AdminSidebar from "./components/AdminSidebar";
 import Router from "./components/Router";
-import { LogOut, Building, Compass, ListFilter, Calendar, Sliders } from "lucide-react";
+import { motion } from "motion/react";
+import { LogOut, Building, Compass, ListFilter, Calendar, Sliders, Home, Search, MapPin } from "lucide-react";
 import { Toaster } from "react-hot-toast";
 import ConfirmDialog, { confirmDialogLabels } from "./components/ConfirmDialog";
 import SalleHubLogo from "./components/SalleHubLogo";
@@ -44,6 +45,7 @@ function AppInner() {
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [adminLangDropdownOpen, setAdminLangDropdownOpen] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [showPublicBottomNav, setShowPublicBottomNav] = useState(false);
 
   // Map URL paths to view names
   const pathToView: Record<string, ViewName> = {
@@ -180,6 +182,30 @@ function AppInner() {
 
   const confirmLabels = confirmDialogLabels[lang] || confirmDialogLabels.EN;
 
+  // Handle scroll to show/hide bottom navigation on public pages
+  useEffect(() => {
+    if (isAdminView) return;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const heroHeight = window.innerHeight * 0.88; // Approximate hero height
+      
+      // Only hide bottom nav on home page when in hero section
+      // Show it on all other pages or when scrolled past hero
+      if (currentView === "visitor-home" && currentScrollY < heroHeight * 0.5) {
+        setShowPublicBottomNav(false);
+      } else {
+        setShowPublicBottomNav(true);
+      }
+    };
+
+    // Initial check
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isAdminView, currentView]);
+
   return (
     <div className="min-h-screen bg-navy-50 flex flex-col font-sans text-navy-900 antialiased w-full" id="sallehub-app-container">
 
@@ -202,7 +228,7 @@ function AppInner() {
       {isAdminView && (
         <div className="flex-1 flex flex-col md:flex-row h-screen w-full overflow-hidden bg-navy-50" id="admin-workspace-layout">
           {/* Mobile Admin Header */}
-          <header className="fixed top-0 left-0 right-0 z-50 md:hidden flex items-center justify-between bg-navy-950/95 backdrop-blur-md text-white px-4 py-3 border-b border-navy-800 h-14 shadow-md">
+          <header className="fixed top-0 left-0 right-0 z-50 md:hidden flex items-center justify-between bg-navy-950/95 backdrop-blur-md text-white px-4 py-3 border-b border-navy-800 h-14 shadow-md" style={{ paddingTop: "env(safe-area-inset-top, 0.75rem)" }}>
             <div className="flex items-center gap-2">
               <div className="p-1.5 bg-navy-900 text-white rounded-xl border border-navy-700/80">
                 <SalleHubLogo size={16} className="text-navy-200" />
@@ -210,7 +236,7 @@ function AppInner() {
               <h1 className="text-sm font-black font-serif tracking-wider">SalleHub</h1>
             </div>
             <div className="flex items-center gap-2.5">
-              <button onClick={requestLogout} className="text-navy-400 hover:text-red-400 transition p-1.5 rounded-lg hover:bg-navy-800" title="Logout" aria-label="Logout">
+              <button onClick={requestLogout} className="text-navy-400 hover:text-red-400 transition p-1.5 rounded-lg hover:bg-navy-800 min-touch flex items-center justify-center" title="Logout" aria-label="Logout">
                 <LogOut className="w-4 h-4" />
               </button>
             </div>
@@ -231,7 +257,7 @@ function AppInner() {
           />
 
           {/* Admin Main Content */}
-          <main className="flex-1 min-w-0 bg-[radial-gradient(circle_at_top_left,rgba(49,130,206,0.18),transparent_20%),linear-gradient(180deg,#f8fafc_0%,#f1f5f9_100%)] h-screen overflow-y-auto p-4 md:p-8 pt-18 md:pt-8 pb-20 md:pb-8 text-navy-900 font-sans" id="admin-main-viewport">
+          <main className="flex-1 min-w-0 bg-[radial-gradient(circle_at_top_left,rgba(49,130,206,0.18),transparent_20%),linear-gradient(180deg,#f8fafc_0%,#f1f5f9_100%)] h-screen overflow-y-auto p-4 md:p-8 pt-18 md:pt-8 pb-24 md:pb-8 text-navy-900 font-sans" id="admin-main-viewport">
             <ErrorBoundary>
               <Router
                 view={currentView as ViewName}
@@ -249,8 +275,8 @@ function AppInner() {
             </ErrorBoundary>
           </main>
 
-          {/* Mobile Bottom Nav */}
-          <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-navy-950/80 backdrop-blur-2xl border-t border-navy-700/30 text-white z-50 h-16 flex items-center justify-around px-2 shadow-[0_-14px_45px_-24px_rgba(10,25,47,0.95)]">
+          {/* Mobile Bottom Nav — with safe area bottom padding */}
+          <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-navy-950 backdrop-blur-2xl border-t border-navy-700/50 text-white z-50 flex items-center justify-around px-2 shadow-[0_-8px_30px_-8px_rgba(10,25,47,0.9)] pb-safe" style={{ height: "calc(env(safe-area-inset-bottom, 0px) + 72px)" }}>
             {[
               { view: "admin-dashboard", label: "Overview", icon: Compass, path: "/admin/dashboard" },
               { view: "admin-halls", label: "Halls", icon: Building, path: "/admin/halls" },
@@ -261,9 +287,9 @@ function AppInner() {
               const Icon = item.icon;
               const isActive = currentView === item.view;
               return (
-                <Link key={item.view} to={item.path} className={`flex flex-col items-center justify-center flex-1 h-full py-1 text-center min-w-0 transition-all cursor-pointer rounded-2xl mx-0.5 ${isActive ? "bg-white/8 text-navy-200" : "text-navy-400"}`} aria-label={item.label}>
-                  <Icon className={`w-5 h-5 mb-0.5 ${isActive ? "scale-110 text-navy-200" : "text-navy-400"}`} />
-                  <span className="text-[9px] font-bold uppercase tracking-tight whitespace-nowrap overflow-hidden text-ellipsis w-full px-0.5">{item.label}</span>
+                <Link key={item.view} to={item.path} className={`flex flex-col items-center justify-center flex-1 h-full py-1 text-center min-w-0 transition-all cursor-pointer rounded-xl mx-0.5 min-touch ${isActive ? "bg-white/15 text-white shadow-sm" : "text-navy-400 hover:text-navy-300 hover:bg-white/5"}`} aria-label={item.label}>
+                  <Icon className={`w-5.5 h-5.5 mb-0.5 ${isActive ? "scale-110 text-white drop-shadow-sm" : "text-navy-400"}`} />
+                  <span className={`text-[10px] font-bold uppercase tracking-tight whitespace-nowrap overflow-hidden text-ellipsis w-full px-0.5 ${isActive ? "text-white" : "text-navy-400"}`}>{item.label}</span>
                 </Link>
               );
             })}
@@ -273,27 +299,64 @@ function AppInner() {
 
       {/* PUBLIC ROUTER + FOOTER */}
       {!isAdminView && (
-        <main className="flex-grow pt-[61px] md:pt-[65px]">
-          <ErrorBoundary>
-            <Router
-              view={currentView as ViewName}
-              params={viewParams}
-              lang={lang}
-              onNavigate={handleNavigate}
-              onSearch={handleSearch}
-              onAddHall={addHall}
-              onUpdateHall={updateHall}
-              onToggleHallStatus={toggleHallStatus}
-              onDeleteHall={deleteHall}
-              onApproveBooking={approveBooking}
-              onRejectBooking={rejectBooking}
-            />
-          </ErrorBoundary>
-        </main>
-      )}
+        <>
+          <main className="flex-grow pt-[61px] md:pt-[65px] pb-16 md:pb-0">
+            <ErrorBoundary>
+              <Router
+                view={currentView as ViewName}
+                params={viewParams}
+                lang={lang}
+                onNavigate={handleNavigate}
+                onSearch={handleSearch}
+                onAddHall={addHall}
+                onUpdateHall={updateHall}
+                onToggleHallStatus={toggleHallStatus}
+                onDeleteHall={deleteHall}
+                onApproveBooking={approveBooking}
+                onRejectBooking={rejectBooking}
+              />
+            </ErrorBoundary>
+          </main>
 
-      {/* PUBLIC FOOTER */}
-      {!isAdminView && <Footer lang={lang} onNavigate={handleNavigate} />}
+          {/* PUBLIC BOTTOM NAVIGATION — Mobile only, with scroll animation */}
+          <motion.nav
+            initial={{ y: "100%", opacity: 0 }}
+            animate={{ 
+              y: showPublicBottomNav ? "0%" : "100%",
+              opacity: showPublicBottomNav ? 1 : 0
+            }}
+            transition={{ 
+              type: "spring", 
+              damping: 25, 
+              stiffness: 200,
+              mass: 0.8
+            }}
+            className="md:hidden fixed bottom-0 left-0 right-0 bg-navy-950/95 backdrop-blur-2xl border-t border-navy-700/50 text-white z-50 flex items-center justify-around px-2 pb-safe shadow-[0_-8px_30px_-8px_rgba(10,25,47,0.9)]"
+            id="public-bottom-nav"
+            style={{ height: "calc(env(safe-area-inset-bottom, 0px) + 64px)" }}
+          >
+            {[
+              { view: "visitor-home", label: "Home", icon: Home, path: "/" },
+              { view: "visitor-catalogue", label: "Halls", icon: Search, path: "/catalogue" },
+              { view: "visitor-track", label: "Track", icon: MapPin, path: "/track" },
+            ].map((item) => {
+              const Icon = item.icon;
+              const isActive = currentView === item.view || (item.view === "visitor-home" && currentView === "visitor-hall-details");
+              return (
+                <Link key={item.view} to={item.path} className={`flex flex-col items-center justify-center flex-1 h-full py-1 text-center min-w-0 transition-all cursor-pointer rounded-2xl mx-0.5 min-touch ${isActive ? "bg-white/15 text-white shadow-sm" : "text-navy-400 hover:text-navy-300 hover:bg-white/5"}`} aria-label={item.label}>
+                  <Icon className={`w-5 h-5 mb-0.5 ${isActive ? "scale-110 text-white drop-shadow-sm" : "text-navy-400"}`} />
+                  <span className={`text-[9px] font-bold uppercase tracking-tight whitespace-nowrap overflow-hidden text-ellipsis w-full px-0.5 ${isActive ? "text-white" : "text-navy-400"}`}>{item.label}</span>
+                </Link>
+              );
+            })}
+            </motion.nav>
+
+          {/* PUBLIC FOOTER — hidden on mobile since bottom nav replaces it */}
+          <div className="hidden md:block">
+            <Footer lang={lang} onNavigate={handleNavigate} />
+          </div>
+        </>
+      )}
 
       <ConfirmDialog
         open={showLogoutConfirm}
@@ -317,7 +380,7 @@ export default function App() {
         <AuthProvider>
           <DataProvider>
             <Toaster
-              position="top-right"
+              position="top-center"
               toastOptions={{
                 duration: 4000,
                 style: {
@@ -329,6 +392,7 @@ export default function App() {
                   padding: "12px 18px",
                   boxShadow: "0 20px 25px -5px rgba(10, 25, 47, 0.35)",
                   border: "1px solid rgba(190, 227, 248, 0.2)",
+                  marginTop: "60px",
                 },
                 success: {
                   iconTheme: {

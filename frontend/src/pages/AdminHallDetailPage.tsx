@@ -273,7 +273,7 @@ export default function AdminHallDetailPage({
               <button
                 type="button"
                 onClick={() => setShowDeleteConfirm(true)}
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg border border-navy-200 bg-navy-50 hover:bg-navy-100 text-navy-700 text-xs font-bold cursor-pointer"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 {t.delete}
@@ -370,7 +370,7 @@ export default function AdminHallDetailPage({
                           removeImage(idx);
                         }
                       }}
-                      className="absolute top-0.5 right-0.5 p-0.5 bg-red-600 text-white rounded"
+                      className="absolute top-0.5 right-0.5 p-0.5 bg-navy-700 text-white rounded"
                     >
                       <X className="w-3 h-3" />
                     </span>
@@ -452,7 +452,7 @@ export default function AdminHallDetailPage({
                     className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase border cursor-pointer ${
                       hall.status === 'Active'
                         ? 'bg-emerald-50 border-emerald-200 text-emerald-600'
-                        : 'bg-red-50 border-red-200 text-red-500'
+                        : 'bg-navy-50 border-navy-200 text-navy-600'
                     }`}
                   >
                     {hall.status === 'Active' ? t.active : t.inactive}

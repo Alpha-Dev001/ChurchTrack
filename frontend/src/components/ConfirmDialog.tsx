@@ -28,16 +28,16 @@ export default function ConfirmDialog({
 
   const confirmClasses =
     variant === 'danger'
-      ? 'bg-red-600 hover:bg-red-700 text-white'
+      ? 'bg-navy-800 hover:bg-navy-950 text-white'
       : variant === 'warning'
-        ? 'bg-amber-600 hover:bg-amber-700 text-white'
+        ? 'bg-navy-700 hover:bg-navy-900 text-white'
         : 'bg-navy-950 hover:bg-navy-900 text-white';
 
   const iconClasses =
     variant === 'danger'
-      ? 'bg-red-50 text-red-600 border-red-100'
+      ? 'bg-navy-50 text-navy-700 border-navy-100'
       : variant === 'warning'
-        ? 'bg-amber-50 text-amber-600 border-amber-100'
+        ? 'bg-navy-50 text-navy-700 border-navy-100'
         : 'bg-navy-50 text-navy-700 border-navy-100';
 
   return (

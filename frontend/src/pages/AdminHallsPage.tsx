@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Plus, Trash2, X, MapPin, History, Calendar, Clock, User, Search, ChevronRight, Building, FileText, CheckCircle2, XCircle, Clock3, Users, AlertCircle } from "lucide-react";
+import { Plus, Trash2, X, MapPin, History, Calendar, Clock, Search, ChevronRight, Clock3, AlertCircle } from "lucide-react";
 import toast from "react-hot-toast";
 import { Hall, Booking } from "../types";
 import Pagination from "../components/Pagination";
@@ -354,9 +354,102 @@ export default function AdminHallsPage({
         </button>
       </div>
 
-      {/* Main Table List */}
+      {/* Main Table List — cards on mobile, table on desktop */}
       <div className="bg-white border border-navy-200/80 rounded-lg shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
+        {/* Mobile Cards */}
+        <div className="md:hidden divide-y divide-navy-100">
+          {paginatedHalls.map((hall) => {
+            const hallBookingCount = allBookings.filter(
+              b => b.hallId === hall.id || b.hallName?.toLowerCase() === hall.name?.toLowerCase()
+            ).length;
+
+            return (
+              <div
+                key={hall.id}
+                onClick={() => onNavigate?.("admin-hall-details", { hallId: hall.id })}
+                className="p-4 hover:bg-navy-50/50 transition cursor-pointer"
+              >
+                <div className="flex items-start gap-3 mb-3">
+                  <img src={hall.images[0]} alt={hall.name} className="w-16 h-12 object-cover rounded-lg border border-navy-200 flex-shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="font-black text-navy-900 text-sm truncate">{hall.name}</p>
+                    <p className="text-navy-400 font-bold text-xs mt-0.5 truncate">{hall.location}</p>
+                  </div>
+                  <button
+                    onClick={async (e) => {
+                      e.stopPropagation();
+                      const nextStatus = hall.status === "Active" ? "Inactive" : "Active";
+                      try {
+                        await onToggleHallStatus(hall.id, nextStatus);
+                        toast.success(`${t.statusUpdated}: ${nextStatus}`);
+                      } catch (err: any) {
+                        toast.error(err.message || t.statusFail);
+                      }
+                    }}
+                    className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider border transition cursor-pointer flex-shrink-0 ${hall.status === "Active"
+                      ? "bg-emerald-50 border-emerald-200 text-emerald-600"
+                      : "bg-red-50 border-red-200 text-red-500"
+                      }`}
+                    id={`btn-toggle-status-${hall.id}`}
+                  >
+                    {hall.status}
+                  </button>
+                </div>
+
+                <div className="space-y-2 text-xs font-semibold text-navy-600 mb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-navy-400 font-bold w-16 flex-shrink-0">{t.thCapacity}:</span>
+                    <span className="text-navy-900">{hall.capacity} {t.guestsSuffix}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-navy-400 font-bold w-16 flex-shrink-0">{t.thPrice}:</span>
+                    <span className="text-navy-900 font-bold">RWF {Number(hall.price).toLocaleString()}</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedHallForLog(hall);
+                      setLogSearchQuery("");
+                      setLogFilterStatus("All");
+                    }}
+                    className="flex-1 flex items-center justify-center gap-1.5 p-2.5 bg-navy-50 hover:bg-navy-100 text-navy-700 border border-navy-200 rounded-lg transition cursor-pointer text-xs font-bold"
+                    id={`btn-activity-log-${hall.id}`}
+                    title={t.activityLog}
+                  >
+                    <History className="w-4 h-4" />
+                    <span>{t.activityLog}</span>
+                    <span className="px-1.5 py-0.5 bg-navy-200/60 text-navy-900 rounded-full text-[10px] font-black">
+                      {hallBookingCount}
+                    </span>
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setHallToDelete(hall);
+                    }}
+                    className="p-2.5 hover:bg-red-50 text-navy-400 hover:text-red-500 border border-navy-200 rounded-lg transition cursor-pointer"
+                    id={`btn-delete-hall-${hall.id}`}
+                    title={t.deleteVenue}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+
+          {halls.length === 0 && (
+            <div className="p-10 text-center opacity-40 font-bold text-navy-400 text-xs uppercase tracking-wider">
+              No halls found
+            </div>
+          )}
+        </div>
+
+        {/* Desktop Table */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs font-semibold text-navy-600" id="admin-halls-table">
             <thead>
               <tr className="bg-navy-50 border-b border-navy-200 text-[10px] text-navy-400 font-black uppercase tracking-wider">
@@ -548,7 +641,7 @@ export default function AdminHallsPage({
                 </div>
                 <div className="p-2.5 bg-white rounded-xl border border-navy-200/60 shadow-2xs">
                   <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-tight">{t.totalRevenue}</p>
-                  <p className="text-base font-black text-emerald-950 mt-0.5">${totalVenueRevenue}</p>
+                  <p className="text-base font-black text-emerald-950 mt-0.5">RWF {Number(totalVenueRevenue).toLocaleString()}</p>
                 </div>
               </div>
 
@@ -687,7 +780,7 @@ export default function AdminHallsPage({
                         <div className="flex items-center justify-between pt-1">
                           <div className="flex items-center gap-1.5">
                             <span className="text-[10px] font-bold text-navy-400">{t.amount}:</span>
-                            <span className="text-sm font-black text-navy-950">${b.amount}</span>
+                            <span className="text-sm font-black text-navy-950">RWF {Number(b.amount || 0).toLocaleString()}</span>
                             <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded-md ${b.paymentStatus === "Paid" ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"
                               }`}>
                               {b.paymentStatus || "Pending"}

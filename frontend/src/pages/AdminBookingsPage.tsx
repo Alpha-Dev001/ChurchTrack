@@ -221,12 +221,77 @@ export default function AdminBookingsPage({ lang = "EN", bookings, onNavigate }:
         </div>
       </div>
 
-      {/* Data Table block */}
+      {/* Data Table block — cards on mobile, table on desktop */}
       {bookingsLoading && bookings.length === 0 ? (
         <BookingTableSkeleton rows={8} />
       ) : (
         <div className="bg-white/85 backdrop-blur-md border border-navy-200/80 rounded-lg shadow-[0_18px_45px_-24px_rgba(15,23,42,0.45)] overflow-hidden">
-          <div className="overflow-x-auto no-scrollbar">
+          {/* Mobile Cards */}
+          <div className="md:hidden divide-y divide-navy-100">
+            {paginatedBookings.map((b) => (
+              <div
+                key={b.id}
+                onClick={() => onNavigate("admin-booking-details", { bookingId: b.id })}
+                className="p-4 hover:bg-navy-50/50 transition cursor-pointer"
+              >
+                <div className="flex items-start justify-between gap-3 mb-3">
+                  <div className="min-w-0">
+                    <p className="font-black text-navy-900 text-sm truncate">{b.id}</p>
+                    <p className="font-bold text-navy-800 text-xs mt-0.5">{b.hallName}</p>
+                  </div>
+                  <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded border flex-shrink-0 ${b.status === "Approved"
+                    ? "bg-emerald-50 border-emerald-200 text-emerald-700"
+                    : b.status === "Pending"
+                      ? "bg-amber-50 border-amber-200 text-amber-700"
+                      : "bg-navy-50 border-navy-200 text-navy-600"
+                    }`}>
+                    {b.status === "Approved" ? t.approved : b.status === "Pending" ? t.pending : t.cancelled}
+                  </span>
+                </div>
+
+                <div className="space-y-2 text-xs font-semibold text-navy-600 mb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-navy-400 font-bold w-16 flex-shrink-0">{t.thCustomer}:</span>
+                    <span className="text-navy-900 truncate">{b.customerName}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-navy-400 font-bold w-16 flex-shrink-0">{t.thDateTime}:</span>
+                    <span className="text-navy-900">{b.date} <span className="text-navy-400 font-normal">{b.timeSlot}</span></span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-navy-400 font-bold w-16 flex-shrink-0">{t.thGuests}:</span>
+                    <span className="text-navy-900">{b.guests}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-navy-400 font-bold w-16 flex-shrink-0">{t.thAmount}:</span>
+                    <span className="text-navy-900 font-bold">
+                      {new Intl.NumberFormat("en-RW", { style: "currency", currency: "RWF", maximumFractionDigits: 0 }).format(Number(b.amount ?? b.price ?? 0))}
+                    </span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onNavigate("admin-booking-details", { bookingId: b.id });
+                  }}
+                  className="w-full flex items-center justify-center gap-2 p-2.5 bg-navy-50 hover:bg-navy-100 border border-navy-200 text-navy-700 rounded-lg transition cursor-pointer text-xs font-bold"
+                >
+                  <Eye className="w-4 h-4" />
+                  <span>{t.thReview}</span>
+                </button>
+              </div>
+            ))}
+
+            {filteredBookings.length === 0 && (
+              <div className="p-10 text-center opacity-40 font-bold text-navy-400 text-xs uppercase tracking-wider">
+                {t.noBookings}
+              </div>
+            )}
+          </div>
+
+          {/* Desktop Table */}
+          <div className="hidden md:block overflow-x-auto no-scrollbar">
             <table className="w-full text-left border-collapse text-xs font-semibold text-navy-600" id="admin-bookings-table">
               <thead>
                 <tr className="bg-navy-50 border-b border-navy-200 text-[10px] text-navy-400 font-black uppercase tracking-wider">
@@ -263,7 +328,7 @@ export default function AdminBookingsPage({ lang = "EN", bookings, onNavigate }:
                     </td>
                     <td className="p-4 text-center font-bold text-navy-700">{b.guests}</td>
                     <td className="p-4 text-center font-semibold text-navy-950">
-                      {new Intl.NumberFormat("en-RW", { style: "currency", currency: "RWF", maximumFractionDigits: 0 }).format(Number(b.amount ?? b.price ?? 0))}
+                      RWF {Number(b.amount ?? b.price ?? 0).toLocaleString()}
                     </td>
                     <td className="p-4 text-center">
                       <span className={`text-[9px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded border inline-block ${b.status === "Approved"
