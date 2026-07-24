@@ -1,90 +1,3 @@
-// ========== Core Data Models ==========
-
-export interface Hall {
-  id: string;
-  name: string;
-  location: string;
-  capacity: number;
-  price: number;
-  status: 'Active' | 'Inactive';
-  images: string[];
-  description: string;
-  facilities: string[];
-  workingHours: string;
-  size: string;
-  securityDeposit?: number;
-}
-
-export interface BookingTimelineItem {
-  status: 'Pending' | 'Approved' | 'Rejected' | 'Cancelled' | 'Paid';
-  title: string;
-  date: string;
-  description: string;
-}
-
-export interface Booking {
-  id: string;
-  hallId: string;
-  hallName: string;
-  customerName: string;
-  customerEmail: string;
-  customerPhone: string;
-  date: string;
-  timeSlot: string;
-  duration: string;
-  guests: number;
-  eventType: string;
-  amount: number;
-  paymentStatus: 'Pending' | 'Paid' | 'Failed';
-  paymentMethod: string;
-  status: 'Pending' | 'Approved' | 'Rejected' | 'Cancelled';
-  additionalNotes: string;
-  createdAt: string;
-  timeline: BookingTimelineItem[];
-}
-
-export interface Payment {
-  id: string;
-  bookingId: string;
-  customerName: string;
-  amount: number;
-  method: string;
-  status: 'Paid' | 'Pending' | 'Failed';
-  date: string;
-}
-
-export interface Notification {
-  id: string;
-  type: 'booking_received' | 'payment_received' | 'maintenance' | 'general';
-  title: string;
-  message: string;
-  createdAt: string;
-  read: boolean;
-}
-
-export interface SystemSettings {
-  siteName: string;
-  siteTagline: string;
-  timeZone: string;
-  dateFormat: string;
-  timeFormat: string;
-  currency: string;
-  workingHours: string;
-  logoUrl: string;
-  faviconUrl: string;
-}
-
-export interface BookingLog {
-  id: string;
-  bookingId: string;
-  action: string;
-  performedBy: string;
-  timestamp: string;
-  details: string;
-}
-
-// ========== Navigation / Routing ==========
-
 export type ViewName =
   | 'visitor-home'
   | 'visitor-catalogue'
@@ -105,25 +18,54 @@ export type ViewName =
 export interface ViewParams {
   hallId?: string;
   bookingId?: string;
+  booking?: any;
   date?: string;
   timeSlot?: string;
   duration?: string;
   guests?: number;
-  booking?: any;
   searchCode?: string;
+  [key: string]: any;
 }
 
-// ========== Search & Filters ==========
-
-export interface SearchFilters {
-  location?: string;
-  eventType?: string;
-  maxGuests?: number;
-  maxPrice?: number;
-  query?: string;
+export interface Hall {
+  _id: string;
+  id: string;
+  name: string;
+  location: string;
+  capacity: number;
+  price: number;
+  status: 'Active' | 'Inactive';
+  images: string[];
+  description: string;
+  facilities: string[];
+  workingHours: string;
+  size: string;
+  securityDeposit: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
-// ========== Dashboard Stats ==========
+export interface Booking {
+  _id: string;
+  id: string;
+  hallId: string;
+  hallName: string;
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  eventType: string;
+  eventDate: string;
+  timeSlot: string;
+  duration: string;
+  guests: number;
+  status: 'Pending' | 'Approved' | 'Rejected' | 'Cancelled';
+  totalAmount: number;
+  depositPaid: number;
+  paymentStatus: string;
+  specialRequests: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export interface DashboardStats {
   totalBookings: number;
@@ -133,33 +75,23 @@ export interface DashboardStats {
   occupancyRate: number;
 }
 
-// ========== Admin User ==========
+export interface SearchFilters {
+  location?: string;
+  minCapacity?: number;
+  maxPrice?: number;
+  date?: string;
+  [key: string]: any;
+}
 
-export interface AdminUser {
-  id: string;
+export interface SystemSettings {
+  _id?: string;
+  siteName: string;
+  siteTagline: string;
   email: string;
-  name: string;
-  role: string;
+  phone: string;
+  address: string;
+  currency: string;
+  workingHours: string;
+  timeZone?: string;
+  dateFormat?: string;
 }
-
-export interface LoginResponse {
-  token: string;
-  user: AdminUser;
-  admin: AdminUser;
-}
-
-// ========== Calendar ==========
-
-export interface CalendarEvent {
-  id: string;
-  hallName: string;
-  customerName: string;
-  date: string;
-  timeSlot: string;
-  eventType: string;
-  status: 'Pending' | 'Approved' | 'Cancelled';
-}
-
-// ========== Language ==========
-
-export type SupportedLang = 'EN' | 'FR' | 'RW';

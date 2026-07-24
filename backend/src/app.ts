@@ -4,6 +4,7 @@ import { env } from './config/env';
 import { adminRouter } from './routes/admin.routes';
 import { hallRouter } from './routes/hall.routes';
 import { bookingRouter } from './routes/booking.routes';
+import { settingsRouter } from './routes/settings.routes';
 import { errorHandler, notFoundHandler } from './middlewares/error.middleware';
 
 export const app = express();
@@ -47,6 +48,7 @@ app.get('/health', (_req, res) => {
 app.use('/api', adminRouter);
 app.use('/api/halls', hallRouter);
 app.use('/api/bookings', bookingRouter);
+app.use('/api/settings', settingsRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);

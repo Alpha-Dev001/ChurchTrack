@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Settings, Save, Sparkles, Building, Phone, Mail, Clock, Database, Check } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Save, Sparkles, Building, Phone, Mail, Clock, MapPin, Check } from "lucide-react";
 import toast from "react-hot-toast";
 import { safeFetchJson } from "../lib/api";
 import { useAuth } from "../contexts/AuthContext";
-import ConfirmDialog, { confirmDialogLabels } from "../components/ConfirmDialog";
+import type { SystemSettings } from "../types";
 
 interface AdminSettingsPageProps {
   lang?: string;
@@ -19,15 +19,12 @@ const tSettings: Record<string, any> = {
     siteTagline: "Site Tagline",
     email: "Email Contact",
     phone: "Phone Contact",
+    address: "Address",
     currency: "Default Currency",
+    workingHours: "Working Hours",
     saveBtn: "Save Configuration",
-    utilitiesTitle: "System Utilities",
-    utilitiesDesc: "Restore initial seed data to test the platform using preset weddings, conferences, occupancy donut stats, and timeline logs.",
-    resetBtn: "Reset System Database",
-    resetting: "Resetting database...",
-    confirmReset: "Are you sure you want to restore the local JSON database to initial default seed values? This will clear any newly added bookings or halls.",
-    successReset: "Local database reset successfully to initial parish seed state! Reloading...",
-    failReset: "Failed to reset database."
+    saveSuccess: "Settings saved successfully!",
+    saveError: "Failed to save settings.",
   },
   FR: {
     title: "Paramètres de la Paroisse",
@@ -38,15 +35,12 @@ const tSettings: Record<string, any> = {
     siteTagline: "Slogan du Site",
     email: "E-mail de Contact",
     phone: "Téléphone de Contact",
+    address: "Adresse",
     currency: "Devise par Défaut",
+    workingHours: "Heures de Travail",
     saveBtn: "Enregistrer la Configuration",
-    utilitiesTitle: "Utilitaires Système",
-    utilitiesDesc: "Restaurez les données de démonstration initiales (mariages, conférences, statistiques) pour tester la plateforme.",
-    resetBtn: "Réinitialiser la Base de Données",
-    resetting: "Réinitialisation de la base...",
-    confirmReset: "Êtes-vous sûr de vouloir restaurer la base de données par défaut ? Cela effacera les réservations ou salles récemment créées.",
-    successReset: "Base de données réinitialisée avec succès ! Rechargement...",
-    failReset: "Échec de la réinitialisation."
+    saveSuccess: "Paramètres enregistrés avec succès !",
+    saveError: "Échec de l'enregistrement des paramètres.",
   },
   RW: {
     title: "Igenamiterere rya Paruwasi",
@@ -57,57 +51,80 @@ const tSettings: Record<string, any> = {
     siteTagline: "Slogan y'Urubuga",
     email: "Imeri yo Kwandikiraho",
     phone: "Terefone yo Guhamagaraho",
+    address: "Aho Iherereye",
     currency: "Ifaranga Ryemewe",
+    workingHours: "Amasaha yo gukora",
     saveBtn: "Bika Igenamiterere",
-    utilitiesTitle: "Ibikoresho bya Sisitemu",
-    utilitiesDesc: "Subiza sisitemu ku miterere yayo y'ibanze n'amakuru y'icyitegererezo.",
-    resetBtn: "Reset Sisitemu Yose",
-    resetting: "Iri guhinduka...",
-    confirmReset: "Ese urashaka gusiba amakuru yose mashya ugasubizaho amakuru y'ibanze y'icyitegererezo?",
-    successReset: "Sisitemu yasubijwe ku miterere y'ibanze neza! Iri kwitangira...",
-    failReset: "Gusubira ku miterere y'ibanze byanze."
+    saveSuccess: "Igenamiterere ryabitswe neza!",
+    saveError: "Kubika byanze.",
   }
 };
 
 export default function AdminSettingsPage({ lang = "EN" }: AdminSettingsPageProps) {
   const t = tSettings[lang] || tSettings["EN"];
-  const c = confirmDialogLabels[lang] || confirmDialogLabels.EN;
   const { adminToken } = useAuth();
-  const [siteName, setSiteName] = useState("SalleHub Parish");
-  const [siteTagline, setSiteTagline] = useState("Digitizing Church Hall Reservations");
+  const [saving, setSaving] = useState(false);
+  const [siteName, setSiteName] = useState("SalleHub");
+  const [siteTagline, setSiteTagline] = useState("Premium Parish Venue Reservations");
   const [email, setEmail] = useState("info@sallehub.rw");
-  const [phone, setPhone] = useState("+250 781 234 567");
-  const [currency, setCurrency] = useState("RWF (FRw)");
+  const [phone, setPhone] = useState("+250 788 000 000");
+  const [address, setAddress] = useState("Kigali, Rwanda");
+  const [currency, setCurrency] = useState("RWF");
+  const [workingHours, setWorkingHours] = useState("9:00 AM - 6:00 PM");
   const [saved, setSaved] = useState(false);
-  const [resetting, setResetting] = useState(false);
-  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
-  const handleSave = (e: React.FormEvent) => {
+  // Silently load settings — no loading state, no error toasts
+  useEffect(() => {
+    safeFetchJson<SystemSettings>('/api/settings')
+      .then(data => {
+        if (data) {
+          setSiteName(data.siteName || "SalleHub");
+          setSiteTagline(data.siteTagline || "Premium Parish Venue Reservations");
+          setEmail(data.email || "info@sallehub.rw");
+          setPhone(data.phone || "+250 788 000 000");
+          setAddress(data.address || "Kigali, Rwanda");
+          setCurrency(data.currency || "RWF");
+          setWorkingHours(data.workingHours || "9:00 AM - 6:00 PM");
+        }
+      })
+      .catch(() => {
+        // Silently keep defaults
+      });
+  }, []);
+
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSaved(true);
-    toast.success(t.savedMsg);
-    setTimeout(() => setSaved(false), 3000);
-  };
-
-  const handleResetDb = async () => {
     if (!adminToken) {
-      toast.error(t.failReset);
-      setShowResetConfirm(false);
+      toast.error("Authentication required");
       return;
     }
-    setResetting(true);
+    setSaving(true);
     try {
-      await safeFetchJson("/api/admin/reset-db", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${adminToken}` },
+      console.log('[Settings] Saving with adminToken:', adminToken ? 'present' : 'missing');
+      await safeFetchJson('/api/settings', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${adminToken}`,
+        },
+        body: JSON.stringify({
+          siteName,
+          siteTagline,
+          email,
+          phone,
+          address,
+          currency,
+          workingHours,
+        }),
       });
-      toast.success(t.successReset);
-      window.location.reload();
-    } catch {
-      toast.error(t.failReset);
-      setShowResetConfirm(false);
+      setSaved(true);
+      toast.success(t.saveSuccess);
+      setTimeout(() => setSaved(false), 3000);
+    } catch (err: any) {
+      console.error('[Settings] Save error:', err?.message || err);
+      toast.error(err?.message || t.saveError);
     } finally {
-      setResetting(false);
+      setSaving(false);
     }
   };
 
@@ -175,67 +192,88 @@ export default function AdminSettingsPage({ lang = "EN" }: AdminSettingsPageProp
             </div>
 
             <div className="space-y-1.5">
+              <label className="text-[10px] font-black uppercase text-navy-400 tracking-wider">{t.address}</label>
+              <input
+                type="text"
+                value={address}
+                onChange={e => setAddress(e.target.value)}
+                className="w-full px-3 py-2 bg-navy-50 border border-navy-200 rounded-lg text-xs font-bold focus:outline-none"
+              />
+            </div>
+
+            <div className="space-y-1.5">
               <label className="text-[10px] font-black uppercase text-navy-400 tracking-wider">{t.currency}</label>
               <select
                 value={currency}
                 onChange={e => setCurrency(e.target.value)}
                 className="w-full px-3 py-2 bg-navy-50 border border-navy-200 rounded-lg text-xs font-bold focus:outline-none"
               >
-                <option value="USD ($)">USD ($) - United States Dollar</option>
-                <option value="EUR (€)">EUR (€) - Euro</option>
-                <option value="RWF (FRw)">RWF (FRw) - Rwandan Franc</option>
+                <option value="RWF">RWF (FRw) - Rwandan Franc</option>
+                <option value="USD">USD ($) - United States Dollar</option>
+                <option value="EUR">EUR (€) - Euro</option>
               </select>
+            </div>
+
+            <div className="space-y-1.5 sm:col-span-2">
+              <label className="text-[10px] font-black uppercase text-navy-400 tracking-wider">{t.workingHours}</label>
+              <input
+                type="text"
+                value={workingHours}
+                onChange={e => setWorkingHours(e.target.value)}
+                className="w-full px-3 py-2 bg-navy-50 border border-navy-200 rounded-lg text-xs font-bold focus:outline-none"
+              />
             </div>
           </div>
 
           <div className="border-t border-navy-100 pt-4 flex justify-end">
             <button
               type="submit"
-              className="bg-navy-950 hover:bg-navy-800 text-white text-xs font-black uppercase tracking-wider py-2.5 px-5 rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer"
+              disabled={saving}
+              className="bg-navy-950 hover:bg-navy-800 text-white text-xs font-black uppercase tracking-wider py-2.5 px-5 rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
             >
               <Save className="w-4 h-4" />
-              <span>{t.saveBtn}</span>
+              <span>{saving ? '...' : t.saveBtn}</span>
             </button>
           </div>
         </form>
 
-        {/* Right side helper tools */}
+        {/* Right side helper info */}
         <div className="space-y-6">
-          {/* DB Reset block */}
           <div className="bg-white border border-navy-200/80 rounded-lg p-5 text-left shadow-sm space-y-4">
             <h3 className="text-xs font-black uppercase text-navy-400 tracking-wider border-b border-navy-100 pb-2.5 flex items-center gap-1.5">
-              <Database className="w-4 h-4 text-navy-400" />
-              <span>{t.utilitiesTitle}</span>
+              <Sparkles className="w-4 h-4 text-navy-400" />
+              <span>Info</span>
             </h3>
-
             <p className="text-xs text-navy-500 leading-relaxed font-semibold">
-              {t.utilitiesDesc}
+              These settings control the information displayed on the public website footer and throughout the application.
+              Changes will take effect immediately after saving.
             </p>
-
-            <button
-              onClick={() => setShowResetConfirm(true)}
-              disabled={resetting}
-              className="w-full bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 text-xs font-black uppercase tracking-wider py-3 rounded-lg transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-              id="btn-system-reset-db"
-            >
-              <span>{resetting ? t.resetting : t.resetBtn}</span>
-            </button>
+            <div className="space-y-2 text-xs text-navy-600 font-semibold">
+              <div className="flex items-center gap-2">
+                <Building className="w-3.5 h-3.5 text-navy-400" />
+                <span>{siteName}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <MapPin className="w-3.5 h-3.5 text-navy-400" />
+                <span>{address}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone className="w-3.5 h-3.5 text-navy-400" />
+                <span>{phone}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Mail className="w-3.5 h-3.5 text-navy-400" />
+                <span>{email}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="w-3.5 h-3.5 text-navy-400" />
+                <span>{workingHours}</span>
+              </div>
+            </div>
           </div>
         </div>
 
       </div>
-
-      <ConfirmDialog
-        open={showResetConfirm}
-        title={c.resetTitle}
-        message={t.confirmReset || c.resetMessage}
-        confirmLabel={c.resetConfirm}
-        cancelLabel={c.cancel}
-        variant="danger"
-        loading={resetting}
-        onConfirm={handleResetDb}
-        onCancel={() => setShowResetConfirm(false)}
-      />
     </div>
   );
 }

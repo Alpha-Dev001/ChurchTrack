@@ -23,4 +23,3 @@ adminRouter.get(
 );
 
 adminRouter.get('/stats', authenticateJWT, asyncHandler(getStats));
-adminRouter.post('/admin/reset-db', authenticateJWT, asyncHandler(resetDatabase));

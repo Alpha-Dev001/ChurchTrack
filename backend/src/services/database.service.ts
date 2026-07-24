@@ -51,9 +51,12 @@ export const seedDatabase = async () => {
             await SystemSettings.create({
                 siteName: 'SalleHub',
                 siteTagline: 'Premium Parish Venue Reservations',
+                email: 'info@sallehub.rw',
+                phone: '+250 788 000 000',
+                address: 'Kigali, Rwanda',
                 timeZone: 'UTC',
                 dateFormat: 'YYYY-MM-DD',
-                currency: 'USD',
+                currency: 'RWF',
                 workingHours: '9:00 AM - 6:00 PM',
             });
             console.log('Default system settings created');

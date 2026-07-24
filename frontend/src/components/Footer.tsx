@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { footerTranslations } from "../translations";
+import { safeFetchJson } from "../lib/api";
 import SalleHubLogo from "./SalleHubLogo";
+import type { SystemSettings } from "../types";
 
 interface FooterProps {
   lang: string;
@@ -12,6 +14,19 @@ interface FooterProps {
 export default function Footer({ lang, onNavigate }: FooterProps) {
   const tFooter = footerTranslations[lang] || footerTranslations["EN"];
   const [emailInput, setEmailInput] = useState("");
+  const [settings, setSettings] = useState<SystemSettings | null>(null);
+
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const data = await safeFetchJson<SystemSettings>('/api/settings');
+        setSettings(data);
+      } catch {
+        // Use defaults if settings can't be loaded
+      }
+    };
+    loadSettings();
+  }, []);
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,6 +35,11 @@ export default function Footer({ lang, onNavigate }: FooterProps) {
       setEmailInput("");
     }
   };
+
+  const siteName = settings?.siteName || "SalleHub";
+  const siteAddress = settings?.address || "Kigali, Rwanda";
+  const sitePhone = settings?.phone || "+250 788 000 000";
+  const siteEmail = settings?.email || "info@sallehub.rw";
 
   return (
     <footer className="bg-navy-950 text-white border-t border-navy-800 py-16 px-4 text-left font-sans" id="public-footer">
@@ -31,7 +51,7 @@ export default function Footer({ lang, onNavigate }: FooterProps) {
               <SalleHubLogo size={20} className="text-white" />
             </div>
             <div>
-              <h1 className="text-base font-black tracking-[0.18em] font-serif leading-none">SalleHub</h1>
+              <h1 className="text-base font-black tracking-[0.18em] font-serif leading-none">{siteName}</h1>
               <span className="text-[9px] text-navy-300 font-bold uppercase tracking-[0.24em] leading-none block mt-0.5">Parish Venues</span>
             </div>
           </div>
@@ -41,15 +61,15 @@ export default function Footer({ lang, onNavigate }: FooterProps) {
           <div className="space-y-2 text-xs font-semibold text-navy-300">
             <div className="flex items-center gap-2">
               <MapPin className="w-3.5 h-3.5 text-navy-400" />
-              <span>Kigali, Rwanda</span>
+              <span>{siteAddress}</span>
             </div>
             <div className="flex items-center gap-2">
               <Phone className="w-3.5 h-3.5 text-navy-400" />
-              <span>+250 788 000 000</span>
+              <span>{sitePhone}</span>
             </div>
             <div className="flex items-center gap-2">
               <Mail className="w-3.5 h-3.5 text-navy-400" />
-              <span>info@sallehub.rw</span>
+              <span>{siteEmail}</span>
             </div>
           </div>
         </div>
@@ -138,7 +158,7 @@ export default function Footer({ lang, onNavigate }: FooterProps) {
 
       {/* Copyrights */}
       <div className="max-w-5xl mx-auto border-t border-navy-800 mt-12 pt-6 text-center flex flex-col sm:flex-row justify-between text-[11px] font-medium text-navy-300">
-        <p>© {new Date().getFullYear()} {tFooter.rights}</p>
+        <p>© {new Date().getFullYear()} {siteName}. {tFooter.rights}</p>
         <div className="flex gap-4 mt-2 sm:mt-0 justify-center">
           <span className="cursor-pointer hover:text-white transition focus:outline-none focus:underline">
             {tFooter.privacy}
