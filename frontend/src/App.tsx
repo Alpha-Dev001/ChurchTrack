@@ -10,15 +10,19 @@ import Footer from "./components/Footer";
 import AdminSidebar from "./components/AdminSidebar";
 import Router from "./components/Router";
 import { motion } from "motion/react";
-import { LogOut, Building, Compass, ListFilter, Calendar, Sliders, Home, Search, MapPin } from "lucide-react";
+import { LogOut, Building, Compass, ListFilter, Calendar, Sliders, Home, Search, Heart, Shield } from "lucide-react";
 import { Toaster } from "react-hot-toast";
 import ConfirmDialog, { confirmDialogLabels } from "./components/ConfirmDialog";
 import SalleHubLogo from "./components/SalleHubLogo";
+import { navbarTranslations } from "./translations/navbar";
+import { adminTranslations } from "./translations/admin";
 
 // ====== INNER APP (uses contexts) ======
 function AppInner() {
   const { lang, setLang } = useLanguage();
-  const { adminToken, logout, isAuthenticated } = useAuth();
+  const tNavbar = navbarTranslations[lang] || navbarTranslations.EN;
+  const tAdmin = adminTranslations[lang] || adminTranslations.EN;
+  const { adminToken, adminUser, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const {
@@ -35,9 +39,9 @@ function AppInner() {
       navigate("/admin", { replace: true });
     }
     if (isLoginPath && isAuthenticated) {
-      navigate("/admin/dashboard", { replace: true });
+      navigate(adminUser?.role === 'superadmin' ? "/admin/super" : "/admin/dashboard", { replace: true });
     }
-  }, [location.pathname, isAuthenticated, adminToken, navigate]);
+  }, [location.pathname, isAuthenticated, adminToken, adminUser?.role, navigate]);
 
   // UI State
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -50,12 +54,17 @@ function AppInner() {
   // Map URL paths to view names
   const pathToView: Record<string, ViewName> = {
     "/": "visitor-home",
+    "/sallehub": "visitor-sallehub",
+    "/weddings": "visitor-wedding-landing",
+    "/weddings/book": "visitor-wedding-booking",
+    "/weddings/track": "visitor-wedding-track",
     "/catalogue": "visitor-catalogue",
     "/track": "visitor-track",
     "/halls/:hallId": "visitor-hall-details",
     "/booking": "visitor-booking",
     "/success": "visitor-success",
     "/admin": "admin-login",
+    "/admin/super": "superadmin-dashboard",
     "/admin/dashboard": "admin-dashboard",
     "/admin/halls": "admin-halls",
     "/admin/halls/add": "admin-add-hall",
@@ -76,6 +85,10 @@ function AppInner() {
     // Handle dynamic routes
     if (location.pathname.startsWith("/halls/")) {
       return "visitor-hall-details";
+    }
+    if (location.pathname.startsWith("/weddings")) {
+      if (location.pathname === "/weddings/track") return "visitor-wedding-track";
+      return "visitor-wedding-landing";
     }
     if (location.pathname.match(/^\/admin\/halls\/[^/]+$/) && location.pathname !== "/admin/halls/add") {
       return "admin-hall-details";
@@ -110,6 +123,10 @@ function AppInner() {
   if (searchParams.has("timeSlot")) viewParams.timeSlot = searchParams.get("timeSlot") || undefined;
   if (searchParams.has("duration")) viewParams.duration = searchParams.get("duration") || undefined;
   if (searchParams.has("guests")) viewParams.guests = parseInt(searchParams.get("guests") || "0");
+  if (searchParams.has("serviceType")) {
+    const svc = searchParams.get("serviceType");
+    if (svc === "SalleHub" || svc === "ChurchTrack") viewParams.serviceType = svc as "SalleHub" | "ChurchTrack";
+  }
   if (searchParams.has("searchCode")) viewParams.searchCode = searchParams.get("searchCode") || undefined;
 
   // Restore booking details stored after successful submission (objects cannot live in the query string)
@@ -122,7 +139,7 @@ function AppInner() {
     }
   }
 
-  const isAdminView = currentView.startsWith("admin-") && currentView !== "admin-login";
+  const isAdminView = (currentView.startsWith("admin-") || currentView.startsWith("superadmin-")) && currentView !== "admin-login";
 
   const handleNavigate = useCallback((view: string, params?: ViewParams) => {
     let path = Object.entries(pathToView).find(([_, v]) => v === view)?.[0] || "/";
@@ -142,6 +159,18 @@ function AppInner() {
     if (view === "visitor-hall-details" && nextParams.hallId) {
       path = `/halls/${encodeURIComponent(nextParams.hallId)}`;
       delete nextParams.hallId;
+    }
+    if (view === "visitor-sallehub") {
+      path = "/sallehub";
+    }
+    if (view === "visitor-wedding-landing") {
+      path = "/weddings";
+    }
+    if (view === "visitor-wedding-booking") {
+      path = "/weddings/book";
+    }
+    if (view === "visitor-wedding-track") {
+      path = "/weddings/track";
     }
     if (view === "admin-hall-details" && nextParams.hallId) {
       path = `/admin/halls/${encodeURIComponent(nextParams.hallId)}`;
@@ -189,7 +218,7 @@ function AppInner() {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const heroHeight = window.innerHeight * 0.88; // Approximate hero height
-      
+
       // Only hide bottom nav on home page when in hero section
       // Show it on all other pages or when scrolled past hero
       if (currentView === "visitor-home" && currentScrollY < heroHeight * 0.5) {
@@ -207,7 +236,7 @@ function AppInner() {
   }, [isAdminView, currentView]);
 
   return (
-    <div className="min-h-screen bg-navy-50 flex flex-col font-sans text-navy-900 antialiased w-full" id="sallehub-app-container">
+    <div className="min-h-screen bg-navy-50 flex flex-col font-sans text-navy-900 antialiased w-full" id="churchtrack-app-container">
 
       {/* PUBLIC HEADER */}
       {!isAdminView && (
@@ -233,7 +262,7 @@ function AppInner() {
               <div className="p-1.5 bg-navy-900 text-white rounded-xl border border-navy-700/80">
                 <SalleHubLogo size={16} className="text-navy-200" />
               </div>
-              <h1 className="text-sm font-black font-serif tracking-wider">SalleHub</h1>
+              <h1 className="text-sm font-black font-serif tracking-wider">ChurchTrack</h1>
             </div>
             <div className="flex items-center gap-2.5">
               <button onClick={requestLogout} className="text-navy-400 hover:text-red-400 transition p-1.5 rounded-lg hover:bg-navy-800 min-touch flex items-center justify-center" title="Logout" aria-label="Logout">
@@ -254,6 +283,7 @@ function AppInner() {
             onSetLang={setLang}
             onSetAdminLangDropdownOpen={setAdminLangDropdownOpen}
             onLogout={requestLogout}
+            isSuperAdmin={adminUser?.role === 'superadmin'}
           />
 
           {/* Admin Main Content */}
@@ -278,11 +308,12 @@ function AppInner() {
           {/* Mobile Bottom Nav — with safe area bottom padding */}
           <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-navy-950 backdrop-blur-2xl border-t border-navy-700/50 text-white z-50 flex items-center justify-around px-2 shadow-[0_-8px_30px_-8px_rgba(10,25,47,0.9)] pb-safe" style={{ height: "calc(env(safe-area-inset-bottom, 0px) + 72px)" }}>
             {[
-              { view: "admin-dashboard", label: "Overview", icon: Compass, path: "/admin/dashboard" },
-              { view: "admin-halls", label: "Halls", icon: Building, path: "/admin/halls" },
-              { view: "admin-bookings", label: "Bookings", icon: ListFilter, path: "/admin/bookings" },
-              { view: "admin-calendar", label: "Schedule", icon: Calendar, path: "/admin/calendar" },
-              { view: "admin-settings", label: "Settings", icon: Sliders, path: "/admin/settings" },
+              ...(adminUser?.role === 'superadmin' ? [{ view: "superadmin-dashboard", label: tAdmin.superAdmin, icon: Shield, path: "/admin/super" }] : []),
+              { view: "admin-dashboard", label: tAdmin.overview, icon: Compass, path: "/admin/dashboard" },
+              { view: "admin-halls", label: tAdmin.hallMgmt, icon: Building, path: "/admin/halls" },
+              { view: "admin-bookings", label: tAdmin.bookingsFeed, icon: ListFilter, path: "/admin/bookings" },
+              { view: "admin-calendar", label: tAdmin.schedule, icon: Calendar, path: "/admin/calendar" },
+              { view: "admin-settings", label: tAdmin.settings, icon: Sliders, path: "/admin/settings" },
             ].map((item) => {
               const Icon = item.icon;
               const isActive = currentView === item.view;
@@ -321,13 +352,13 @@ function AppInner() {
           {/* PUBLIC BOTTOM NAVIGATION — Mobile only, with scroll animation */}
           <motion.nav
             initial={{ y: "100%", opacity: 0 }}
-            animate={{ 
+            animate={{
               y: showPublicBottomNav ? "0%" : "100%",
               opacity: showPublicBottomNav ? 1 : 0
             }}
-            transition={{ 
-              type: "spring", 
-              damping: 25, 
+            transition={{
+              type: "spring",
+              damping: 25,
               stiffness: 200,
               mass: 0.8
             }}
@@ -337,8 +368,8 @@ function AppInner() {
           >
             {[
               { view: "visitor-home", label: "Home", icon: Home, path: "/" },
-              { view: "visitor-catalogue", label: "Halls", icon: Search, path: "/catalogue" },
-              { view: "visitor-track", label: "Track", icon: MapPin, path: "/track" },
+              { view: "visitor-wedding-landing", label: tNavbar.weddings, icon: Heart, path: "/weddings" },
+              { view: "visitor-sallehub", label: tNavbar.halls, icon: Building, path: "/sallehub" },
             ].map((item) => {
               const Icon = item.icon;
               const isActive = currentView === item.view || (item.view === "visitor-home" && currentView === "visitor-hall-details");
@@ -349,7 +380,7 @@ function AppInner() {
                 </Link>
               );
             })}
-            </motion.nav>
+          </motion.nav>
 
           {/* PUBLIC FOOTER — hidden on mobile since bottom nav replaces it */}
           <div className="hidden md:block">

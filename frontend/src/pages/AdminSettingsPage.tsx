@@ -64,8 +64,8 @@ export default function AdminSettingsPage({ lang = "EN" }: AdminSettingsPageProp
   const t = tSettings[lang] || tSettings["EN"];
   const { adminToken } = useAuth();
   const [saving, setSaving] = useState(false);
-  const [siteName, setSiteName] = useState("SalleHub");
-  const [siteTagline, setSiteTagline] = useState("Premium Parish Venue Reservations");
+  const [siteName, setSiteName] = useState("ChurchTrack");
+  const [siteTagline, setSiteTagline] = useState("Parish wedding and hall services");
   const [email, setEmail] = useState("info@sallehub.rw");
   const [phone, setPhone] = useState("+250 788 000 000");
   const [address, setAddress] = useState("Kigali, Rwanda");
@@ -78,8 +78,8 @@ export default function AdminSettingsPage({ lang = "EN" }: AdminSettingsPageProp
     safeFetchJson<SystemSettings>('/api/settings')
       .then(data => {
         if (data) {
-          setSiteName(data.siteName || "SalleHub");
-          setSiteTagline(data.siteTagline || "Premium Parish Venue Reservations");
+          setSiteName(data.siteName || "ChurchTrack");
+          setSiteTagline(data.siteTagline || "Parish wedding and hall services");
           setEmail(data.email || "info@sallehub.rw");
           setPhone(data.phone || "+250 788 000 000");
           setAddress(data.address || "Kigali, Rwanda");

@@ -9,7 +9,10 @@ export function authenticateJWT(req: Request, res: Response, next: NextFunction)
         return res.status(401).json({ error: 'Unauthorized: Missing or invalid token.' });
     }
 
-    const token = authHeader.split(' ')[1];
+    const token = authHeader.slice(7).trim();
+    if (!token || token.length > 4096) {
+        return res.status(401).json({ error: 'Unauthorized: Invalid token.' });
+    }
 
     try {
         const decoded = jwt.verify(token, env.jwtSecret) as {
@@ -18,11 +21,21 @@ export function authenticateJWT(req: Request, res: Response, next: NextFunction)
             name?: string;
             role?: string;
         };
+        if (typeof decoded !== 'object' || decoded === null || !['admin', 'superadmin'].includes((decoded as { role?: string }).role || '')) {
+            return res.status(403).json({ error: 'Forbidden: Administrator access required.' });
+        }
         (req as any).user = decoded;
         next();
     } catch {
         return res.status(401).json({ error: 'Unauthorized: Invalid or expired token.' });
     }
+}
+
+export function requireSuperAdmin(req: Request, res: Response, next: NextFunction) {
+    if ((req as any).user?.role !== 'superadmin') {
+        return res.status(403).json({ error: 'Forbidden: Super administrator access required.' });
+    }
+    return next();
 }
 
 /** Attach user when a valid Bearer token is present; otherwise continue as public. */
@@ -32,7 +45,8 @@ export function optionalAuthenticateJWT(req: Request, _res: Response, next: Next
         return next();
     }
 
-    const token = authHeader.split(' ')[1];
+    const token = authHeader.slice(7).trim();
+    if (!token || token.length > 4096) return next();
     try {
         const decoded = jwt.verify(token, env.jwtSecret);
         (req as any).user = decoded;

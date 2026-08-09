@@ -25,5 +25,8 @@ const PaymentSchema = new Schema<IPayment>(
   { timestamps: true }
 );
 
+PaymentSchema.index({ status: 1, createdAt: -1 });
+PaymentSchema.index({ bookingId: 1 });
+
 const Payment = mongoose.model<IPayment>('Payment', PaymentSchema);
 export default Payment;

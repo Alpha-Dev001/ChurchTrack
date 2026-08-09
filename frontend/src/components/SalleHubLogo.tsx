@@ -8,13 +8,13 @@ interface SalleHubLogoProps {
 }
 
 /**
- * SalleHub brand mark — classical parish hall with arched portal
+ * ChurchTrack brand mark — classical parish service mark with arched portal
  * and a central hub node (venue + connection).
  */
 export default function SalleHubLogo({
   className = "",
   size = 20,
-  title = "SalleHub"
+  title = "ChurchTrack"
 }: SalleHubLogoProps) {
   return (
     <svg

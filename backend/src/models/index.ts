@@ -5,6 +5,7 @@ import Payment from './Payment';
 import Notification from './Notification';
 import BookingLog from './BookingLog';
 import SystemSettings from './SystemSettings';
+import SlotLock from './SlotLock';
 
 export {
     Admin,
@@ -14,4 +15,5 @@ export {
     Notification,
     BookingLog,
     SystemSettings,
+    SlotLock,
 };

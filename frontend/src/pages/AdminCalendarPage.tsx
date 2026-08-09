@@ -38,9 +38,12 @@ export default function AdminCalendarPage({ lang = "EN", onNavigate }: AdminCale
         id: b.id,
         hallName: b.hallName,
         customerName: b.customerName,
-        date: b.eventDate,
+        date: b.date || b.eventDate || '',
         timeSlot: b.timeSlot,
         eventType: b.eventType,
+        serviceType: b.serviceType || 'SalleHub',
+        brideName: b.brideName,
+        groomName: b.groomName,
         status: (b.status === "Rejected" ? "Cancelled" : b.status) as
           | "Pending"
           | "Approved"
@@ -48,6 +51,7 @@ export default function AdminCalendarPage({ lang = "EN", onNavigate }: AdminCale
       })),
     [bookings]
   );
+
 
   if (bookingsLoading && events.length === 0) {
     return (

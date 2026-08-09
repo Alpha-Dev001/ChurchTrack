@@ -11,6 +11,10 @@ import HallDetailsPage from '../pages/HallDetailsPage';
 import BookingRequestPage from '../pages/BookingRequestPage';
 import SuccessPage from '../pages/SuccessPage';
 import TrackBookingPage from '../pages/TrackBookingPage';
+import ChurchTrackLanding from '../pages/ChurchTrackLanding';
+import WeddingLanding from '../pages/WeddingLanding';
+import WeddingBooking from '../pages/WeddingBooking';
+import WeddingTrack from '../pages/WeddingTrack';
 
 // Admin pages
 import AdminLogin from '../pages/AdminLogin';
@@ -22,6 +26,7 @@ import AdminBookingsPage from '../pages/AdminBookingsPage';
 import AdminBookingDetailsPage from '../pages/AdminBookingDetailsPage';
 import AdminCalendarPage from '../pages/AdminCalendarPage';
 import AdminSettingsPage from '../pages/AdminSettingsPage';
+import SuperAdminDashboard from '../pages/SuperAdminDashboard';
 
 interface RouterProps {
   view: ViewName;
@@ -54,13 +59,27 @@ export default function Router({
       // Public pages
       case 'visitor-home':
         return (
-          <LandingPage
+          <ChurchTrackLanding
             lang={lang}
-            halls={halls}
             onNavigate={onNavigate}
-            onSearch={onSearch}
           />
         );
+
+      case 'visitor-sallehub':
+        return <LandingPage lang={lang} halls={halls} onNavigate={onNavigate} onSearch={onSearch} />;
+
+      case 'visitor-wedding-landing':
+        return <WeddingLanding lang={lang} onNavigate={onNavigate} />;
+
+      case 'visitor-wedding-booking': {
+        const sanctuary = halls.find((hall) => hall.id === 'church-sanctuary');
+        if (hallsLoading) return <HallDetailsSkeleton />;
+        if (!sanctuary) return <div className="mx-auto max-w-lg py-24 text-center">Wedding venue is currently unavailable.</div>;
+        return <WeddingBooking lang={lang} hall={sanctuary} onNavigate={onNavigate} onSubmitSuccess={(details) => onNavigate('visitor-success', { booking: details })} />;
+      }
+
+      case 'visitor-wedding-track':
+        return <WeddingTrack lang={lang} onNavigate={onNavigate} />;
 
       case 'visitor-catalogue':
         return (
@@ -112,6 +131,7 @@ export default function Router({
               timeSlot: params.timeSlot || '09:00 AM - 10:00 AM',
               duration: params.duration || '1 Hour',
               guests: params.guests || hall.capacity,
+              serviceType: params.serviceType || 'SalleHub',
             }}
             onNavigate={onNavigate}
             onSubmitSuccess={(details) =>
@@ -142,6 +162,9 @@ export default function Router({
       // Admin pages
       case 'admin-login':
         return <AdminLogin lang={lang} onNavigate={onNavigate} />;
+
+      case 'superadmin-dashboard':
+        return <SuperAdminDashboard lang={lang} />;
 
       case 'admin-dashboard':
         if (bookingsLoading && bookings.length === 0) {
@@ -236,11 +259,9 @@ export default function Router({
 
       default:
         return (
-          <LandingPage
+          <ChurchTrackLanding
             lang={lang}
-            halls={halls}
             onNavigate={onNavigate}
-            onSearch={onSearch}
           />
         );
     }

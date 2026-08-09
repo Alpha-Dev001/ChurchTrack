@@ -22,6 +22,7 @@ const tBookings: Record<string, any> = {
     searchPlaceholder: "Search by guest name or reservation code...",
     thId: "Booking ID",
     thHall: "Hall",
+    thService: "Service",
     thCustomer: "Customer",
     thDateTime: "Date & Time",
     thGuests: "Guests",
@@ -74,6 +75,7 @@ export default function AdminBookingsPage({ lang = "EN", bookings, onNavigate }:
   const t = tBookings[lang] || tBookings["EN"];
   const [activeTab, setActiveTab] = useState<"All" | "Pending" | "Approved" | "Cancelled">("All");
   const [searchTerm, setSearchTerm] = useState("");
+  const [serviceFilter, setServiceFilter] = useState<"All" | "SalleHub" | "ChurchTrack">("All");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const { bookingsLoading } = useData();
@@ -86,6 +88,8 @@ export default function AdminBookingsPage({ lang = "EN", bookings, onNavigate }:
       } else if (activeTab !== "All" && b.status !== activeTab) {
         return false;
       }
+
+      if (serviceFilter !== "All" && (b.serviceType || "SalleHub") !== serviceFilter) return false;
 
       // Text search
       if (searchTerm) {
@@ -105,7 +109,7 @@ export default function AdminBookingsPage({ lang = "EN", bookings, onNavigate }:
 
       return true;
     });
-  }, [bookings, activeTab, searchTerm]);
+  }, [bookings, activeTab, searchTerm, serviceFilter]);
 
   // Pagination
   const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
@@ -117,7 +121,7 @@ export default function AdminBookingsPage({ lang = "EN", bookings, onNavigate }:
   // Reset page when filters change
   React.useEffect(() => {
     setCurrentPage(1);
-  }, [activeTab, searchTerm]);
+  }, [activeTab, searchTerm, serviceFilter]);
 
   const handleExportCSV = () => {
     if (filteredBookings.length === 0) return;
@@ -198,6 +202,9 @@ export default function AdminBookingsPage({ lang = "EN", bookings, onNavigate }:
           ))}
         </div>
 
+        <select value={serviceFilter} onChange={(e) => setServiceFilter(e.target.value as typeof serviceFilter)} className="rounded-2xl border border-navy-200 bg-white px-3 py-2.5 text-xs font-bold text-navy-700">
+          <option value="All">Service: All</option><option value="SalleHub">SalleHub</option><option value="ChurchTrack">Weddings</option>
+        </select>
         {/* Search Bar for Guest Name or Reservation Code */}
         <div className="relative w-full md:w-80 lg:w-96">
           <Search className="w-4 h-4 text-navy-400 absolute left-3.5 top-3" />
@@ -237,7 +244,7 @@ export default function AdminBookingsPage({ lang = "EN", bookings, onNavigate }:
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <div className="min-w-0">
                     <p className="font-black text-navy-900 text-sm truncate">{b.id}</p>
-                    <p className="font-bold text-navy-800 text-xs mt-0.5">{b.hallName}</p>
+                    <p className="font-bold text-navy-800 text-xs mt-0.5">{b.serviceType === "ChurchTrack" ? "♥ Wedding" : b.hallName}</p>
                   </div>
                   <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded border flex-shrink-0 ${b.status === "Approved"
                     ? "bg-emerald-50 border-emerald-200 text-emerald-700"
@@ -297,6 +304,7 @@ export default function AdminBookingsPage({ lang = "EN", bookings, onNavigate }:
                 <tr className="bg-navy-50 border-b border-navy-200 text-[10px] text-navy-400 font-black uppercase tracking-wider">
                   <th className="p-4">{t.thId}</th>
                   <th className="p-4">{t.thHall}</th>
+                  <th className="p-4">{t.thService}</th>
                   <th className="p-4">{t.thCustomer}</th>
                   <th className="p-4">{t.thDateTime}</th>
                   <th className="p-4 text-center">{t.thGuests}</th>
@@ -314,6 +322,7 @@ export default function AdminBookingsPage({ lang = "EN", bookings, onNavigate }:
                   >
                     <td className="p-4 font-black text-navy-900">{b.id}</td>
                     <td className="p-4 font-bold text-navy-800">{b.hallName}</td>
+                    <td className="p-4"><span className={b.serviceType === "ChurchTrack" ? "font-bold text-rose-700" : "text-navy-600"}>{b.serviceType === "ChurchTrack" ? "Wedding" : "SalleHub"}</span></td>
                     <td className="p-4">
                       <div>
                         <p className="font-extrabold text-navy-950">{b.customerName}</p>
@@ -356,7 +365,7 @@ export default function AdminBookingsPage({ lang = "EN", bookings, onNavigate }:
 
                 {filteredBookings.length === 0 && (
                   <tr>
-                    <td colSpan={8} className="p-10 text-center opacity-40 font-bold text-navy-400 text-xs uppercase tracking-wider">
+                    <td colSpan={9} className="p-10 text-center opacity-40 font-bold text-navy-400 text-xs uppercase tracking-wider">
                       {t.noBookings}
                     </td>
                   </tr>

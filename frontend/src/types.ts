@@ -1,11 +1,16 @@
 export type ViewName =
   | 'visitor-home'
+  | 'visitor-sallehub'
+  | 'visitor-wedding-landing'
+  | 'visitor-wedding-booking'
+  | 'visitor-wedding-track'
   | 'visitor-catalogue'
   | 'visitor-hall-details'
   | 'visitor-booking'
   | 'visitor-success'
   | 'visitor-track'
   | 'admin-login'
+  | 'superadmin-dashboard'
   | 'admin-dashboard'
   | 'admin-halls'
   | 'admin-add-hall'
@@ -24,6 +29,7 @@ export interface ViewParams {
   duration?: string;
   guests?: number;
   searchCode?: string;
+  serviceType?: 'SalleHub' | 'ChurchTrack';
   [key: string]: any;
 }
 
@@ -54,15 +60,31 @@ export interface Booking {
   customerEmail: string;
   customerPhone: string;
   eventType: string;
-  eventDate: string;
+  /** Backend field name — used for sorting/display */
+  date: string;
+  /** Legacy alias — some pages may still use this; maps to `date` */
+  eventDate?: string;
   timeSlot: string;
   duration: string;
   guests: number;
   status: 'Pending' | 'Approved' | 'Rejected' | 'Cancelled';
-  totalAmount: number;
-  depositPaid: number;
+  /** Backend field name */
+  amount: number;
+  /** Legacy alias — maps to `amount` */
+  totalAmount?: number;
+  depositPaid?: number;
   paymentStatus: string;
-  specialRequests: string;
+  paymentMethod?: string;
+  additionalNotes?: string;
+  specialRequests?: string;
+  serviceType?: 'SalleHub' | 'ChurchTrack';
+  brideName?: string;
+  groomName?: string;
+  brideEmail?: string;
+  groomEmail?: string;
+  bridePhone?: string;
+  groomPhone?: string;
+  timeline?: any[];
   createdAt: string;
   updatedAt: string;
 }

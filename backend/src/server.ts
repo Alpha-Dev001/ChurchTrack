@@ -3,19 +3,22 @@ import { env } from './config/env';
 import { connectDatabase, disconnectDatabase } from './services/database.service';
 
 const startServer = async () => {
-  console.log('Bootstrapping SalleHub API server...');
+  console.log('Bootstrapping ChurchTrack API server...');
 
   await connectDatabase();
 
   const server = app.listen(env.port, '0.0.0.0', () => {
-    console.log(`SalleHub API Server running on http://localhost:${env.port}`);
+    console.log(`ChurchTrack API Server running on http://localhost:${env.port}`);
     console.log('Ready to accept booking, hall, and admin requests.');
   });
+  server.requestTimeout = 30_000;
+  server.headersTimeout = 35_000;
+  server.keepAliveTimeout = 5_000;
 
   const shutdown = async () => {
     await disconnectDatabase();
     server.close(() => {
-      console.log('SalleHub API server shut down gracefully.');
+      console.log('ChurchTrack API server shut down gracefully.');
       process.exit(0);
     });
   };

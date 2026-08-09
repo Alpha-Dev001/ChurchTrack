@@ -17,7 +17,7 @@ export function notFoundHandler(_req: Request, res: Response) {
   return res.status(404).json({ error: 'Route not found' });
 }
 
-export function errorHandler(err: unknown, _req: Request, res: Response, _next: NextFunction) {
+export function errorHandler(err: unknown, req: Request, res: Response, _next: NextFunction) {
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({
       error: err.message,
@@ -32,7 +32,7 @@ export function errorHandler(err: unknown, _req: Request, res: Response, _next: 
   // express.json / urlencoded body size limit
   if (err && typeof err === 'object' && (err as { type?: string }).type === 'entity.too.large') {
     return res.status(413).json({
-      error: 'Payload too large. Upload images via multipart or use Cloudinary URLs instead of embedding large files in JSON.',
+      error: 'Request is too large. Please reduce the submitted data or upload images separately.',
     });
   }
 
@@ -41,7 +41,7 @@ export function errorHandler(err: unknown, _req: Request, res: Response, _next: 
     if (name === 'ValidationError') {
       return res.status(400).json({
         error: 'Validation failed',
-        details: (err as { message?: string }).message,
+        ...(process.env.NODE_ENV !== 'production' ? { details: (err as { message?: string }).message } : {}),
       });
     }
     if (name === 'CastError') {
@@ -52,6 +52,7 @@ export function errorHandler(err: unknown, _req: Request, res: Response, _next: 
     }
   }
 
-  console.error('[API Error]', err);
-  return res.status(500).json({ error: 'Internal server error' });
+  const requestId = res.locals.requestId || req.headers['x-request-id'] || 'unknown';
+  console.error(`[API Error ${requestId}]`, err);
+  return res.status(500).json({ error: 'Something went wrong. Please try again later.', requestId });
 }

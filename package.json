@@ -1,8 +1,8 @@
 {
-  "name": "sallehub-project",
+  "name": "churchtrack-project",
   "private": true,
   "version": "1.0.0",
-  "description": "SalleHub - Church Hall Booking & Management Platform (Frontend + Backend independent)",
+  "description": "ChurchTrack - Parish services platform with wedding bookings and SalleHub hall reservations",
   "scripts": {
     "install:all": "cd backend && npm install && cd ../frontend && npm install",
     "dev:backend": "cd backend && npm run dev",

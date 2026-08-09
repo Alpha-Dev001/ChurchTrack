@@ -6,6 +6,8 @@ export const navbarTranslations = {
     adminPanel: "Admin Panel",
     adminLogin: "Admin Login",
     bookHall: "Book a Hall",
+    weddings: "Weddings",
+    bookWedding: "Book a Wedding",
   },
   FR: {
     home: "Accueil",
@@ -14,6 +16,8 @@ export const navbarTranslations = {
     adminPanel: "Espace Admin",
     adminLogin: "Connexion Admin",
     bookHall: "Réserver",
+    weddings: "Mariages",
+    bookWedding: "Réserver un mariage",
   },
   RW: {
     home: "Ahabanza",
@@ -22,5 +26,7 @@ export const navbarTranslations = {
     adminPanel: "Ubuyobozi",
     adminLogin: "Kwinjira nka Admin",
     bookHall: "Kodesha Icyumba",
+    weddings: "Ubukwe",
+    bookWedding: "Kodesha ubukwe",
   }
 };

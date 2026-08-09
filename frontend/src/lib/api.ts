@@ -22,7 +22,12 @@ export async function safeFetchJson<T = any>(url: string, options?: RequestInit)
   // Ensure no double slashes between base URL and path
   const path = url.startsWith('/') ? url : `/${url}`;
   const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}${path}`;
-  const res = await fetch(fullUrl, options);
+  let res: Response;
+  try {
+    res = await fetch(fullUrl, options);
+  } catch {
+    throw new Error('The service is temporarily unavailable. Please check your connection and try again.');
+  }
   const text = await res.text();
   let data: any = null;
 

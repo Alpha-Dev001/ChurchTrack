@@ -1,0 +1,47 @@
+import React from 'react';
+import { ArrowRight, Building2, CalendarDays, CheckCircle2, Church, Heart, ShieldCheck } from 'lucide-react';
+import type { ViewParams } from '../types';
+import heroParishImage from '../assets/images/parish_hero_building_1784664516350.jpg';
+
+interface Props { lang?: string; onNavigate: (view: string, params?: ViewParams) => void; }
+
+const copy = {
+    EN: { parish: 'EAR Remera Parish', services: 'ChurchTrack services', hero: 'A more meaningful way to plan your parish occasion.', desc: 'Reserve a wedding ceremony or discover a parish hall through one clear, trusted experience built for EAR Remera Parish.', wedding: 'Book a wedding', halls: 'Explore parish halls', ourServices: 'Our services', serviceTitle: 'Everything you need, thoughtfully organised.', serviceDesc: 'Choose the service that fits your occasion. Both paths are simple, transparent, and supported by the parish team.', weddingTitle: 'Wedding ceremony booking', weddingText: "Choose a weekday ceremony slot, share both partners' details, and submit a request for parish review.", weddingAction: 'Start wedding booking', hallTitle: 'Parish hall hire', hallText: 'Browse available halls for receptions, conferences, meetings, celebrations, and community events.', hallAction: 'Browse parish halls', availability: 'Clear availability', availabilityText: 'See the right dates and ceremony slots before you submit.', guided: 'Parish-guided', guidedText: 'Every request is reviewed and coordinated by the parish office.', simple: 'Simple by design', simpleText: 'A focused experience with no unnecessary steps or accounts.', footer: 'Serving the EAR Remera Parish community.' },
+    FR: { parish: 'Paroisse EAR Remera', services: 'Services ChurchTrack', hero: 'Une manière plus significative de planifier votre événement paroissial.', desc: 'Réservez une cérémonie de mariage ou découvrez une salle paroissiale dans une expérience claire et fiable.', wedding: 'Réserver un mariage', halls: 'Explorer les salles', ourServices: 'Nos services', serviceTitle: 'Tout ce dont vous avez besoin, organisé avec soin.', serviceDesc: "Choisissez le service adapté à votre occasion. Les deux parcours sont simples, transparents et accompagnés par la paroisse.", weddingTitle: 'Réservation de cérémonie', weddingText: 'Choisissez un créneau en semaine, partagez les coordonnées des deux partenaires et envoyez votre demande.', weddingAction: 'Commencer la réservation', hallTitle: 'Location de salle paroissiale', hallText: 'Parcourez les salles pour réceptions, conférences, réunions, célébrations et événements communautaires.', hallAction: 'Parcourir les salles', availability: 'Disponibilité claire', availabilityText: 'Consultez les dates et créneaux avant de soumettre votre demande.', guided: 'Accompagnement paroissial', guidedText: 'Chaque demande est examinée et coordonnée par le bureau paroissial.', simple: 'Simple par conception', simpleText: 'Une expérience ciblée, sans étapes ni compte inutiles.', footer: 'Au service de la communauté de la paroisse EAR Remera.' },
+    RW: { parish: 'Paruwasi EAR Remera', services: 'Serivisi za ChurchTrack', hero: 'Uburyo bwiza bwo gutegura ibirori bya paruwasi.', desc: 'Kodesha aho gukorera ubukwe cyangwa ushakishe icyumba cya paruwasi mu buryo bworoshye kandi bwizewe.', wedding: 'Kodesha ubukwe', halls: 'Shakisha ibyumba', ourServices: 'Serivisi zacu', serviceTitle: 'Ibyo ukeneye byose, biteguwe neza.', serviceDesc: 'Hitamo serivisi ijyanye n’ibirori byawe. Inzira zombi ziroroshye kandi zifashwa na paruwasi.', weddingTitle: 'Gukodesha aho gukorera ubukwe', weddingText: 'Hitamo umwanya wo mu cyumweru, utange amakuru y’abashakanye bombi, wohereze ubusabe busuzumwe.', weddingAction: 'Tangira gukodesha', hallTitle: 'Gukodesha icyumba cya paruwasi', hallText: 'Shakisha ibyumba by’amakwe, inama, amateraniro, ibirori n’ibikorwa by’abaturage.', hallAction: 'Shakisha ibyumba', availability: 'Ububoneke busobanutse', availabilityText: 'Reba amatariki n’amasaha mbere yo kohereza ubusabe.', guided: 'Kuyoborwa na paruwasi', guidedText: 'Buri busabe busuzumwa kandi bugategurwa n’ibiro bya paruwasi.', simple: 'Byoroshye ku bushake', simpleText: 'Uburyo bwibanda ku by’ingenzi nta ntambwe cyangwa konti bitari ngombwa.', footer: 'Dukorera umuryango wa Paruwasi EAR Remera.' },
+} as const;
+
+export default function ChurchTrackLanding({ lang = 'EN', onNavigate }: Props) {
+    const t = copy[lang as keyof typeof copy] || copy.EN;
+    return (
+        <div className="bg-navy-50 text-navy-950" id="churchtrack-landing">
+            <section className="relative min-h-[100vh] overflow-hidden bg-navy-950 px-6 py-24 text-white md:py-32">
+                <img src={heroParishImage} alt="EAR Remera Parish" className="absolute inset-0 h-full w-full object-cover opacity-30" />
+                <div className="absolute inset-0 bg-navy-950/80" />
+                <div className="relative mx-auto flex max-w-4xl justify-center text-center">
+                    <div className="max-w-3xl">
+                        <p className="section-eyebrow text-navy-300">{t.parish}</p>
+                        <p className="section-eyebrow text-navy-300">{t.services}</p>
+                        <h1 className="mt-4 max-w-2xl font-serif text-4xl leading-tight text-white md:text-6xl">{t.hero}</h1>
+                        <p className="mt-6 max-w-xl text-sm leading-7 text-navy-300 md:text-base">{t.desc}</p>
+                        <div className="mx-auto mt-9 grid max-w-2xl gap-3 sm:grid-cols-2">
+                            <button onClick={() => onNavigate('visitor-wedding-landing')} className="group flex min-h-24 items-center justify-between rounded-xl border border-navy-500 bg-white px-5 text-left text-navy-950 shadow-xl transition hover:-translate-y-1 hover:bg-navy-50"><span><span className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-navy-600"><Heart className="h-4 w-4" /> {lang === 'FR' ? 'Mariage' : lang === 'RW' ? 'Ubukwe' : 'Wedding'}</span><strong className="mt-2 block font-serif text-xl">{t.wedding}</strong></span><ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" /></button>
+                            <button onClick={() => onNavigate('visitor-sallehub')} className="group flex min-h-24 items-center justify-between rounded-xl border border-navy-700 bg-navy-900 px-5 text-left text-white transition hover:-translate-y-1 hover:bg-navy-800"><span><span className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-navy-300"><Building2 className="h-4 w-4" /> {lang === 'FR' ? 'Salles' : lang === 'RW' ? 'Ibyumba' : 'Halls'}</span><strong className="mt-2 block font-serif text-xl">{t.halls}</strong></span><ArrowRight className="h-5 w-5 text-navy-300 transition group-hover:translate-x-1" /></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section className="mx-auto max-w-6xl px-6 py-16 md:py-20"><div className="max-w-2xl"><p className="section-eyebrow">{t.ourServices}</p><h2 className="mt-3 font-serif text-3xl text-navy-950 md:text-4xl">{t.serviceTitle}</h2><p className="mt-4 text-sm leading-7 text-navy-600">{t.serviceDesc}</p></div><div className="mt-10 grid gap-5 md:grid-cols-2"><ServiceCard icon={<Heart />} eyebrow="ChurchTrack" title={t.weddingTitle} text={t.weddingText} action={t.weddingAction} onClick={() => onNavigate('visitor-wedding-landing')} /><ServiceCard icon={<Building2 />} eyebrow="SalleHub" title={t.hallTitle} text={t.hallText} action={t.hallAction} onClick={() => onNavigate('visitor-sallehub')} /></div></section>
+            <section className="border-y border-navy-200 bg-white px-6 py-16"><div className="mx-auto max-w-6xl"><div className="grid gap-8 md:grid-cols-3"><Feature icon={<CalendarDays />} title={t.availability} text={t.availabilityText} /><Feature icon={<ShieldCheck />} title={t.guided} text={t.guidedText} /><Feature icon={<CheckCircle2 />} title={t.simple} text={t.simpleText} /></div></div></section>
+            <div className="mx-auto flex max-w-6xl items-center gap-2 px-6 py-8 text-xs font-semibold text-navy-500"><Church className="h-4 w-4" /> {t.footer}</div>
+        </div>
+    );
+}
+
+function ServiceCard({ icon, eyebrow, title, text, action, onClick }: { icon: React.ReactNode; eyebrow: string; title: string; text: string; action: string; onClick: () => void }) {
+    return <article className="card-surface flex flex-col justify-between p-7 transition hover:-translate-y-1 hover:border-navy-400 hover:shadow-lg"><div><div className="flex h-11 w-11 items-center justify-center rounded-xl bg-navy-950 text-white">{icon}</div><p className="section-eyebrow mt-7">{eyebrow}</p><h3 className="mt-2 font-serif text-2xl text-navy-950">{title}</h3><p className="mt-3 text-sm leading-7 text-navy-600">{text}</p></div><button onClick={onClick} className="mt-7 inline-flex items-center gap-2 self-start text-xs font-bold uppercase tracking-[0.14em] text-navy-950 hover:text-navy-700">{action}<ArrowRight className="h-4 w-4" /></button></article>;
+}
+
+function Feature({ icon, title, text }: { icon: React.ReactNode; title: string; text: string }) {
+    return <div className="flex gap-4"><div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-navy-50 text-navy-800">{icon}</div><div><h3 className="font-semibold text-navy-950">{title}</h3><p className="mt-1 text-sm leading-6 text-navy-600">{text}</p></div></div>;
+}

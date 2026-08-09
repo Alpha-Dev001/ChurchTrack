@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { FileText, AlertTriangle, DollarSign, Compass, Plus, ArrowRight, Settings } from "lucide-react";
+import { FileText, AlertTriangle, DollarSign, Plus, ArrowRight, Settings, Heart } from "lucide-react";
 import { BookingsOverviewChart, BookingStatusBreakdown, TopPerformingHalls } from "../components/Charts";
 import Pagination from "../components/Pagination";
 
@@ -216,11 +216,13 @@ export default function AdminDashboard({
     maximumFractionDigits: 0,
   }).format(stats.totalRevenue).replace("RWF", "RWF ");
 
+  const weddingBookings = recentBookings.filter((booking) => booking.serviceType === "ChurchTrack").length;
+
   const displayStats = [
     { label: t.totalBookings, val: stats.totalBookings, desc: t.totalBookingsDesc, icon: FileText },
     { label: t.pendingRequests, val: stats.pendingBookings, desc: t.pendingRequestsDesc, icon: AlertTriangle },
     { label: t.totalRevenue, val: formattedRevenue, desc: t.totalRevenueDesc, icon: DollarSign },
-    { label: t.totalHalls, val: stats.totalHalls, desc: t.totalHallsDesc, icon: Compass },
+    { label: "Wedding bookings", val: weddingBookings, desc: "ChurchTrack ceremony requests", icon: Heart },
   ];
 
   return (
@@ -324,13 +326,12 @@ export default function AdminDashboard({
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="text-xs font-semibold text-navy-950">{b.customerName}</span>
                     <span
-                      className={`text-[9px] font-semibold px-2 py-0.5 rounded uppercase tracking-wide ${
-                        b.status === "Approved"
-                          ? "bg-emerald-50 text-emerald-700"
-                          : b.status === "Pending"
-                            ? "bg-amber-50 text-amber-700"
-                            : "bg-navy-100 text-navy-600"
-                      }`}
+                      className={`text-[9px] font-semibold px-2 py-0.5 rounded uppercase tracking-wide ${b.status === "Approved"
+                        ? "bg-emerald-50 text-emerald-700"
+                        : b.status === "Pending"
+                          ? "bg-amber-50 text-amber-700"
+                          : "bg-navy-100 text-navy-600"
+                        }`}
                     >
                       {b.status === "Approved"
                         ? t.approved

@@ -1,20 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Building, Compass, ListFilter, Calendar, Sliders, ChevronLeft, ChevronRight, Globe, LogOut } from "lucide-react";
+import { Building, Compass, ListFilter, Calendar, Sliders, ChevronLeft, ChevronRight, Globe, LogOut, Shield } from "lucide-react";
 import { adminTranslations } from "../translations";
+import type { SupportedLang } from "../types";
 import SalleHubLogo from "./SalleHubLogo";
 
 interface AdminSidebarProps {
   currentView: string;
-  lang: string;
+  lang: SupportedLang;
   sidebarCollapsed: boolean;
   adminLangDropdownOpen: boolean;
   stats: { pendingBookings: number };
   onNavigate: (view: string) => void;
   onSetSidebarCollapsed: (collapsed: boolean) => void;
-  onSetLang: (lang: string) => void;
+  onSetLang: (lang: SupportedLang) => void;
   onSetAdminLangDropdownOpen: (open: boolean | ((prev: boolean) => boolean)) => void;
   onLogout: () => void;
+  isSuperAdmin?: boolean;
 }
 
 export default function AdminSidebar({
@@ -27,11 +29,13 @@ export default function AdminSidebar({
   onSetSidebarCollapsed,
   onSetLang,
   onSetAdminLangDropdownOpen,
-  onLogout
+  onLogout,
+  isSuperAdmin = false
 }: AdminSidebarProps) {
   const tSidebar = adminTranslations[lang] || adminTranslations["EN"];
 
   const navItems = [
+    ...(isSuperAdmin ? [{ view: "superadmin-dashboard", label: tSidebar.superAdmin, icon: Shield, path: "/admin/super" }] : []),
     { view: "admin-dashboard", label: tSidebar.overview, icon: Compass, path: "/admin/dashboard" },
     { view: "admin-halls", label: tSidebar.hallMgmt, icon: Building, path: "/admin/halls" },
     { view: "admin-bookings", label: tSidebar.bookingsFeed, icon: ListFilter, badge: stats.pendingBookings > 0 ? stats.pendingBookings : null, path: "/admin/bookings" },
@@ -51,8 +55,8 @@ export default function AdminSidebar({
                   <SalleHubLogo size={20} className="text-white" />
                 </div>
                 <div className="text-left animate-in fade-in duration-200">
-                  <h1 className="text-base font-black tracking-[0.18em] font-serif">SalleHub</h1>
-                  <span className="text-[8px] text-white/50 uppercase font-semibold tracking-[0.24em] block">Admin Control</span>
+                  <h1 className="text-base font-black tracking-[0.18em] font-serif">ChurchTrack</h1>
+                  <span className="text-[8px] text-white/50 uppercase font-semibold tracking-[0.24em] block">Parish Control</span>
                 </div>
               </div>
               <button
@@ -66,7 +70,7 @@ export default function AdminSidebar({
             </>
           ) : (
             <div className="flex flex-col items-center gap-4 w-full animate-in fade-in duration-200">
-              <div className="p-2 bg-white/10 text-white rounded-lg" title="SalleHub Admin Control">
+              <div className="p-2 bg-white/10 text-white rounded-lg" title="ChurchTrack Parish Control">
                 <SalleHubLogo size={20} className="text-white" />
               </div>
               <button
@@ -145,7 +149,7 @@ export default function AdminSidebar({
                   <button
                     key={item.code}
                     onClick={() => {
-                      onSetLang(item.code);
+                      onSetLang(item.code as SupportedLang);
                       onSetAdminLangDropdownOpen(false);
                     }}
                     className={`w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold hover:bg-navy-800 transition text-left cursor-pointer ${lang === item.code ? "text-white bg-navy-800" : "text-white/70"

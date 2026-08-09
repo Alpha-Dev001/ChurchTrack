@@ -26,16 +26,16 @@ export default function SEO({
   structuredData,
   lang = "en",
 }: SEOProps) {
-  const fullTitle = title.includes("SalleHub") ? title : `${title} | SalleHub`;
+  const fullTitle = title.includes("ChurchTrack") ? title : `${title} | ChurchTrack`;
   const canonicalUrl = canonical || SITE_URL;
 
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "SalleHub",
+    "name": "ChurchTrack",
     "url": SITE_URL,
     "logo": `${SITE_URL}/logo.png`,
-    "description": "Premium Parish Hall Booking Platform - Discover, book, and manage beautiful church halls for weddings, conferences, seminars, and all your special occasions.",
+    "description": "Parish services platform for ChurchTrack wedding ceremonies and SalleHub hall reservations.",
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "customer service",
@@ -48,9 +48,9 @@ export default function SEO({
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "SalleHub",
+    "name": "ChurchTrack",
     "url": SITE_URL,
-    "description": "Premium Parish Hall Booking Platform",
+    "description": "Parish wedding and hall reservation platform",
     "potentialAction": {
       "@type": "SearchAction",
       "target": {
@@ -90,7 +90,7 @@ export default function SEO({
       <meta property="og:image" content={ogImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
-      <meta property="og:site_name" content="SalleHub" />
+      <meta property="og:site_name" content="ChurchTrack" />
       <meta property="og:locale" content={lang === "FR" ? "fr_FR" : lang === "RW" ? "rw_RW" : "en_US"} />
 
       {/* Twitter */}

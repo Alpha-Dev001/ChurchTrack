@@ -1,10 +1,10 @@
 <div align="center">
 
-# SalleHub
+# ChurchTrack
 
-**Church hall booking & parish venue management**
+**Parish services platform: ChurchTrack weddings and SalleHub halls**
 
-A public booking experience for visitors and a full admin dashboard for parish coordinators — halls, calendars, approvals, and settings in one place.
+A public booking experience for visitors, an operations dashboard for parish coordinators, and a protected super-admin command center for complete platform oversight.
 
 [Features](#features) · [Quick start](#quick-start) · [Frontend](./frontend/README.md) · [Backend](./backend/README.md)
 
@@ -23,7 +23,7 @@ A public booking experience for visitors and a full admin dashboard for parish c
 
 ## Overview
 
-SalleHub is split into two independent apps so you can deploy the API and the UI on separate hosts:
+ChurchTrack is split into two independent apps so you can deploy the API and the UI on separate hosts. It provides two services: ChurchTrack wedding ceremony bookings and SalleHub parish hall reservations:
 
 | App | Stack | Default port | Docs |
 |-----|--------|--------------|------|
@@ -34,7 +34,8 @@ SalleHub is split into two independent apps so you can deploy the API and the UI
 sallehub/
 ├── backend/          # REST API (Express + MongoDB)
 ├── frontend/         # Public site + admin dashboard
-├── .env.example      # Shared env reference (no secrets)
+├── backend/.env.example  # Backend env reference (no secrets)
+├── frontend/.env.example # Frontend env reference (no secrets)
 └── package.json      # Convenience scripts for both apps
 ```
 
@@ -55,6 +56,14 @@ sallehub/
 - Booking approve / reject workflow
 - Calendar view
 - Site settings
+
+**Super-admin command center**
+- Live totals for administrators, halls, bookings, revenue, and pending work
+- API, database, runtime, memory, and Cloudinary configuration health indicators
+- Recent booking/audit activity visibility
+- Create, edit, promote, and delete administrator accounts
+- Full access to all standard admin hall, booking, calendar, and settings workflows
+- Same English · French · Kinyarwanda language system
 
 ---
 
@@ -109,7 +118,7 @@ CLOUDINARY_API_SECRET=
 VITE_API_URL=http://localhost:3000
 ```
 
-See [`.env.example`](./.env.example) for the full list of variables.
+See [`backend/.env.example`](./backend/.env.example) and [`frontend/.env.example`](./frontend/.env.example) for the full list of variables.
 
 ### 3. Run locally
 
@@ -129,16 +138,11 @@ npm run dev:frontend
 | Backend API | http://localhost:3000 |
 | Health check | http://localhost:3000/health |
 
-### 4. Default admin (local development only)
+### 4. Bootstrap administrators
 
-On first MongoDB connect, the API seeds a default admin if none exists:
+On first MongoDB connection, the API seeds administrator accounts when they do not already exist. Configure the super-admin bootstrap account privately with `SUPERADMIN_EMAIL` and `SUPERADMIN_PASSWORD` in `backend/.env`; never place those values in README files, `.env.example`, source control, or screenshots. The super-admin signs in at `/admin` and is redirected to `/admin/super`.
 
-| Field | Value |
-|-------|--------|
-| Email | `name@gmail.com` |
-| Password | `password` |
-
-> **Security:** Change this password (or recreate the admin) before any public deployment. Do not reuse these credentials in production.
+Standard administrators are restricted to operational workflows. Super-admin-only endpoints are protected server-side and cannot be reached by changing frontend routes.
 
 ---
 
@@ -176,6 +180,7 @@ npm run build
 - [ ] MongoDB user has a strong password; URI is never committed
 - [ ] Cloudinary keys live only in host env / secrets manager
 - [ ] Default admin password is changed
+- [ ] `SUPERADMIN_EMAIL` and `SUPERADMIN_PASSWORD` are set only in the deployment secret store
 - [ ] `FRONTEND_URL` matches your production frontend origin
 - [ ] `NODE_ENV=production` on the API host
 

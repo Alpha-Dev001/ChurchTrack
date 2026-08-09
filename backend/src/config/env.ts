@@ -6,7 +6,7 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 const DEFAULT_JWT_SECRET = 'sallehub-super-secure-jwt-secret-key-2026';
 const jwtSecret = process.env.JWT_SECRET || DEFAULT_JWT_SECRET;
 
-if (process.env.NODE_ENV === 'production' && (!process.env.JWT_SECRET || jwtSecret === DEFAULT_JWT_SECRET)) {
+if (process.env.NODE_ENV === 'production' && (!process.env.JWT_SECRET || jwtSecret === DEFAULT_JWT_SECRET || jwtSecret.length < 32)) {
     throw new Error('JWT_SECRET must be set to a strong unique value in production');
 }
 
@@ -27,7 +27,7 @@ export const env = {
     frontendUrl: process.env.FRONTEND_URL || 'http://localhost:5173',
     useCloudinaryStorage: Boolean(
         process.env.CLOUDINARY_CLOUD_NAME &&
-            process.env.CLOUDINARY_API_KEY &&
-            process.env.CLOUDINARY_API_SECRET
+        process.env.CLOUDINARY_API_KEY &&
+        process.env.CLOUDINARY_API_SECRET
     ),
 };

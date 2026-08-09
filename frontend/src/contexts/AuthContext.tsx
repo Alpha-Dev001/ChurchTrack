@@ -7,7 +7,7 @@ interface AuthContextType {
   adminUser: AdminUser | null;
   loginLoading: boolean;
   loginError: string;
-  login: (email: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<AdminUser | null>;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -37,7 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
   }, [adminToken]);
 
-  const login = useCallback(async (email: string, password: string): Promise<boolean> => {
+  const login = useCallback(async (email: string, password: string): Promise<AdminUser | null> => {
     setLoginLoading(true);
     setLoginError('');
 
@@ -55,8 +55,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
           localStorage.setItem(TOKEN_KEY, data.token);
           setAdminToken(data.token);
-          setAdminUser(data.admin || data.user);
-          return true;
+          const user = data.admin || data.user || null;
+          setAdminUser(user);
+          return user;
         } catch (err: any) {
           lastError = err.message || 'Login failed';
         }
@@ -64,7 +65,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       throw new Error(lastError);
     } catch (err: any) {
       setLoginError(err.message);
-      return false;
+      return null;
     } finally {
       setLoginLoading(false);
     }

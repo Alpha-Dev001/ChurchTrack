@@ -22,7 +22,7 @@ const tLanding: Record<string, any> = {
     heroTitle2: "For Your Next Unforgettable Event",
     heroDesc: "Discover, book, and manage beautiful church halls for weddings, conferences, seminars, and all your special occasions.",
     btnBrowse: "Explore Halls",
-    btnHowItWorks: "How It Works",
+    btnHowItWorks: "Track Your Booking",
     heroStat1: "18+ curated halls",
     heroStat1Desc: "Elegant and ready-to-book spaces",
     heroStat2: "Live availability",
@@ -65,7 +65,7 @@ const tLanding: Record<string, any> = {
     guestsSuffix: "Guests",
     dailyRateLabel: "Rate",
     viewDetails: "View Details",
-    whyChooseUs: "WHY CHOOSE SALLEHUB",
+    whyChooseUs: "WHY CHOOSE CHURCHTRACK",
     whyTitle: "Everything You Need, All in One Place",
     elegantSpaces: "Easy Booking",
     elegantSpacesDesc: "Quick and simple booking process in just a few steps.",
@@ -100,7 +100,7 @@ const tLanding: Record<string, any> = {
     heroTitle2: "pour les célébrations de votre vie",
     heroDesc: "Découvrez des espaces paroissiaux dignes et entièrement équipés, conçus pour les mariages, banquets, conférences, séminaires, réunions de famille et événements communautaires.",
     btnBrowse: "Parcourir les salles",
-    btnHowItWorks: "Comment ça marche",
+    btnHowItWorks: "Suivre votre réservation",
     heroStat1: "Plus de 18 salles sélectionnées",
     heroStat1Desc: "Des lieux élégants prêts à réserver",
     heroStat2: "Disponibilité en direct",
@@ -177,7 +177,7 @@ const tLanding: Record<string, any> = {
     heroTitle2: "Ku Birori By'Ubuzima Bwawe",
     heroDesc: "Gura cyangwa ukodeshe ibyumba byiza bya paruwasi bikoze neza kubera ubukwe, inama, amahugurwa, ibirori by'umuryango n'ibindi bikorwa.",
     btnBrowse: "Shakisha Ibyumba",
-    btnHowItWorks: "Uburyo Bikora",
+    btnHowItWorks: "Kurikirana ubusabe",
     heroStat1: "Ibyumba birenga 18 by'umutekano",
     heroStat1Desc: "Imyanya myiza kandi yiteguye gukodeshwa",
     heroStat2: "Ububoneke bw'igihe nyacyo",
@@ -256,19 +256,19 @@ export default function LandingPage({ lang = "EN", halls, onNavigate, onSearch }
 
   const seoData = {
     EN: {
-      title: "Premium Parish Hall Booking - SalleHub",
+      title: "SalleHub Halls - ChurchTrack",
       description: "Discover, book, and manage beautiful church halls for weddings, conferences, seminars, and all your special occasions. Easy online booking with live availability.",
       keywords: "parish hall booking, church hall rental, wedding venue, conference hall, seminar venue, event space, parish events, hall reservation",
       lang: "en"
     },
     FR: {
-      title: "Réservation de Salles Paroissiales - SalleHub",
+      title: "Salles paroissiales SalleHub - ChurchTrack",
       description: "Découvrez et réservez de belles salles d'église pour mariages, conférences, séminaires et toutes vos occasions spéciales. Réservation en ligne facile.",
       keywords: "réservation salle paroissiale, location salle d'église, lieu de mariage, salle de conférence, espace événementiel, réservation paroisse",
       lang: "fr"
     },
     RW: {
-      title: "Gukodesha Ibyumba bya Paruwasi - SalleHub",
+      title: "Ibyumba bya SalleHub - ChurchTrack",
       description: "Gura cyangwa ukodeshe ibyumba byiza bya paruwasi ku bw'ubukwe, inama, amahugurwa n'ibindi birori by'umuryango.",
       keywords: "gukodesha icyumba cya paruwasi, icyumba cy'umuryango, ahantu ho gusabiriza, gahunda y'ibirori",
       lang: "rw"
@@ -277,8 +277,8 @@ export default function LandingPage({ lang = "EN", halls, onNavigate, onSearch }
 
   const currentSeo = seoData[lang as keyof typeof seoData] || seoData.EN;
 
-  const activeHalls = halls.filter(h => h.status === "Active");
-  const featuredHalls = activeHalls.length >= 4 ? activeHalls.slice(0, 4) : halls.slice(0, 4);
+  const activeHalls = halls.filter(h => h.status === "Active" && h.id !== "church-sanctuary");
+  const featuredHalls = activeHalls.slice(0, 4);
 
   const testimonials = [
     {
@@ -325,275 +325,273 @@ export default function LandingPage({ lang = "EN", halls, onNavigate, onSearch }
         lang={currentSeo.lang}
         structuredData={{
           "@type": "WebPage",
-          "name": "SalleHub - Premium Parish Hall Booking",
+          "name": "ChurchTrack - SalleHub Parish Halls",
           "description": "Discover, book, and manage beautiful church halls for weddings, conferences, seminars, and all your special occasions."
         }}
       />
       <div className="font-sans text-navy-900" id="landing-page-root">
         {/* Hero Section — brand-first dark blue + white */}
-      <section className="relative min-h-[100vh] bg-navy-950 text-white flex flex-col justify-center overflow-hidden py-8 md:py-24 px-4">
-        <div className="absolute inset-0 z-0">
-          <img
-            src={heroChurchBuildingImg}
-            alt="Parish Church Building"
-            className="w-full h-full object-cover opacity-35 select-none pointer-events-none"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-navy-950/85" />
-        </div>
+        <section className="relative min-h-[100vh] bg-navy-950 text-white flex flex-col justify-center overflow-hidden py-8 md:py-24 px-4">
+          <div className="absolute inset-0 z-0">
+            <img
+              src={heroChurchBuildingImg}
+              alt="Parish Church Building"
+              className="w-full h-full object-cover opacity-35 select-none pointer-events-none"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute inset-0 bg-navy-950/85" />
+          </div>
 
-        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-5 md:space-y-7">
-          <p className="font-serif text-3xl md:text-7xl tracking-tight text-white leading-none">
-            SalleHub
-          </p>
+          <div className="relative z-10 max-w-5xl mx-auto text-center space-y-5 md:space-y-7">
+            <p className="font-serif text-3xl md:text-7xl tracking-tight text-white leading-none">
+              SalleHub
+            </p>
 
-          <h1 className="text-xl md:text-5xl font-serif font-normal tracking-tight text-white/90 max-w-3xl mx-auto leading-snug">
-            {t.heroTitle1}{" "}
-            <span className="italic font-light text-white/80">{t.heroTitle2}</span>
-          </h1>
+            <h1 className="text-xl md:text-5xl font-serif font-normal tracking-tight text-white/90 max-w-3xl mx-auto leading-snug">
+              {t.heroTitle1}{" "}
+              <span className="italic font-light text-white/80">{t.heroTitle2}</span>
+            </h1>
 
-          <p className="text-white/70 text-xs md:text-lg max-w-2xl mx-auto leading-relaxed font-sans font-light">
-            {t.heroDesc}
-          </p>
+            <p className="text-white/70 text-xs md:text-lg max-w-2xl mx-auto leading-relaxed font-sans font-light">
+              {t.heroDesc}
+            </p>
 
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-3 pt-1 min-touch">
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-3 pt-1 min-touch">
+              <button
+                onClick={() => onNavigate("visitor-catalogue")}
+                className="btn-primary bg-white text-navy-950 hover:bg-navy-50 w-full sm:w-auto"
+                id="hero-explore-btn"
+              >
+                <span>{t.btnBrowse}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+
+              <button
+                onClick={() => onNavigate("visitor-track")}
+                className="btn-ghost w-full sm:w-auto"
+              >
+                {t.btnHowItWorks}
+              </button>
+            </div>
+
+            {/* Scroll indicator - hidden on desktop, visible on mobile */}
+            <div className="md:hidden flex justify-center mt-8 animate-bounce">
+              <button
+                onClick={() => {
+                  document.getElementById("popular-halls-grid")?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="text-white/60 hover:text-white/90 transition-colors"
+                aria-label="Scroll down to explore"
+              >
+                <ChevronDown className="w-8 h-8" />
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* Popular Halls Segment */}
+        <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-navy-200 pb-6 gap-4">
+            <div className="space-y-2 text-left">
+              <span className="section-eyebrow block">{t.featuredVenues}</span>
+              <h2 className="text-3xl md:text-4xl font-serif font-normal text-navy-950 tracking-tight leading-none">{t.popularChurchHalls}</h2>
+              <p className="text-sm text-navy-600 font-sans font-light">{t.featuredDesc}</p>
+            </div>
             <button
               onClick={() => onNavigate("visitor-catalogue")}
-              className="btn-primary bg-white text-navy-950 hover:bg-navy-50 w-full sm:w-auto"
-              id="hero-explore-btn"
+              className="btn-secondary self-start md:self-auto"
+              id="view-all-halls-top-btn"
             >
-              <span>{t.btnBrowse}</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-
-            <button
-              onClick={() => {
-                document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="btn-ghost w-full sm:w-auto"
-            >
-              {t.btnHowItWorks}
+              {t.viewAllHalls}
             </button>
           </div>
 
-          {/* Scroll indicator - hidden on desktop, visible on mobile */}
-          <div className="md:hidden flex justify-center mt-8 animate-bounce">
-            <button
-              onClick={() => {
-                document.getElementById("popular-halls-grid")?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="text-white/60 hover:text-white/90 transition-colors"
-              aria-label="Scroll down to explore"
-            >
-              <ChevronDown className="w-8 h-8" />
-            </button>
+          {/* Grid of 4 featured halls (2 per row on desktop) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10" id="popular-halls-grid">
+            {hallsLoading ? (
+              Array.from({ length: 4 }).map((_, i) => <HallCardSkeleton key={i} />)
+            ) : (
+              featuredHalls.map((hall) => (
+                <HallCard
+                  key={hall.id}
+                  hall={hall}
+                  lang={lang}
+                  onNavigate={onNavigate}
+                />
+              ))
+            )}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Popular Halls Segment */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-navy-200 pb-6 gap-4">
-          <div className="space-y-2 text-left">
-            <span className="section-eyebrow block">{t.featuredVenues}</span>
-            <h2 className="text-3xl md:text-4xl font-serif font-normal text-navy-950 tracking-tight leading-none">{t.popularChurchHalls}</h2>
-            <p className="text-sm text-navy-600 font-sans font-light">{t.featuredDesc}</p>
-          </div>
-          <button
-            onClick={() => onNavigate("visitor-catalogue")}
-            className="btn-secondary self-start md:self-auto"
-            id="view-all-halls-top-btn"
-          >
-            {t.viewAllHalls}
-          </button>
-        </div>
+        {/* Why Choose Us */}
+        <section className="py-20 bg-navy-50 border-y border-navy-200 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto space-y-16">
+            <div className="text-center space-y-3">
+              <span className="section-eyebrow block">{t.whyChooseUs}</span>
+              <h2 className="text-3xl md:text-4xl font-serif font-normal text-navy-950 tracking-tight">{t.whyTitle}</h2>
+            </div>
 
-        {/* Grid of 4 featured halls (2 per row on desktop) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10" id="popular-halls-grid">
-          {hallsLoading ? (
-            Array.from({ length: 4 }).map((_, i) => <HallCardSkeleton key={i} />)
-          ) : (
-            featuredHalls.map((hall) => (
-              <HallCard
-                key={hall.id}
-                hall={hall}
-                lang={lang}
-                onNavigate={onNavigate}
-              />
-            ))
-          )}
-        </div>
-      </section>
-
-      {/* Why Choose Us */}
-      <section className="py-24 bg-navy-50 border-y border-navy-200 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto space-y-16">
-          <div className="text-center space-y-3">
-            <span className="section-eyebrow block">{t.whyChooseUs}</span>
-            <h2 className="text-3xl md:text-4xl font-serif font-normal text-navy-950 tracking-tight">{t.whyTitle}</h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { icon: Building, title: t.elegantSpaces, desc: t.elegantSpacesDesc },
-              { icon: ShieldCheck, title: t.modernFacilities, desc: t.modernFacilitiesDesc },
-              { icon: MapPin, title: t.convenientLocations, desc: t.convenientLocationsDesc },
-              { icon: CheckCircle, title: t.affordablePricing, desc: t.affordablePricingDesc }
-            ].map((feature) => {
-              const Icon = feature.icon;
-              return (
-                <div key={feature.title} className="card-surface p-7 text-left space-y-4">
-                  <div className="p-2.5 bg-navy-950 text-white rounded-lg inline-flex">
-                    <Icon className="w-5 h-5 text-white" />
-                  </div>
-                  <h3 className="text-lg font-serif font-normal text-navy-950">{feature.title}</h3>
-                  <p className="text-xs text-navy-600 font-sans font-light leading-relaxed">
-                    {feature.desc}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Booking Process Section */}
-      <section id="how-it-works" className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16 text-center scroll-mt-24">
-        <div className="space-y-3">
-          <span className="section-eyebrow block">{t.howItWorks}</span>
-          <h2 className="text-3xl md:text-4.5xl font-serif font-normal text-navy-900 tracking-tight">{t.howTitle}</h2>
-        </div>
-
-        <div className="relative">
-          {/* Desktop horizontal connector */}
-          <div
-            className="pointer-events-none absolute left-[10%] right-[10%] top-[2.75rem] hidden h-px bg-gradient-to-r from-transparent via-navy-300 to-transparent lg:block"
-            aria-hidden
-          />
-
-          <ol className="grid grid-cols-1 gap-0 sm:mx-auto sm:max-w-xl lg:mx-0 lg:max-w-none lg:grid-cols-5 lg:gap-4 xl:gap-6">
-            {[
-              { num: 1, title: t.step1Title, desc: t.step1Desc, icon: Search },
-              { num: 2, title: t.step2Title, desc: t.step2Desc, icon: Calendar },
-              { num: 3, title: t.step3Title, desc: t.step3Desc, icon: FileEdit },
-              { num: 4, title: t.step4Title, desc: t.step4Desc, icon: CheckCircle },
-              { num: 5, title: t.step5Title, desc: t.step5Desc, icon: Sparkles },
-            ].map((step, idx, arr) => {
-              const Icon = step.icon;
-              const isLast = idx === arr.length - 1;
-              return (
-                <li key={step.num} className="group relative flex gap-4 text-left lg:flex-col lg:items-center lg:gap-0 lg:text-center">
-                  {/* Mobile / tablet vertical connector */}
-                  {!isLast && (
-                    <div
-                      className="absolute bottom-0 left-[1.375rem] top-14 w-px bg-gradient-to-b from-navy-300 via-navy-200 to-transparent lg:hidden"
-                      aria-hidden
-                    />
-                  )}
-
-                  <div className="relative z-10 flex shrink-0 flex-col items-center">
-                    <div className="relative flex h-11 w-11 items-center justify-center rounded-full border border-navy-200 bg-white text-navy-900 shadow-[0_0_0_6px_#ffffff] transition duration-300 group-hover:border-navy-900 group-hover:bg-navy-950 group-hover:text-white lg:mx-auto lg:mb-5">
-                      <Icon className="h-[18px] w-[18px]" strokeWidth={1.75} />
-                      <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-navy-950 font-serif text-[10px] font-normal text-white ring-2 ring-white transition group-hover:bg-white group-hover:text-navy-950 group-hover:ring-navy-950">
-                        {step.num}
-                      </span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { icon: Building, title: t.elegantSpaces, desc: t.elegantSpacesDesc },
+                { icon: ShieldCheck, title: t.modernFacilities, desc: t.modernFacilitiesDesc },
+                { icon: MapPin, title: t.convenientLocations, desc: t.convenientLocationsDesc },
+                { icon: CheckCircle, title: t.affordablePricing, desc: t.affordablePricingDesc }
+              ].map((feature) => {
+                const Icon = feature.icon;
+                return (
+                  <div key={feature.title} className="card-surface p-7 text-left space-y-4">
+                    <div className="p-2.5 bg-navy-950 text-white rounded-lg inline-flex">
+                      <Icon className="w-5 h-5 text-white" />
                     </div>
-                  </div>
-
-                  <div className="min-w-0 flex-1 space-y-2 border-b border-navy-100 pb-8 pt-1 transition duration-300 group-hover:border-navy-200 lg:rounded-lg lg:border lg:border-navy-200 lg:bg-white lg:px-4 lg:pb-6 lg:pt-5 lg:shadow-sm lg:group-hover:-translate-y-1 lg:group-hover:border-navy-300 lg:group-hover:shadow-md">
-                    <h3 className="text-sm font-semibold tracking-wide text-navy-900 font-sans">
-                      {step.title}
-                    </h3>
-                    <p className="text-[11px] leading-relaxed text-navy-500 font-sans font-light lg:mx-auto lg:max-w-[11.5rem]">
-                      {step.desc}
+                    <h3 className="text-lg font-serif font-normal text-navy-950">{feature.title}</h3>
+                    <p className="text-xs text-navy-600 font-sans font-light leading-relaxed">
+                      {feature.desc}
                     </p>
                   </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
 
-                  {/* Desktop step arrow between nodes */}
-                  {!isLast && (
-                    <span
-                      className="pointer-events-none absolute -right-2 top-[2.4rem] z-20 hidden text-navy-300 lg:block xl:-right-3"
-                      aria-hidden
-                    >
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </span>
-                  )}
-                </li>
-              );
-            })}
-          </ol>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-24 bg-navy-50 border-t border-navy-200 px-4">
-        <div className="max-w-5xl mx-auto space-y-16">
-          <div className="text-center space-y-3">
-            <span className="section-eyebrow block">{t.clientsSay}</span>
-            <h2 className="text-3xl md:text-4xl font-serif font-normal text-navy-950 tracking-tight">{t.communityVoices}</h2>
+        {/* Booking Process Section */}
+        <section id="how-it-works" className="hidden py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16 text-center scroll-mt-24">
+          <div className="space-y-3">
+            <span className="section-eyebrow block">{t.howItWorks}</span>
+            <h2 className="text-3xl md:text-4.5xl font-serif font-normal text-navy-900 tracking-tight">{t.howTitle}</h2>
           </div>
 
-          <div className="relative flex flex-col md:flex-row justify-center items-center gap-6">
-            {testimonials.map((test, idx) => (
-              <div
-                key={idx}
-                className={`max-w-md p-6 rounded-lg border transition-colors duration-300 text-left flex flex-col justify-between gap-6 relative h-60 ${idx === testimonialIdx
-                  ? "bg-navy-950 text-white border-navy-950 z-10"
-                  : "bg-white text-navy-800 border-navy-200"
-                  }`}
-              >
-                <p className={`text-xs font-sans font-light leading-relaxed italic ${idx === testimonialIdx ? "text-white/75" : "text-navy-500"}`}>
-                  "{test.text}"
-                </p>
+          <div className="relative">
+            {/* Desktop horizontal connector */}
+            <div
+              className="pointer-events-none absolute left-[10%] right-[10%] top-[2.75rem] hidden h-px bg-gradient-to-r from-transparent via-navy-300 to-transparent lg:block"
+              aria-hidden
+            />
 
-                <div className="flex items-center gap-3.5 mt-auto">
-                  <img src={test.avatar} alt={test.author} className="w-10 h-10 rounded-full object-cover border border-navy-200 select-none pointer-events-none" />
-                  <div>
-                    <h4 className="text-xs font-semibold tracking-wide font-sans">{test.author}</h4>
-                    <p className={`text-[10px] ${idx === testimonialIdx ? "text-white/60 font-semibold" : "text-navy-400"} font-sans uppercase tracking-widest mt-0.5`}>{test.role}</p>
+            <ol className="grid grid-cols-1 gap-0 sm:mx-auto sm:max-w-xl lg:mx-0 lg:max-w-none lg:grid-cols-5 lg:gap-4 xl:gap-6">
+              {[
+                { num: 1, title: t.step1Title, desc: t.step1Desc, icon: Search },
+                { num: 2, title: t.step2Title, desc: t.step2Desc, icon: Calendar },
+                { num: 3, title: t.step3Title, desc: t.step3Desc, icon: FileEdit },
+                { num: 4, title: t.step4Title, desc: t.step4Desc, icon: CheckCircle },
+                { num: 5, title: t.step5Title, desc: t.step5Desc, icon: Sparkles },
+              ].map((step, idx, arr) => {
+                const Icon = step.icon;
+                const isLast = idx === arr.length - 1;
+                return (
+                  <li key={step.num} className="group relative flex gap-4 text-left lg:flex-col lg:items-center lg:gap-0 lg:text-center">
+                    {/* Mobile / tablet vertical connector */}
+                    {!isLast && (
+                      <div
+                        className="absolute bottom-0 left-[1.375rem] top-14 w-px bg-gradient-to-b from-navy-300 via-navy-200 to-transparent lg:hidden"
+                        aria-hidden
+                      />
+                    )}
+
+                    <div className="relative z-10 flex shrink-0 flex-col items-center">
+                      <div className="relative flex h-11 w-11 items-center justify-center rounded-full border border-navy-200 bg-white text-navy-900 shadow-[0_0_0_6px_#ffffff] transition duration-300 group-hover:border-navy-900 group-hover:bg-navy-950 group-hover:text-white lg:mx-auto lg:mb-5">
+                        <Icon className="h-[18px] w-[18px]" strokeWidth={1.75} />
+                        <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-navy-950 font-serif text-[10px] font-normal text-white ring-2 ring-white transition group-hover:bg-white group-hover:text-navy-950 group-hover:ring-navy-950">
+                          {step.num}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="min-w-0 flex-1 space-y-2 border-b border-navy-100 pb-8 pt-1 transition duration-300 group-hover:border-navy-200 lg:rounded-lg lg:border lg:border-navy-200 lg:bg-white lg:px-4 lg:pb-6 lg:pt-5 lg:shadow-sm lg:group-hover:-translate-y-1 lg:group-hover:border-navy-300 lg:group-hover:shadow-md">
+                      <h3 className="text-sm font-semibold tracking-wide text-navy-900 font-sans">
+                        {step.title}
+                      </h3>
+                      <p className="text-[11px] leading-relaxed text-navy-500 font-sans font-light lg:mx-auto lg:max-w-[11.5rem]">
+                        {step.desc}
+                      </p>
+                    </div>
+
+                    {/* Desktop step arrow between nodes */}
+                    {!isLast && (
+                      <span
+                        className="pointer-events-none absolute -right-2 top-[2.4rem] z-20 hidden text-navy-300 lg:block xl:-right-3"
+                        aria-hidden
+                      >
+                        <ArrowRight className="h-3.5 w-3.5" />
+                      </span>
+                    )}
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        </section>
+
+        {/* Testimonials */}
+        <section className="hidden py-24 bg-navy-50 border-t border-navy-200 px-4">
+          <div className="max-w-5xl mx-auto space-y-16">
+            <div className="text-center space-y-3">
+              <span className="section-eyebrow block">{t.clientsSay}</span>
+              <h2 className="text-3xl md:text-4xl font-serif font-normal text-navy-950 tracking-tight">{t.communityVoices}</h2>
+            </div>
+
+            <div className="relative flex flex-col md:flex-row justify-center items-center gap-6">
+              {testimonials.map((test, idx) => (
+                <div
+                  key={idx}
+                  className={`max-w-md p-6 rounded-lg border transition-colors duration-300 text-left flex flex-col justify-between gap-6 relative h-60 ${idx === testimonialIdx
+                    ? "bg-navy-950 text-white border-navy-950 z-10"
+                    : "bg-white text-navy-800 border-navy-200"
+                    }`}
+                >
+                  <p className={`text-xs font-sans font-light leading-relaxed italic ${idx === testimonialIdx ? "text-white/75" : "text-navy-500"}`}>
+                    "{test.text}"
+                  </p>
+
+                  <div className="flex items-center gap-3.5 mt-auto">
+                    <img src={test.avatar} alt={test.author} className="w-10 h-10 rounded-full object-cover border border-navy-200 select-none pointer-events-none" />
+                    <div>
+                      <h4 className="text-xs font-semibold tracking-wide font-sans">{test.author}</h4>
+                      <p className={`text-[10px] ${idx === testimonialIdx ? "text-white/60 font-semibold" : "text-navy-400"} font-sans uppercase tracking-widest mt-0.5`}>{test.role}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          <div className="flex justify-center gap-2 pt-4">
-            {testimonials.map((_, i) => (
+            <div className="flex justify-center gap-2 pt-4">
+              {testimonials.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setTestimonialIdx(i)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${i === testimonialIdx ? "bg-navy-950 w-6" : "bg-navy-300"}`}
+                  aria-label={`Go to testimonial ${i + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Call To Action bottom block */}
+        <section className="py-16 px-4 max-w-5xl mx-auto">
+          <div className="bg-navy-950 text-white rounded-lg p-8 md:p-14 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="space-y-4 max-w-xl text-left">
+              <span className="section-eyebrow text-white/50 block">{t.readyToBook}</span>
+              <h2 className="text-3xl md:text-4xl font-serif font-normal tracking-tight text-white leading-tight">{t.ctaTitle}</h2>
+              <p className="text-white/65 text-xs md:text-sm leading-relaxed font-sans font-light">
+                {t.ctaDesc}
+              </p>
+            </div>
+
+            <div className="flex-shrink-0">
               <button
-                key={i}
-                onClick={() => setTestimonialIdx(i)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${i === testimonialIdx ? "bg-navy-950 w-6" : "bg-navy-300"}`}
-                aria-label={`Go to testimonial ${i + 1}`}
-              />
-            ))}
+                onClick={() => onNavigate("visitor-catalogue")}
+                className="btn-primary bg-white text-navy-950 hover:bg-navy-50"
+                id="cta-explore-btn"
+              >
+                <span>{t.exploreHalls}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* Call To Action bottom block */}
-      <section className="py-16 px-4 max-w-5xl mx-auto">
-        <div className="bg-navy-950 text-white rounded-lg p-8 md:p-14 flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="space-y-4 max-w-xl text-left">
-            <span className="section-eyebrow text-white/50 block">{t.readyToBook}</span>
-            <h2 className="text-3xl md:text-4xl font-serif font-normal tracking-tight text-white leading-tight">{t.ctaTitle}</h2>
-            <p className="text-white/65 text-xs md:text-sm leading-relaxed font-sans font-light">
-              {t.ctaDesc}
-            </p>
-          </div>
-
-          <div className="flex-shrink-0">
-            <button
-              onClick={() => onNavigate("visitor-catalogue")}
-              className="btn-primary bg-white text-navy-950 hover:bg-navy-50"
-              id="cta-explore-btn"
-            >
-              <span>{t.exploreHalls}</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
     </>
   );
 }

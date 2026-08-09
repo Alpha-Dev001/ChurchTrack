@@ -1,6 +1,8 @@
 {
-  "name": "SalleHub",
-  "description": "A modern church hall booking and management platform featuring a public visitor booking website and a premium admin management dashboard.",
+  "name": "ChurchTrack",
+  "description": "A modern parish services platform with ChurchTrack wedding bookings and SalleHub hall reservations.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

@@ -6,7 +6,7 @@ export const footerTranslations = {
     trackBooking: "Track Booking",
     coordinatorSignIn: "Coordinator Sign In",
     supportHelp: "Support & Help",
-    about: "About SalleHub",
+    about: "About ChurchTrack",
     howItWorks: "How It Works",
     faqs: "FAQs & Help",
     newsletter: "Newsletter",
@@ -14,7 +14,7 @@ export const footerTranslations = {
     emailPlaceholder: "Your email address",
     join: "Join",
     joinAlert: "Thank you for subscribing to our parish newsletter!",
-    rights: "SalleHub Parish Office. All rights reserved.",
+    rights: "ChurchTrack Parish Office. All rights reserved.",
     privacy: "Privacy Policy",
     terms: "Terms & Conditions"
   },
@@ -25,7 +25,7 @@ export const footerTranslations = {
     trackBooking: "Suivi de Réservation",
     coordinatorSignIn: "Connexion Coordinateur",
     supportHelp: "Aide & Support",
-    about: "À propos de SalleHub",
+    about: "À propos de ChurchTrack",
     howItWorks: "Comment ça marche",
     faqs: "FAQ & Support",
     newsletter: "Bulletin",
@@ -33,7 +33,7 @@ export const footerTranslations = {
     emailPlaceholder: "Votre adresse e-mail",
     join: "S'abonner",
     joinAlert: "Merci de vous être abonné à notre bulletin paroissial !",
-    rights: "Bureau paroissial SalleHub. Tous droits réservés.",
+    rights: "Bureau paroissial ChurchTrack. Tous droits réservés.",
     privacy: "Politique de confidentialité",
     terms: "Conditions d'utilisation"
   },
@@ -44,7 +44,7 @@ export const footerTranslations = {
     trackBooking: "Gukurikirana Ubusabe",
     coordinatorSignIn: "Kwinjira k'Umuhuzabikorwa",
     supportHelp: "Ubufasha & Inkunga",
-    about: "Kwerekeye SalleHub",
+    about: "Kwerekeye ChurchTrack",
     howItWorks: "Uko Bikora",
     faqs: "Ibibazo Bikunze Kubazwa",
     newsletter: "Newsletter",
@@ -52,7 +52,7 @@ export const footerTranslations = {
     emailPlaceholder: "Imeri yawe hano...",
     join: "Kwandika",
     joinAlert: "Urakoze kwiyandikisha kuri newsletter yacu ya paruwasi!",
-    rights: "SalleHub Parish Office. Uburenganzira bwose burabitswe.",
+    rights: "ChurchTrack Parish Office. Uburenganzira bwose burabitswe.",
     privacy: "Amategeko y'Ibwanga",
     terms: "Amategeko n'Amabwiriza"
   }

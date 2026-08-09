@@ -1,6 +1,6 @@
 export const adminTranslations = {
   EN: {
-    title: "SalleHub Coordinator",
+    title: "ChurchTrack Coordinator",
     subtitle: "Sign in to coordinate parish schedules & reservations",
     email: "Email Address",
     password: "Password",
@@ -12,10 +12,11 @@ export const adminTranslations = {
     bookingsFeed: "Bookings",
     schedule: "Schedule",
     settings: "Settings",
+    superAdmin: "Super Admin",
     profileTitle: "Parish Coordinator"
   },
   FR: {
-    title: "Coordinateur SalleHub",
+    title: "Coordinateur ChurchTrack",
     subtitle: "Connectez-vous pour coordonner les horaires et réservations",
     email: "Adresse e-mail",
     password: "Mot de passe",
@@ -27,10 +28,11 @@ export const adminTranslations = {
     bookingsFeed: "Réservations",
     schedule: "Calendrier",
     settings: "Paramètres",
+    superAdmin: "Super Admin",
     profileTitle: "Coordinateur"
   },
   RW: {
-    title: "Umuhuzabikorwa wa SalleHub",
+    title: "Umuhuzabikorwa wa ChurchTrack",
     subtitle: "Yinjire hano ngo ugenzure gahunda n'ubusabe bwa paruwasi",
     email: "Imeri (Email Address)",
     password: "Ijambo ry'Ibanga",
@@ -42,6 +44,7 @@ export const adminTranslations = {
     bookingsFeed: "Ubusabe",
     schedule: "Gahunda",
     settings: "Igenamiterere",
+    superAdmin: "Umuyobozi Mukuru",
     profileTitle: "Umuhuzabikorwa"
   }
 };

@@ -262,6 +262,7 @@ export default function AdminBookingDetailsPage({
   if (!booking) return null;
 
   const isClosed = booking.status === "Rejected" || booking.status === "Cancelled";
+  const isWedding = booking.serviceType === "ChurchTrack";
 
   return (
     <div className="space-y-6 text-left font-sans text-navy-800" id="admin-booking-details-page">
@@ -294,13 +295,12 @@ export default function AdminBookingDetailsPage({
                 <p className="text-xs font-medium text-navy-600 mt-1">{t.actionDesc}</p>
               </div>
               <span
-                className={`text-[9px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded border shrink-0 ${
-                  booking.status === "Approved"
-                    ? "bg-emerald-50 border-emerald-200 text-emerald-700"
-                    : booking.status === "Pending"
-                      ? "bg-amber-50 border-amber-200 text-amber-700"
-                      : "bg-navy-50 border-navy-200 text-navy-600"
-                }`}
+                className={`text-[9px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded border shrink-0 ${booking.status === "Approved"
+                  ? "bg-emerald-50 border-emerald-200 text-emerald-700"
+                  : booking.status === "Pending"
+                    ? "bg-amber-50 border-amber-200 text-amber-700"
+                    : "bg-navy-50 border-navy-200 text-navy-600"
+                  }`}
               >
                 {booking.status}
               </span>
@@ -359,10 +359,14 @@ export default function AdminBookingDetailsPage({
           <div className="card-surface p-5 space-y-4">
             <h3 className="section-eyebrow border-b border-navy-100 pb-2.5">{t.eventTitle}</h3>
             <div className="grid grid-cols-2 gap-4 text-xs">
-              <div>
+              {!isWedding && <div>
                 <span className="section-eyebrow">{t.hallLabel}</span>
                 <span className="text-navy-950 font-semibold text-sm block mt-1">{booking.hallName}</span>
-              </div>
+              </div>}
+              {isWedding && <>
+                <div><span className="section-eyebrow">Bride</span><span className="text-rose-900 font-semibold text-sm block mt-1">{booking.brideName || "—"}</span><span className="mt-1 block text-xs text-navy-500">{booking.brideEmail || "—"}</span><span className="block text-xs text-navy-500">{booking.bridePhone || "—"}</span></div>
+                <div><span className="section-eyebrow">Groom</span><span className="text-rose-900 font-semibold text-sm block mt-1">{booking.groomName || "—"}</span><span className="mt-1 block text-xs text-navy-500">{booking.groomEmail || "—"}</span><span className="block text-xs text-navy-500">{booking.groomPhone || "—"}</span></div>
+              </>}
               <div>
                 <span className="section-eyebrow">{t.typeLabel}</span>
                 <span className="text-navy-950 font-semibold text-sm block mt-1">{booking.eventType}</span>
@@ -484,17 +488,15 @@ export default function AdminBookingDetailsPage({
               </div>
               <div className="relative">
                 <span
-                  className={`absolute -left-[25px] top-0.5 w-2.5 h-2.5 rounded-full border border-white ${
-                    booking.status === "Pending" ? "bg-amber-500" : "bg-navy-900"
-                  }`}
+                  className={`absolute -left-[25px] top-0.5 w-2.5 h-2.5 rounded-full border border-white ${booking.status === "Pending" ? "bg-amber-500" : "bg-navy-900"
+                    }`}
                 />
                 <p className="font-semibold text-navy-950">{t.progressReview}</p>
               </div>
               <div className="relative">
                 <span
-                  className={`absolute -left-[25px] top-0.5 w-2.5 h-2.5 rounded-full border border-white ${
-                    booking.status !== "Pending" ? "bg-navy-900" : "bg-navy-200"
-                  }`}
+                  className={`absolute -left-[25px] top-0.5 w-2.5 h-2.5 rounded-full border border-white ${booking.status !== "Pending" ? "bg-navy-900" : "bg-navy-200"
+                    }`}
                 />
                 <p className={`font-semibold ${booking.status !== "Pending" ? "text-navy-950" : "text-navy-400"}`}>
                   {t.progressDecision}

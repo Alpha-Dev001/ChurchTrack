@@ -13,8 +13,8 @@ settingsRouter.get(
     if (!settings) {
       // Return defaults if none exist
       settings = await SystemSettings.create({
-        siteName: 'SalleHub',
-        siteTagline: 'Premium Parish Venue Reservations',
+        siteName: 'ChurchTrack',
+        siteTagline: 'Parish wedding and hall services',
         email: 'info@sallehub.rw',
         phone: '+250 788 000 000',
         address: 'Kigali, Rwanda',

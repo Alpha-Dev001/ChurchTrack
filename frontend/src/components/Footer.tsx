@@ -36,7 +36,7 @@ export default function Footer({ lang, onNavigate }: FooterProps) {
     }
   };
 
-  const siteName = settings?.siteName || "SalleHub";
+  const siteName = settings?.siteName || "ChurchTrack";
   const siteAddress = settings?.address || "Kigali, Rwanda";
   const sitePhone = settings?.phone || "+250 788 000 000";
   const siteEmail = settings?.email || "info@sallehub.rw";
@@ -52,7 +52,7 @@ export default function Footer({ lang, onNavigate }: FooterProps) {
             </div>
             <div>
               <h1 className="text-base font-black tracking-[0.18em] font-serif leading-none">{siteName}</h1>
-              <span className="text-[9px] text-navy-300 font-bold uppercase tracking-[0.24em] leading-none block mt-0.5">Parish Venues</span>
+              <span className="text-[9px] text-navy-300 font-bold uppercase tracking-[0.24em] leading-none block mt-0.5">Parish Services</span>
             </div>
           </div>
           <p className="text-[11px] text-navy-300 leading-relaxed font-light">

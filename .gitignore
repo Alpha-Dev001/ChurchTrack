@@ -38,3 +38,9 @@ coverage/
 *.local
 .turbo/
 .cache/
+
+# Legacy project snapshots / unused package-manager metadata
+/server-db.json
+/backend/server-db.json
+/metadata.json
+/bun.lock

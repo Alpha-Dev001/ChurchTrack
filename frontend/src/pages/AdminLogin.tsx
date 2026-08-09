@@ -18,7 +18,7 @@ interface AdminLoginProps {
 const tAdminLogin: Record<string, any> = {
     EN: {
         portal: 'Administration',
-        title: 'SalleHub',
+        title: 'ChurchTrack',
         headline: 'Coordinator access',
         subtitle: 'Sign in to manage parish halls, schedules, and reservations.',
         email: 'Email',
@@ -34,7 +34,7 @@ const tAdminLogin: Record<string, any> = {
     },
     FR: {
         portal: 'Administration',
-        title: 'SalleHub',
+        title: 'ChurchTrack',
         headline: 'Accès coordinateur',
         subtitle: 'Connectez-vous pour gérer les salles, horaires et réservations.',
         email: 'E-mail',
@@ -50,7 +50,7 @@ const tAdminLogin: Record<string, any> = {
     },
     RW: {
         portal: 'Ubuyobozi',
-        title: 'SalleHub',
+        title: 'ChurchTrack',
         headline: "Kwinjira nk'umuhuzabikorwa",
         subtitle: "Yinjira urebe amasalle, gahunda n'ubusabe bwa paruwasi.",
         email: 'Imeri',
@@ -83,10 +83,10 @@ export default function AdminLogin({ lang = 'EN', onNavigate }: AdminLoginProps)
     });
 
     const onSubmit = async (data: AdminLoginFormData) => {
-        const success = await login(data.email, data.password);
-        if (success) {
+        const user = await login(data.email, data.password);
+        if (user) {
             toast.success('Signed in successfully!');
-            onNavigate('admin-dashboard');
+            onNavigate(user.role === 'superadmin' ? 'superadmin-dashboard' : 'admin-dashboard');
         } else {
             toast.error('Authentication failed. Invalid email or password.');
         }
@@ -205,11 +205,10 @@ export default function AdminLogin({ lang = 'EN', onNavigate }: AdminLoginProps)
                                 autoComplete="email"
                                 placeholder={t.placeholderEmail}
                                 {...register('email')}
-                                className={`input-field ${
-                                    errors.email
-                                        ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20'
-                                        : ''
-                                }`}
+                                className={`input-field ${errors.email
+                                    ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20'
+                                    : ''
+                                    }`}
                             />
                         </div>
 
@@ -223,11 +222,10 @@ export default function AdminLogin({ lang = 'EN', onNavigate }: AdminLoginProps)
                                 autoComplete="current-password"
                                 placeholder={t.placeholderPassword}
                                 {...register('password')}
-                                className={`input-field ${
-                                    errors.password
-                                        ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20'
-                                        : ''
-                                }`}
+                                className={`input-field ${errors.password
+                                    ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20'
+                                    : ''
+                                    }`}
                             />
                         </div>
 

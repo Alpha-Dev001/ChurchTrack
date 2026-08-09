@@ -9,6 +9,9 @@ interface CalendarEvent {
   timeSlot: string; // e.g. "10:00 AM - 02:00 PM"
   eventType: string;
   status: "Pending" | "Approved" | "Cancelled";
+  serviceType?: "SalleHub" | "ChurchTrack";
+  brideName?: string;
+  groomName?: string;
 }
 
 interface VisualCalendarProps {
@@ -142,7 +145,7 @@ export default function VisualCalendar({ events, loading = false, onAddBooking, 
     return `${year}-${mm}-${dd}`;
   };
 
-  const uniqueHalls = ["All", "Grace Hall", "Victory Hall", "Faith Conference Hall", "Hope Celebration Hall"];
+  const uniqueHalls = ["All", ...Array.from(new Set(events.map((event) => event.hallName)))];
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-navy-200 overflow-hidden font-sans" id="visual-calendar-widget">
@@ -178,11 +181,10 @@ export default function VisualCalendar({ events, loading = false, onAddBooking, 
               <button
                 key={mode}
                 onClick={() => setViewMode(mode)}
-                className={`px-3 py-1 text-xs font-bold capitalize rounded-lg transition-all ${
-                  viewMode === mode
+                className={`px-3 py-1 text-xs font-bold capitalize rounded-lg transition-all ${viewMode === mode
                     ? "bg-navy-900 text-white shadow-sm"
                     : "text-navy-500 hover:text-navy-800"
-                }`}
+                  }`}
                 id={`calendar-view-${mode}`}
               >
                 {mode}
@@ -285,16 +287,10 @@ export default function VisualCalendar({ events, loading = false, onAddBooking, 
                           ev.stopPropagation();
                           if (onSelectEvent) onSelectEvent(e.id);
                         }}
-                        className={`text-[9px] font-bold p-1 rounded-md text-white truncate shadow-sm transition hover:scale-[1.02] ${
-                          e.status === "Approved"
-                            ? "bg-indigo-600"
-                            : e.status === "Pending"
-                            ? "bg-amber-500 text-navy-900"
-                            : "bg-red-500"
-                        }`}
+                        className={`text-[9px] font-bold p-1 rounded-md truncate shadow-sm transition hover:scale-[1.02] ${e.serviceType === "ChurchTrack" ? "border border-rose-300 bg-rose-100 text-rose-900" : e.status === "Approved" ? "bg-indigo-600 text-white" : e.status === "Pending" ? "bg-amber-500 text-navy-900" : "bg-red-500 text-white"}`}
                         title={`${e.hallName} - ${e.customerName}`}
                       >
-                        {e.hallName.replace(" Hall", "")}: {e.timeSlot.split(" - ")[0]}
+                        {e.serviceType === "ChurchTrack" ? "♥ Wedding" : `${e.hallName.replace(" Hall", "")}:`} {e.timeSlot.split(" - ")[0]}
                       </div>
                     ))}
                   </div>
@@ -326,9 +322,8 @@ export default function VisualCalendar({ events, loading = false, onAddBooking, 
                   <div key={idx} className="border-r border-navy-100 flex flex-col items-stretch min-h-[300px]">
                     <div className="bg-navy-50/50 p-3 border-b border-navy-100 text-center flex flex-col items-center justify-center">
                       <span className="text-[10px] font-bold text-navy-400 uppercase tracking-wider">{dayLabel}</span>
-                      <span className={`text-base font-extrabold w-7 h-7 rounded-full flex items-center justify-center mt-1 transition ${
-                        dayNum === 15 && currentDate.getMonth() === 4 ? "bg-navy-900 text-white shadow-sm" : "text-navy-800"
-                      }`}>
+                      <span className={`text-base font-extrabold w-7 h-7 rounded-full flex items-center justify-center mt-1 transition ${dayNum === 15 && currentDate.getMonth() === 4 ? "bg-navy-900 text-white shadow-sm" : "text-navy-800"
+                        }`}>
                         {dayNum}
                       </span>
                     </div>
@@ -338,22 +333,15 @@ export default function VisualCalendar({ events, loading = false, onAddBooking, 
                         <div
                           key={e.id}
                           onClick={() => onSelectEvent && onSelectEvent(e.id)}
-                          className={`p-2.5 rounded-xl border flex flex-col justify-between shadow-sm cursor-pointer hover:shadow-md transition text-left h-24 ${
-                            e.status === "Approved"
-                              ? "bg-indigo-50 border-indigo-200 text-indigo-900"
-                              : e.status === "Pending"
-                              ? "bg-amber-50 border-amber-200 text-amber-900"
-                              : "bg-red-50 border-red-200 text-red-900"
-                          }`}
+                          className={`p-2.5 rounded-xl border flex flex-col justify-between shadow-sm cursor-pointer hover:shadow-md transition text-left h-24 ${e.serviceType === "ChurchTrack" ? "bg-rose-50 border-rose-300 text-rose-950" : e.status === "Approved" ? "bg-indigo-50 border-indigo-200 text-indigo-900" : e.status === "Pending" ? "bg-amber-50 border-amber-200 text-amber-900" : "bg-red-50 border-red-200 text-red-900"}`}
                         >
                           <div>
-                            <p className="text-[10px] font-extrabold tracking-wide uppercase truncate">{e.hallName}</p>
-                            <p className="text-xs font-bold text-navy-800 mt-1 truncate">{e.eventType}</p>
+                            <p className="text-[10px] font-extrabold tracking-wide uppercase truncate">{e.serviceType === "ChurchTrack" ? "♥ Wedding" : e.hallName}</p>
+                            <p className="text-xs font-bold text-navy-800 mt-1 truncate">{e.serviceType === "ChurchTrack" ? `${e.brideName || e.customerName} & ${e.groomName || ""}` : e.eventType}</p>
                             <p className="text-[9px] font-semibold text-navy-500 mt-0.5 truncate">{e.customerName}</p>
                           </div>
-                          <span className={`text-[8px] font-extrabold tracking-wide uppercase px-1.5 py-0.5 rounded-full self-start ${
-                            e.status === "Approved" ? "bg-indigo-600 text-white" : "bg-amber-400 text-navy-900"
-                          }`}>
+                          <span className={`text-[8px] font-extrabold tracking-wide uppercase px-1.5 py-0.5 rounded-full self-start ${e.serviceType === "ChurchTrack" ? "bg-rose-500 text-white" : e.status === "Approved" ? "bg-indigo-600 text-white" : "bg-amber-400 text-navy-900"
+                            }`}>
                             {e.timeSlot.split(" - ")[0]}
                           </span>
                         </div>

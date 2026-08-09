@@ -1,6 +1,6 @@
 <div align="center">
 
-# SalleHub Backend
+# ChurchTrack Backend
 
 **Express + TypeScript API** for hall listings, bookings, admin auth, and Cloudinary uploads.
 
@@ -21,7 +21,8 @@
 - JWT-protected admin routes
 - Multipart image upload → Cloudinary
 - MongoDB via Mongoose (required)
-- Seeds a default admin on first successful DB connection
+- Seeds configured administrator accounts on first successful DB connection
+- Provides protected super-admin insights and administrator-management APIs
 
 ---
 
@@ -57,6 +58,8 @@ Edit `.env` with your values. **Do not commit `.env`.**
 | `CLOUDINARY_UPLOAD_PRESET` | Optional | Unsigned upload preset if API key lacks create permission |
 | `FRONTEND_URL` | Recommended | Frontend origin for CORS |
 | `GEMINI_API_KEY` | No | Optional AI features |
+| `SUPERADMIN_EMAIL` | Recommended | Private bootstrap super-admin email |
+| `SUPERADMIN_PASSWORD` | Recommended | Private bootstrap super-admin password |
 
 Example (placeholders only):
 
@@ -69,6 +72,8 @@ CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 FRONTEND_URL=http://localhost:5173
+SUPERADMIN_EMAIL=your-superadmin-email@example.com
+SUPERADMIN_PASSWORD=replace-with-a-private-password
 ```
 
 ---
@@ -143,6 +148,16 @@ Base URL: `http://localhost:3000`
 | `PATCH` | `/api/bookings/:id/reject` | Reject booking |
 | `PUT` | `/api/settings` | Update settings |
 
+### Super-admin only (Bearer JWT with `role=superadmin`)
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/superadmin/insights` | System totals, service health, runtime data, and recent audit activity |
+| `GET` | `/api/superadmin/admins` | List administrators without password hashes |
+| `POST` | `/api/superadmin/admins` | Create an administrator or super administrator |
+| `PUT` | `/api/superadmin/admins/:id` | Edit administrator identity, role, or password |
+| `DELETE` | `/api/superadmin/admins/:id` | Remove an administrator with safety guards |
+
 Auth header:
 
 ```http
@@ -151,15 +166,9 @@ Authorization: Bearer <token>
 
 ---
 
-## Default admin (development)
+## Bootstrap access
 
-Created automatically if no admin exists:
-
-| Email | Password |
-|-------|----------|
-| `admin@sallehub.rw` | `admin123` |
-
-Change this before deploying publicly.
+Set `SUPERADMIN_EMAIL` and `SUPERADMIN_PASSWORD` in a private `backend/.env` or deployment secret store before the first database connection. The values are intentionally not documented here. If the account already exists, changing the environment variables does not overwrite its password; update it from the super-admin dashboard or database administration process.
 
 ---
 
@@ -180,6 +189,7 @@ npm start
 ## Security notes
 
 - Never commit `backend/.env` or real Mongo / Cloudinary credentials
+- Never commit bootstrap administrator email addresses or passwords
 - Production refuses to start with the insecure default JWT secret
 - Prefer Atlas IP allowlists and least-privilege DB users
 - Rotate keys if they were ever shared or committed by mistake

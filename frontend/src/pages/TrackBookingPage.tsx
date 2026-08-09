@@ -136,19 +136,19 @@ export default function TrackBookingPage({ lang = "EN", initialCode = "" }: Trac
 
   const seoData = {
     EN: {
-      title: "Track Your Booking - SalleHub",
+      title: "Track Your Booking - ChurchTrack",
       description: "Track your parish hall booking status. Enter your booking reference to see real-time updates on your reservation.",
       keywords: "track booking, booking status, parish hall booking, reservation tracker, booking reference",
       lang: "en"
     },
     FR: {
-      title: "Suivre Votre Réservation - SalleHub",
+      title: "Suivre Votre Réservation - ChurchTrack",
       description: "Suivez le statut de votre réservation de salle paroissiale. Entrez votre référence pour voir les mises à jour en temps réel.",
       keywords: "suivi réservation, statut réservation, salle paroissiale, tracker réservation, référence",
       lang: "fr"
     },
     RW: {
-      title: "Kurikirana Ubusabe Bwawe - SalleHub",
+      title: "Kurikirana Ubusabe Bwawe - ChurchTrack",
       description: "Reba aho ubusabe bwawe bwo kukodesha icyumba bgeze. Andika kode yawe ubone amakuru y'igihe nyacyo.",
       keywords: "kurikirana ubusabe, aho ubusabe bgeze, kukodesha icyumba, kode y'ubusabe",
       lang: "rw"
@@ -308,9 +308,8 @@ export default function TrackBookingPage({ lang = "EN", initialCode = "" }: Trac
                 type="text"
                 placeholder={t.placeholder}
                 {...register("code")}
-                className={`w-full pl-9 pr-4 py-2.5 bg-navy-50 border rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 text-navy-800 ${
-                  errors.code ? "border-red-400 focus:ring-red-500/20" : "border-navy-200 focus:ring-navy-900/20"
-                }`}
+                className={`w-full pl-9 pr-4 py-2.5 bg-navy-50 border rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 text-navy-800 ${errors.code ? "border-red-400 focus:ring-red-500/20" : "border-navy-200 focus:ring-navy-900/20"
+                  }`}
                 id="track-reference-input"
               />
             </div>
@@ -408,11 +407,10 @@ export default function TrackBookingPage({ lang = "EN", initialCode = "" }: Trac
                   key={item.id}
                   type="button"
                   onClick={() => setBooking(item)}
-                  className={`w-full text-left p-3.5 rounded-lg border transition cursor-pointer ${
-                    booking?.id === item.id
+                  className={`w-full text-left p-3.5 rounded-lg border transition cursor-pointer ${booking?.id === item.id
                       ? "border-navy-900 bg-navy-50"
                       : "border-navy-100 hover:bg-navy-50/80"
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center justify-between gap-3 flex-wrap">
                     <div className="min-w-0">
@@ -477,15 +475,14 @@ export default function TrackBookingPage({ lang = "EN", initialCode = "" }: Trac
                     return (
                       <div key={idx} className="relative">
                         <span
-                          className={`absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full border-2 bg-white ${
-                            isLast
+                          className={`absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full border-2 bg-white ${isLast
                               ? booking.status === "Approved"
                                 ? "border-emerald-600 bg-emerald-600"
                                 : booking.status === "Pending"
                                   ? "border-amber-500 bg-amber-500"
                                   : "border-navy-400 bg-navy-400"
                               : "border-navy-300"
-                          }`}
+                            }`}
                         />
                         <div className="space-y-1 bg-navy-50 p-3.5 rounded-lg border border-navy-100">
                           <div className="flex justify-between items-baseline gap-2 flex-wrap">

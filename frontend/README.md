@@ -1,6 +1,6 @@
 <div align="center">
 
-# SalleHub Frontend
+# ChurchTrack Frontend
 
 **React + Vite** public booking site and admin dashboard for parish halls.
 
@@ -28,6 +28,11 @@
 - Hall management (including image upload via API → Cloudinary)
 - Booking approvals and calendar
 - Site settings
+
+**Super admins** (`/admin/super`)
+- Live system health and operational insights
+- Administrator account creation, editing, role management, and deletion
+- Access to every standard admin workflow
 
 ---
 
@@ -159,7 +164,7 @@ npm run build
 
 ## Local admin access
 
-Use the credentials seeded by the backend (see [backend README](../backend/README.md)). Change them before production.
+Set private administrator values in `backend/.env` before the first database connection. The super-admin bootstrap email and password are intentionally not stored in this README or any environment template.
 
 ---
 
