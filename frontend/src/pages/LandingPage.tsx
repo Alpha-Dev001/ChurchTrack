@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search, Calendar, User, MapPin, Sparkles, Building, ShieldCheck, Clock, CheckCircle, ChevronLeft, ChevronRight, Mail, ArrowRight, Phone, Heart, Star, FileEdit, ChevronDown } from "lucide-react";
+import { Search, Calendar, MapPin, Sparkles, Building, ShieldCheck, CheckCircle, ArrowRight, Star, FileEdit } from "lucide-react";
 import { Hall } from "../types";
 import HallCard from "../components/HallCard";
 import heroChurchBuildingImg from "../assets/images/parish_hero_building_1784664516350.jpg";
@@ -330,67 +330,51 @@ export default function LandingPage({ lang = "EN", halls, onNavigate, onSearch }
         }}
       />
       <div className="font-sans text-navy-900" id="landing-page-root">
-        {/* Hero Section — brand-first dark blue + white */}
-        <section className="relative min-h-[100vh] bg-navy-950 text-white flex flex-col justify-center overflow-hidden py-8 md:py-24 px-4">
+        {/* Compact Hero Banner — contextually subordinate to main ChurchTrack landing */}
+        <section className="relative bg-navy-950 text-white overflow-hidden py-10 md:py-14 px-4">
           <div className="absolute inset-0 z-0">
             <img
               src={heroChurchBuildingImg}
               alt="Parish Church Building"
-              className="w-full h-full object-cover opacity-35 select-none pointer-events-none"
+              className="w-full h-full object-cover opacity-20 select-none pointer-events-none"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-navy-950/85" />
+            <div className="absolute inset-0 bg-navy-950/90" />
           </div>
 
-          <div className="relative z-10 max-w-5xl mx-auto text-center space-y-5 md:space-y-7">
-            <p className="font-serif text-3xl md:text-7xl tracking-tight text-white leading-none">
-              SalleHub
-            </p>
+          <div className="relative z-10 max-w-5xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div className="space-y-2 max-w-xl">
+              <p className="section-eyebrow text-navy-300">SalleHub</p>
+              <h1 className="text-2xl md:text-3xl font-serif font-normal tracking-tight text-white">
+                {t.heroTitle1}{' '}
+                <span className="italic font-light text-white/70">{t.heroTitle2}</span>
+              </h1>
+              <p className="text-white/55 text-xs md:text-sm max-w-lg leading-relaxed font-sans font-light">
+                {t.heroDesc}
+              </p>
+            </div>
 
-            <h1 className="text-xl md:text-5xl font-serif font-normal tracking-tight text-white/90 max-w-3xl mx-auto leading-snug">
-              {t.heroTitle1}{" "}
-              <span className="italic font-light text-white/80">{t.heroTitle2}</span>
-            </h1>
-
-            <p className="text-white/70 text-xs md:text-lg max-w-2xl mx-auto leading-relaxed font-sans font-light">
-              {t.heroDesc}
-            </p>
-
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-3 pt-1 min-touch">
+            <div className="flex items-center gap-3 flex-shrink-0">
               <button
                 onClick={() => onNavigate("visitor-catalogue")}
-                className="btn-primary bg-white text-navy-950 hover:bg-navy-50 w-full sm:w-auto"
+                className="btn-primary bg-white text-navy-950 hover:bg-navy-50"
                 id="hero-explore-btn"
               >
                 <span>{t.btnBrowse}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
-
               <button
                 onClick={() => onNavigate("visitor-track")}
-                className="btn-ghost w-full sm:w-auto"
+                className="btn-ghost"
               >
                 {t.btnHowItWorks}
-              </button>
-            </div>
-
-            {/* Scroll indicator - hidden on desktop, visible on mobile */}
-            <div className="md:hidden flex justify-center mt-8 animate-bounce">
-              <button
-                onClick={() => {
-                  document.getElementById("popular-halls-grid")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="text-white/60 hover:text-white/90 transition-colors"
-                aria-label="Scroll down to explore"
-              >
-                <ChevronDown className="w-8 h-8" />
               </button>
             </div>
           </div>
         </section>
 
         {/* Popular Halls Segment */}
-        <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
+        <section className="py-14 md:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
           <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-navy-200 pb-6 gap-4">
             <div className="space-y-2 text-left">
               <span className="section-eyebrow block">{t.featuredVenues}</span>
@@ -456,7 +440,7 @@ export default function LandingPage({ lang = "EN", halls, onNavigate, onSearch }
         </section>
 
         {/* Booking Process Section */}
-        <section id="how-it-works" className="hidden py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16 text-center scroll-mt-24">
+        <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16 text-center scroll-mt-24">
           <div className="space-y-3">
             <span className="section-eyebrow block">{t.howItWorks}</span>
             <h2 className="text-3xl md:text-4.5xl font-serif font-normal text-navy-900 tracking-tight">{t.howTitle}</h2>
@@ -524,7 +508,7 @@ export default function LandingPage({ lang = "EN", halls, onNavigate, onSearch }
         </section>
 
         {/* Testimonials */}
-        <section className="hidden py-24 bg-navy-50 border-t border-navy-200 px-4">
+        <section className="py-20 bg-navy-50 border-t border-navy-200 px-4">
           <div className="max-w-5xl mx-auto space-y-16">
             <div className="text-center space-y-3">
               <span className="section-eyebrow block">{t.clientsSay}</span>
@@ -569,7 +553,7 @@ export default function LandingPage({ lang = "EN", halls, onNavigate, onSearch }
         </section>
 
         {/* Call To Action bottom block */}
-        <section className="py-16 px-4 max-w-5xl mx-auto">
+        <section className="py-12 px-4 max-w-5xl mx-auto">
           <div className="bg-navy-950 text-white rounded-lg p-8 md:p-14 flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="space-y-4 max-w-xl text-left">
               <span className="section-eyebrow text-white/50 block">{t.readyToBook}</span>

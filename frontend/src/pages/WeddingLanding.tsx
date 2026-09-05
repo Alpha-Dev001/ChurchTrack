@@ -1,8 +1,200 @@
 import React from 'react';
-import { ArrowRight, CalendarDays, CheckCircle2, Clock3, Heart, Search, Users } from 'lucide-react';
+import {
+  ArrowRight,
+  CalendarDays,
+  CheckCircle2,
+  Clock3,
+  Heart,
+  Search,
+  Users,
+} from 'lucide-react';
 import type { ViewParams } from '../types';
 import heroParishImage from '../assets/images/parish_hero_building_1784664516350.jpg';
-interface Props { lang?: string; onNavigate: (view: string, params?: ViewParams) => void; }
-const copy = { EN: { ey: 'ChurchTrack · EAR Remera Parish', hero: 'A beautiful beginning, made simple.', desc: 'Reserve your wedding ceremony at the Main Church Sanctuary through a clear, parish-guided process.', book: 'Book your wedding', track: 'Track the wedding booking', guide: 'Ceremony guidelines', intro: 'Choose a weekday ceremony time. The parish team reviews every request.', days: 'Monday to Saturday', daysText: 'No ceremonies on Sundays.', slots: 'Three ceremony slots', slotsText: '12:00 PM, 02:00 PM, and 04:00 PM.', cap: 'Four couples per slot', capText: 'Limited capacity supports careful coordination.', details: 'Both partners’ details', detailText: 'Provide each partner’s name, email, phone, date, and preferred slot.', ready: 'Have both partners’ details ready before starting.' }, FR: { ey: 'ChurchTrack · Paroisse EAR Remera', hero: 'Un beau début, en toute simplicité.', desc: 'Réservez votre cérémonie au sanctuaire principal grâce à un parcours clair accompagné par la paroisse.', book: 'Réserver votre mariage', track: 'Suivre la réservation', guide: 'Règles de la cérémonie', intro: 'Choisissez un créneau en semaine. La paroisse examine chaque demande.', days: 'Du lundi au samedi', daysText: 'Pas de cérémonies le dimanche.', slots: 'Trois créneaux', slotsText: '12h00, 14h00 et 16h00.', cap: 'Quatre couples par créneau', capText: 'Une capacité limitée pour une bonne coordination.', details: 'Coordonnées des deux partenaires', detailText: 'Fournissez le nom, l’e-mail, le téléphone, la date et le créneau de chaque partenaire.', ready: 'Préparez les coordonnées des deux partenaires.' }, RW: { ey: 'ChurchTrack · Paruwasi EAR Remera', hero: 'Intangiriro nziza, mu buryo bworoshye.', desc: 'Kodesha aho gukorera ubukwe mu rusengero rukuru mu buryo busobanutse bufashijwe na paruwasi.', book: 'Kodesha ubukwe', track: 'Kurikirana ubusabe', guide: 'Amabwiriza y’ubukwe', intro: 'Hitamo umwanya wo mu cyumweru. Paruwasi isuzuma buri busabe.', days: 'Kuwa mbere kugeza kuwa gatandatu', daysText: 'Nta bukwe ku cyumweru.', slots: 'Amasaha atatu', slotsText: '12:00, 14:00 na 16:00.', cap: 'Abashakanye bane kuri buri mwanya', capText: 'Umubare muto ufasha gutegura neza.', details: 'Amakuru y’abashakanye bombi', detailText: 'Tanga amazina, imeri, telefone, itariki n’isaha bya buri mushakanye.', ready: 'Tegura amakuru y’abashakanye bombi.' } } as const;
-export default function WeddingLanding({ lang = 'EN', onNavigate }: Props) { const t = copy[lang as keyof typeof copy] || copy.EN; return <div className="bg-navy-50 text-navy-950"><section className="relative min-h-screen overflow-hidden bg-navy-950 px-6 py-24 text-white md:py-32"><img src={heroParishImage} alt="EAR Remera Parish" className="absolute inset-0 h-full w-full object-cover opacity-30" /><div className="absolute inset-0 bg-navy-950/80" /><div className="relative mx-auto flex min-h-[calc(100vh-12rem)] max-w-4xl items-center justify-center text-center"><div className="max-w-3xl"><p className="section-eyebrow text-navy-300">{t.ey}</p><h1 className="mt-5 font-serif text-5xl leading-tight md:text-7xl">{t.hero}</h1><p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-navy-300 md:text-base">{t.desc}</p><div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row"><button onClick={() => onNavigate('visitor-wedding-booking')} className="btn-primary bg-white text-navy-950 hover:bg-navy-50">{t.book}<ArrowRight className="h-4 w-4" /></button><button onClick={() => onNavigate('visitor-wedding-track')} className="btn-secondary border-navy-600 bg-transparent text-white hover:bg-navy-900"><Search className="h-4 w-4" />{t.track}</button></div></div></div></section><section className="mx-auto max-w-6xl px-6 py-20"><div className="mx-auto max-w-2xl text-center"><p className="section-eyebrow">{t.guide}</p><h2 className="mt-3 font-serif text-3xl md:text-4xl">{t.intro}</h2></div><div className="mt-12 grid gap-5 md:grid-cols-3"><Info icon={<CalendarDays />} title={t.days} text={t.daysText} /><Info icon={<Clock3 />} title={t.slots} text={t.slotsText} /><Info icon={<Users />} title={t.cap} text={t.capText} /></div></section><section className="border-y border-navy-200 bg-white px-6 py-20"><div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-2"><div><p className="section-eyebrow">{t.details}</p><h2 className="mt-3 font-serif text-3xl">{t.details}</h2><p className="mt-4 text-sm leading-7 text-navy-600">{t.detailText}</p><p className="mt-6 flex items-start gap-3 text-sm text-navy-700"><CheckCircle2 className="h-5 w-5 shrink-0" />{t.ready}</p></div><div className="rounded-xl bg-navy-950 p-8 text-white"><Heart className="h-5 w-5 text-navy-300" /><p className="mt-5 text-sm leading-7 text-navy-300">{t.desc}</p><button onClick={() => onNavigate('visitor-wedding-booking')} className="btn-primary mt-6 bg-white text-navy-950 hover:bg-navy-50">{t.book}<ArrowRight className="h-4 w-4" /></button></div></div></section></div> }
-function Info({ icon, title, text }: { icon: React.ReactNode; title: string; text: string }) { return <article className="card-surface p-7 text-center transition hover:-translate-y-1 hover:shadow-lg"><div className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-navy-950 text-white">{icon}</div><h3 className="mt-5 font-semibold">{title}</h3><p className="mt-2 text-sm leading-6 text-navy-600">{text}</p></article> }
+
+interface Props {
+  lang?: string;
+  onNavigate: (view: string, params?: ViewParams) => void;
+}
+
+const copy = {
+  EN: {
+    ey: 'ChurchTrack · EAR Remera Parish',
+    hero: 'A beautiful beginning, made simple.',
+    desc: 'Reserve your wedding ceremony at the Main Church Sanctuary through a clear, parish-guided process.',
+    book: 'Book your wedding',
+    track: 'Track the wedding booking',
+    guide: 'Ceremony guidelines',
+    intro: 'Choose a weekday ceremony time. The parish team reviews every request.',
+    days: 'Monday to Saturday',
+    daysText: 'No ceremonies on Sundays.',
+    slots: 'Three ceremony slots',
+    slotsText: '12:00 PM, 02:00 PM, and 04:00 PM.',
+    cap: 'Four couples per slot',
+    capText: 'Limited capacity supports careful coordination.',
+    detailsEyebrow: 'What you will need',
+    detailsTitle: 'Before you begin',
+    detailText: "Provide each partner's name, email, phone, date, and preferred slot.",
+    ready: "Have both partners' details ready before starting.",
+    ctaHint: 'Ready to start? The process takes just a few minutes.',
+  },
+  FR: {
+    ey: 'ChurchTrack · Paroisse EAR Remera',
+    hero: 'Un beau début, en toute simplicité.',
+    desc: 'Réservez votre cérémonie au sanctuaire principal grâce à un parcours clair accompagné par la paroisse.',
+    book: 'Réserver votre mariage',
+    track: 'Suivre la réservation',
+    guide: 'Règles de la cérémonie',
+    intro: 'Choisissez un créneau en semaine. La paroisse examine chaque demande.',
+    days: 'Du lundi au samedi',
+    daysText: 'Pas de cérémonies le dimanche.',
+    slots: 'Trois créneaux',
+    slotsText: '12h00, 14h00 et 16h00.',
+    cap: 'Quatre couples par créneau',
+    capText: 'Une capacité limitée pour une bonne coordination.',
+    detailsEyebrow: 'Ce dont vous avez besoin',
+    detailsTitle: 'Avant de commencer',
+    detailText: "Fournissez le nom, l'e-mail, le téléphone, la date et le créneau de chaque partenaire.",
+    ready: 'Préparez les coordonnées des deux partenaires.',
+    ctaHint: 'Prêt à commencer ? Le processus ne prend que quelques minutes.',
+  },
+  RW: {
+    ey: 'ChurchTrack · Paruwasi EAR Remera',
+    hero: 'Intangiriro nziza, mu buryo bworoshye.',
+    desc: 'Kodesha aho gukorera ubukwe mu rusengero rukuru mu buryo busobanutse bufashijwe na paruwasi.',
+    book: 'Kodesha ubukwe',
+    track: 'Kurikirana ubusabe',
+    guide: 'Amabwiriza y\'ubukwe',
+    intro: 'Hitamo umwanya wo mu cyumweru. Paruwasi isuzuma buri busabe.',
+    days: 'Kuwa mbere kugeza kuwa gatandatu',
+    daysText: 'Nta bukwe ku cyumweru.',
+    slots: 'Amasaha atatu',
+    slotsText: '12:00, 14:00 na 16:00.',
+    cap: 'Abashakanye bane kuri buri mwanya',
+    capText: 'Umubare muto ufasha gutegura neza.',
+    detailsEyebrow: 'Ibyo ukeneye',
+    detailsTitle: 'Mbere yo gutangira',
+    detailText: 'Tanga amazina, imeri, telefone, itariki n\'isaha bya buri mushakanye.',
+    ready: 'Tegura amakuru y\'abashakanye bombi.',
+    ctaHint: 'Witeguye gutangira? Intambwe ziri mu minota mike gusa.',
+  },
+} as const;
+
+export default function WeddingLanding({ lang = 'EN', onNavigate }: Props) {
+  const t = copy[lang as keyof typeof copy] || copy.EN;
+
+  return (
+    <div className="bg-navy-50 text-navy-950">
+      {/* ─── Compact Hero Banner ─── */}
+      <section className="relative bg-navy-950 text-white overflow-hidden py-10 md:py-14 px-6">
+        <img
+          src={heroParishImage}
+          alt="EAR Remera Parish"
+          className="absolute inset-0 h-full w-full object-cover opacity-15"
+        />
+        <div className="absolute inset-0 bg-navy-950/90" />
+        <div className="relative mx-auto max-w-5xl flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div className="space-y-2 max-w-xl">
+            <p className="section-eyebrow text-navy-300">{t.ey}</p>
+            <h1 className="font-serif text-3xl md:text-4xl leading-tight">
+              {t.hero}
+            </h1>
+            <p className="text-sm leading-7 text-navy-300 md:text-sm max-w-lg">
+              {t.desc}
+            </p>
+          </div>
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <button
+              onClick={() => onNavigate('visitor-wedding-booking')}
+              className="btn-primary bg-white text-navy-950 hover:bg-navy-50"
+            >
+              {t.book}
+              <ArrowRight className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => onNavigate('visitor-wedding-track')}
+              className="btn-secondary border-navy-600 bg-transparent text-white hover:bg-navy-900"
+            >
+              <Search className="h-4 w-4" />
+              {t.track}
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Ceremony Guidelines ─── */}
+      <section className="mx-auto max-w-6xl px-6 py-14 md:py-20">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="section-eyebrow">{t.guide}</p>
+          <h2 className="mt-3 font-serif text-3xl md:text-4xl">{t.intro}</h2>
+        </div>
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
+          <Info
+            icon={<CalendarDays />}
+            title={t.days}
+            text={t.daysText}
+          />
+          <Info
+            icon={<Clock3 />}
+            title={t.slots}
+            text={t.slotsText}
+          />
+          <Info
+            icon={<Users />}
+            title={t.cap}
+            text={t.capText}
+          />
+        </div>
+      </section>
+
+      {/* ─── Details + CTA ─── */}
+      <section className="border-y border-navy-200 bg-white px-6 py-16 md:py-20">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-2">
+          <div>
+            <p className="section-eyebrow">{t.detailsEyebrow}</p>
+            <h2 className="mt-3 font-serif text-3xl">{t.detailsTitle}</h2>
+            <p className="mt-4 text-sm leading-7 text-navy-600">
+              {t.detailText}
+            </p>
+            <p className="mt-6 flex items-start gap-3 text-sm text-navy-700">
+              <CheckCircle2 className="h-5 w-5 shrink-0" />
+              {t.ready}
+            </p>
+          </div>
+          <div className="rounded-xl bg-navy-950 p-8 text-white">
+            <Heart className="h-5 w-5 text-navy-300" />
+            <p className="mt-5 text-sm leading-7 text-navy-300">
+              {t.ctaHint}
+            </p>
+            <button
+              onClick={() => onNavigate('visitor-wedding-booking')}
+              className="btn-primary mt-6 bg-white text-navy-950 hover:bg-navy-50"
+            >
+              {t.book}
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function Info({
+  icon,
+  title,
+  text,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  text: string;
+}) {
+  return (
+    <article className="card-surface p-7 text-center transition hover:-translate-y-1 hover:shadow-lg">
+      <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-navy-950 text-white">
+        {icon}
+      </div>
+      <h3 className="mt-5 font-semibold">{title}</h3>
+      <p className="mt-2 text-sm leading-6 text-navy-600">{text}</p>
+    </article>
+  );
+}
