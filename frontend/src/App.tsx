@@ -212,6 +212,11 @@ function AppInner() {
 
   const confirmLabels = confirmDialogLabels[lang] || confirmDialogLabels.EN;
 
+  // Scroll to top on every route change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [location.pathname]);
+
   // Handle scroll to show/hide bottom navigation on public pages
   useEffect(() => {
     if (isAdminView) return;

@@ -207,7 +207,7 @@ export default function ChurchTrackLanding({ lang = 'EN', onNavigate }: Props) {
       {/* ═══════════════════════════════════════════
           HERO — Apple-inspired, premium minimalist
          ═══════════════════════════════════════════ */}
-      <section className="relative min-h-[100dvh] min-h-[100vh] overflow-hidden bg-[#0B1D32] text-white">
+      <section className="relative h-[calc(100dvh-61px)] md:h-[calc(100dvh-65px)] overflow-hidden bg-[#0B1D32] text-white">
         {/* Church background image */}
         <img
           src={heroParishImage}
@@ -220,7 +220,7 @@ export default function ChurchTrackLanding({ lang = 'EN', onNavigate }: Props) {
         <div className="absolute inset-0 bg-gradient-to-t from-[#0B1D32]/70 via-transparent to-[#0B1D32]/20" />
 
         {/* Content wrapper */}
-        <div className="relative mx-auto max-w-7xl px-5 sm:px-8 pt-20 pb-8 sm:pt-24 sm:pb-10 md:pt-28 md:pb-14 min-h-[100dvh] min-h-[100vh] flex flex-col justify-center">
+        <div className="relative mx-auto max-w-7xl px-5 sm:px-8 py-8 sm:py-10 md:py-14 h-full flex flex-col justify-center">
           <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12">
 
             {/* ── Left: Copy ── */}
