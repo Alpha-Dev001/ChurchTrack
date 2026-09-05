@@ -194,6 +194,7 @@ function AppInner() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [navigate]);
 
+  
   const handleSearch = useCallback((filters: SearchFilters) => {
     // Navigate to catalogue with search filters
     handleNavigate("visitor-catalogue", filters);
