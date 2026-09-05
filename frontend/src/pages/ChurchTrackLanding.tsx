@@ -220,7 +220,7 @@ export default function ChurchTrackLanding({ lang = 'EN', onNavigate }: Props) {
         <div className="absolute inset-0 bg-gradient-to-t from-navy-950/60 via-transparent to-navy-950/10" />
 
         {/* Content */}
-        <div className="relative h-full mx-auto max-w-7xl px-5 sm:px-8 flex flex-col justify-center">
+        <div className="relative h-full mx-auto max-w-7xl px-6 sm:px-10 lg:px-12 flex flex-col justify-center py-10 sm:py-12 md:py-16">
           <div className="grid items-center gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
 
             {/* ── Left: Copy ── */}
@@ -250,7 +250,7 @@ export default function ChurchTrackLanding({ lang = 'EN', onNavigate }: Props) {
                   onClick={() => onNavigate('visitor-wedding-landing')}
                   className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-white px-6 py-3 text-[13px] sm:text-sm font-semibold text-navy-950 transition hover:bg-white/90 min-touch"
                 >
-                  <Heart className="h-4 w-4 text-rose-500" />
+                  <Heart className="h-4 w-4 text-navy-950" />
                   {t.weddingCta}
                   <ArrowRight className="h-4 w-4 text-navy-400 transition group-hover:translate-x-0.5 group-hover:text-navy-950" />
                 </button>
@@ -267,9 +267,9 @@ export default function ChurchTrackLanding({ lang = 'EN', onNavigate }: Props) {
               {/* Social proof */}
               <div className="flex items-center gap-3">
                 <div className="flex -space-x-2">
-                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&q=80" alt="" className="h-8 w-8 rounded-full border-2 border-navy-950 object-cover" referrerPolicy="no-referrer" />
                   <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80" alt="" className="h-8 w-8 rounded-full border-2 border-navy-950 object-cover" referrerPolicy="no-referrer" />
-                  <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=80&q=80" alt="" className="h-8 w-8 rounded-full border-2 border-navy-950 object-cover" referrerPolicy="no-referrer" />
+                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80" alt="" className="h-8 w-8 rounded-full border-2 border-navy-950 object-cover" referrerPolicy="no-referrer" />
+                  <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=80&q=80" alt="" className="h-8 w-8 rounded-full border-2 border-navy-950 object-cover" referrerPolicy="no-referrer" />
                   <div className="h-8 w-8 rounded-full border-2 border-navy-950 bg-white/15 flex items-center justify-center">
                     <span className="text-[10px] font-bold text-white/60">+</span>
                   </div>
@@ -456,7 +456,7 @@ export default function ChurchTrackLanding({ lang = 'EN', onNavigate }: Props) {
               onClick={() => onNavigate('visitor-wedding-landing')}
               className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-white px-7 py-3.5 text-sm font-semibold text-navy-950 transition hover:-translate-y-0.5 hover:shadow-lg min-touch"
             >
-              <Heart className="h-4 w-4 text-rose-500" />
+              <Heart className="h-4 w-4 text-navy-950" />
               {t.ctaWedding}
               <ArrowRight className="h-4 w-4 text-navy-400 transition group-hover:translate-x-0.5 group-hover:text-navy-700" />
             </button>
