@@ -205,9 +205,9 @@ export default function ChurchTrackLanding({ lang = 'EN', onNavigate }: Props) {
     <div className="bg-navy-50 text-navy-950" id="churchtrack-landing">
 
       {/* ═══════════════════════════════════════════
-          HERO — Apple-inspired, premium minimalist
+          HERO
          ═══════════════════════════════════════════ */}
-      <section className="relative h-[calc(100dvh-61px)] md:h-[calc(100dvh-65px)] overflow-hidden bg-[#0B1D32] text-white">
+      <section className="relative h-[calc(100dvh-61px)] md:h-[calc(100dvh-65px)] overflow-hidden bg-navy-950 text-white">
         {/* Church background image */}
         <img
           src={heroParishImage}
@@ -215,132 +215,108 @@ export default function ChurchTrackLanding({ lang = 'EN', onNavigate }: Props) {
           className="absolute inset-0 h-full w-full object-cover object-center select-none pointer-events-none"
           referrerPolicy="no-referrer"
         />
-        {/* Gradient: heavy on left for readability, fades toward right to reveal the image */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0B1D32] via-[#0B1D32]/90 to-[#0B1D32]/30" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1D32]/70 via-transparent to-[#0B1D32]/20" />
+        {/* Gradient: solid navy on left for text, fades to reveal image on right */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-950/90 to-navy-950/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/60 via-transparent to-navy-950/10" />
 
-        {/* Content wrapper */}
-        <div className="relative mx-auto max-w-7xl px-5 sm:px-8 py-8 sm:py-10 md:py-14 h-full flex flex-col justify-center">
-          <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12">
+        {/* Content */}
+        <div className="relative h-full mx-auto max-w-7xl px-5 sm:px-8 flex flex-col justify-center">
+          <div className="grid items-center gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
 
             {/* ── Left: Copy ── */}
-            <div className="space-y-6 sm:space-y-7">
-              {/* Eyebrow pill */}
+            <div className="space-y-5 sm:space-y-6">
+              {/* Eyebrow */}
               <div className="inline-flex items-center rounded-full border border-white/15 bg-white/[0.06] px-4 py-1.5 backdrop-blur-sm">
-                <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
+                <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.18em] text-white/60">
                   {t.heroEyebrow}
                 </span>
               </div>
 
               {/* Headline */}
-              <h1 className="font-serif text-[2.1rem] leading-[1.06] tracking-tight sm:text-5xl md:text-[3.4rem] lg:text-6xl xl:text-[4rem]">
+              <h1 className="font-serif text-[2rem] leading-[1.08] tracking-tight sm:text-5xl md:text-[3.2rem] lg:text-6xl xl:text-[3.8rem]">
                 <span className="block text-white">{t.heroLine1}</span>
                 <span className="block text-white">{t.heroLine2}</span>
-                <span className="block italic font-light text-white/50">{t.heroAccent}</span>
+                <span className="block italic font-light text-white/45">{t.heroAccent}</span>
               </h1>
 
               {/* Description */}
-              <p className="max-w-md text-[13px] sm:text-sm leading-relaxed text-white/55 md:text-[15px]">
+              <p className="max-w-md text-[13px] sm:text-sm leading-relaxed text-white/50 md:text-[15px]">
                 {t.desc}
               </p>
 
               {/* CTAs */}
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center pt-1">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <button
                   onClick={() => onNavigate('visitor-wedding-landing')}
-                  className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-white px-6 py-3 text-[13px] sm:text-sm font-semibold text-[#0B1D32] transition hover:bg-white/90 min-touch"
+                  className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-white px-6 py-3 text-[13px] sm:text-sm font-semibold text-navy-950 transition hover:bg-white/90 min-touch"
                 >
                   <Heart className="h-4 w-4 text-rose-500" />
                   {t.weddingCta}
-                  <ArrowRight className="h-4 w-4 text-[#0B1D32]/40 transition group-hover:translate-x-0.5 group-hover:text-[#0B1D32]" />
+                  <ArrowRight className="h-4 w-4 text-navy-400 transition group-hover:translate-x-0.5 group-hover:text-navy-950" />
                 </button>
                 <button
                   onClick={() => onNavigate('visitor-sallehub')}
                   className="group inline-flex items-center justify-center gap-2.5 rounded-full border border-white/25 bg-white/[0.06] px-6 py-3 text-[13px] sm:text-sm font-semibold text-white backdrop-blur-sm transition hover:border-white/40 hover:bg-white/10 min-touch"
                 >
-                  <Building2 className="h-4 w-4 text-white/60" />
+                  <Building2 className="h-4 w-4 text-white/50" />
                   {t.hallsCta}
                   <ArrowRight className="h-4 w-4 text-white/40 transition group-hover:translate-x-0.5 group-hover:text-white" />
                 </button>
               </div>
 
               {/* Social proof */}
-              <div className="flex items-center gap-3 pt-2">
+              <div className="flex items-center gap-3">
                 <div className="flex -space-x-2">
-                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&q=80" alt="" className="h-8 w-8 rounded-full border-2 border-[#0B1D32] object-cover" referrerPolicy="no-referrer" />
-                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80" alt="" className="h-8 w-8 rounded-full border-2 border-[#0B1D32] object-cover" referrerPolicy="no-referrer" />
-                  <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=80&q=80" alt="" className="h-8 w-8 rounded-full border-2 border-[#0B1D32] object-cover" referrerPolicy="no-referrer" />
-                  <div className="h-8 w-8 rounded-full border-2 border-[#0B1D32] bg-white/15 flex items-center justify-center">
-                    <span className="text-[10px] font-bold text-white/70">+</span>
+                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&q=80" alt="" className="h-8 w-8 rounded-full border-2 border-navy-950 object-cover" referrerPolicy="no-referrer" />
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80" alt="" className="h-8 w-8 rounded-full border-2 border-navy-950 object-cover" referrerPolicy="no-referrer" />
+                  <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=80&q=80" alt="" className="h-8 w-8 rounded-full border-2 border-navy-950 object-cover" referrerPolicy="no-referrer" />
+                  <div className="h-8 w-8 rounded-full border-2 border-navy-950 bg-white/15 flex items-center justify-center">
+                    <span className="text-[10px] font-bold text-white/60">+</span>
                   </div>
                 </div>
                 <div className="text-xs leading-snug">
-                  <span className="font-semibold text-white/80">200+ couples served</span>
+                  <span className="font-semibold text-white/75">200+ couples served</span>
                   <br />
-                  <span className="text-white/40">with care and excellence</span>
+                  <span className="text-white/35">with care and excellence</span>
                 </div>
               </div>
             </div>
 
-            {/* ── Right: Glassmorphism stat cards ── */}
-            <div className="hidden lg:flex flex-col gap-3 items-end">
-              {/* Card 1: Halls */}
-              <div className="w-[220px] rounded-2xl border border-white/10 bg-white/[0.07] p-5 backdrop-blur-md">
-                <Building2 className="h-4 w-4 text-white/40" />
+            {/* ── Right: Stat cards (desktop only) ── */}
+            <div className="hidden lg:grid grid-cols-2 gap-3">
+              <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-5 backdrop-blur-md">
+                <Building2 className="h-4 w-4 text-white/35" />
                 <p className="mt-3 font-serif text-2xl text-white">18+</p>
-                <p className="mt-0.5 text-[11px] text-white/45">{t.statHalls}</p>
+                <p className="mt-0.5 text-[11px] text-white/40">{t.statHalls}</p>
               </div>
-              {/* Card 2: Slots */}
-              <div className="w-[220px] rounded-2xl border border-white/10 bg-white/[0.07] p-5 backdrop-blur-md">
-                <CalendarDays className="h-4 w-4 text-white/40" />
+              <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-5 backdrop-blur-md">
+                <CalendarDays className="h-4 w-4 text-white/35" />
                 <p className="mt-3 font-serif text-2xl text-white">3</p>
-                <p className="mt-0.5 text-[11px] text-white/45">{t.statSlots}</p>
+                <p className="mt-0.5 text-[11px] text-white/40">{t.statSlots}</p>
               </div>
-              {/* Card 3: Couples */}
-              <div className="w-[220px] rounded-2xl border border-white/10 bg-white/[0.07] p-5 backdrop-blur-md">
-                <Users className="h-4 w-4 text-white/40" />
+              <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-5 backdrop-blur-md">
+                <Users className="h-4 w-4 text-white/35" />
                 <p className="mt-3 font-serif text-2xl text-white">200+</p>
-                <p className="mt-0.5 text-[11px] text-white/45">{t.statCouples}</p>
+                <p className="mt-0.5 text-[11px] text-white/40">{t.statCouples}</p>
               </div>
-              {/* Card 4: Parish-Guided */}
-              <div className="w-[220px] rounded-2xl border border-white/10 bg-white/[0.07] p-5 backdrop-blur-md">
-                <ShieldCheck className="h-4 w-4 text-white/40" />
-                <p className="mt-3 font-serif text-lg text-white">{t.feature2}</p>
-                <p className="mt-1 text-[11px] leading-relaxed text-white/40">{t.feature2Desc}</p>
-              </div>
-            </div>
-
-            {/* ── Mobile: compact stat strip ── */}
-            <div className="lg:hidden grid grid-cols-2 gap-2.5">
-              <div className="rounded-xl border border-white/10 bg-white/[0.06] p-3.5 backdrop-blur-sm">
-                <p className="font-serif text-lg text-white">18+</p>
-                <p className="text-[10px] text-white/40">{t.statHalls}</p>
-              </div>
-              <div className="rounded-xl border border-white/10 bg-white/[0.06] p-3.5 backdrop-blur-sm">
-                <p className="font-serif text-lg text-white">3</p>
-                <p className="text-[10px] text-white/40">{t.statSlots}</p>
-              </div>
-              <div className="rounded-xl border border-white/10 bg-white/[0.06] p-3.5 backdrop-blur-sm">
-                <p className="font-serif text-lg text-white">200+</p>
-                <p className="text-[10px] text-white/40">{t.statCouples}</p>
-              </div>
-              <div className="rounded-xl border border-white/10 bg-white/[0.06] p-3.5 backdrop-blur-sm">
-                <p className="font-serif text-sm text-white">{t.feature2}</p>
-                <p className="text-[10px] text-white/40 mt-0.5">Parish office</p>
+              <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-5 backdrop-blur-md">
+                <ShieldCheck className="h-4 w-4 text-white/35" />
+                <p className="mt-3 font-serif text-base text-white">{t.feature2}</p>
+                <p className="mt-1 text-[11px] leading-relaxed text-white/35">{t.feature2Desc}</p>
               </div>
             </div>
           </div>
 
           {/* Scroll indicator */}
-          <div className="flex justify-center mt-auto pt-8 md:pt-12">
+          <div className="flex justify-center mt-auto pb-2 pt-6 md:pt-8">
             <button
               onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
-              className="flex flex-col items-center gap-2 text-white/30 hover:text-white/60 transition"
+              className="flex flex-col items-center gap-2 text-white/25 hover:text-white/50 transition"
               aria-label={t.scrollHint}
             >
               <span className="text-[10px] uppercase tracking-[0.25em] font-medium">{t.scrollHint}</span>
               <div className="w-6 h-9 rounded-full border border-white/20 flex justify-center pt-2">
-                <div className="w-[3px] h-[6px] rounded-full bg-white/40 animate-bounce" />
+                <div className="w-[3px] h-[6px] rounded-full bg-white/35 animate-bounce" />
               </div>
             </button>
           </div>
