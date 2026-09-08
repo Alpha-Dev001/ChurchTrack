@@ -327,8 +327,7 @@ export default function LandingPage({ lang = "EN", halls, onNavigate, onSearch }
           "@type": "WebPage",
           "name": "ChurchTrack - SalleHub Parish Halls",
           "description": "Discover, book, and manage beautiful church halls for weddings, conferences, seminars, and all your special occasions."
-        }}
-        
+        }}      
       />
       <div className="font-sans text-navy-900" id="landing-page-root">
         {/* Hero Banner */}
