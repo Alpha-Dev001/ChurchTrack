@@ -317,6 +317,7 @@ export default function LandingPage({ lang = "EN", halls, onNavigate, onSearch }
 
   return (
     <>
+    
       <SEO
         title={currentSeo.title}
         description={currentSeo.description}
@@ -330,8 +331,8 @@ export default function LandingPage({ lang = "EN", halls, onNavigate, onSearch }
         }}
       />
       <div className="font-sans text-navy-900" id="landing-page-root">
-        {/* Compact Hero Banner — contextually subordinate to main ChurchTrack landing */}
-        <section className="relative bg-navy-950 text-white overflow-hidden py-10 md:py-14 px-4">
+        {/* Hero Banner */}
+        <section className="relative bg-navy-950 text-white overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img
               src={heroChurchBuildingImg}
@@ -339,36 +340,82 @@ export default function LandingPage({ lang = "EN", halls, onNavigate, onSearch }
               className="w-full h-full object-cover opacity-20 select-none pointer-events-none"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-navy-950/90" />
+            <div className="absolute inset-0 bg-gradient-to-b from-navy-950/95 via-navy-950/85 to-navy-950/95" />
           </div>
 
-          <div className="relative z-10 max-w-5xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <div className="space-y-2 max-w-xl">
-              <p className="section-eyebrow text-navy-300">SalleHub</p>
-              <h1 className="text-2xl md:text-3xl font-serif font-normal tracking-tight text-white">
-                {t.heroTitle1}{' '}
-                <span className="italic font-light text-white/70">{t.heroTitle2}</span>
-              </h1>
-              <p className="text-white/55 text-xs md:text-sm max-w-lg leading-relaxed font-sans font-light">
-                {t.heroDesc}
-              </p>
+          <div className="relative z-10 px-4 sm:px-6 lg:px-8">
+            {/* Main hero content */}
+            <div className="max-w-5xl mx-auto pt-16 md:pt-22 pb-12 md:pb-16">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+                <div className="space-y-4 max-w-xl">
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/10 backdrop-blur-sm">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                    <span className="text-[10px] font-semibold uppercase tracking-widest text-white/70">{t.heroBadge}</span>
+                  </div>
+
+                  <h1 className="text-3xl md:text-4xl lg:text-[2.75rem] font-serif font-normal tracking-tight text-white leading-tight">
+                    {t.heroTitle1}
+                  </h1>
+                  <h1 className="text-3xl md:text-4xl lg:text-[2.75rem] font-serif font-normal tracking-tight text-white/60 leading-tight -mt-1">
+                    <span className="italic font-light">{t.heroTitle2}</span>
+                  </h1>
+
+                  <p className="text-white/50 text-sm md:text-base max-w-lg leading-relaxed font-sans font-light">
+                    {t.heroDesc}
+                  </p>
+
+                  <div className="flex flex-wrap items-center gap-3 pt-2">
+                    <button
+                      onClick={() => onNavigate("visitor-catalogue")}
+                      className="btn-primary bg-white text-navy-950 hover:bg-navy-50"
+                      id="hero-explore-btn"
+                    >
+                      <span>{t.btnBrowse}</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => onNavigate("visitor-track")}
+                      className="btn-ghost"
+                    >
+                      {t.btnHowItWorks}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Right-side stat cards */}
+                <div className="hidden md:flex flex-col gap-3 flex-shrink-0">
+                  {[
+                    { icon: Building, label: t.heroStat1, desc: t.heroStat1Desc },
+                    { icon: Calendar, label: t.heroStat2, desc: t.heroStat2Desc },
+                    { icon: ShieldCheck, label: t.heroStat3, desc: t.heroStat3Desc }
+                  ].map((stat) => {
+                    const Icon = stat.icon;
+                    return (
+                      <div key={stat.label} className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/8 backdrop-blur-sm w-64">
+                        <div className="p-2 bg-white/10 rounded-lg">
+                          <Icon className="w-4 h-4 text-white/70" />
+                        </div>
+                        <div>
+                          <p className="text-xs font-semibold text-white/90">{stat.label}</p>
+                          <p className="text-[10px] text-white/45 font-light">{stat.desc}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
 
-            <div className="flex items-center gap-3 flex-shrink-0">
-              <button
-                onClick={() => onNavigate("visitor-catalogue")}
-                className="btn-primary bg-white text-navy-950 hover:bg-navy-50"
-                id="hero-explore-btn"
-              >
-                <span>{t.btnBrowse}</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => onNavigate("visitor-track")}
-                className="btn-ghost"
-              >
-                {t.btnHowItWorks}
-              </button>
+            {/* Trust bar at bottom of hero */}
+            <div className="max-w-5xl mx-auto border-t border-white/10 py-4 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6">
+              <div className="flex items-center gap-1">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <Star key={i} className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                ))}
+              </div>
+              <p className="text-[11px] text-white/40 font-sans font-light tracking-wide">
+                {t.trustedText}
+              </p>
             </div>
           </div>
         </section>
