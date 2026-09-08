@@ -317,7 +317,6 @@ export default function LandingPage({ lang = "EN", halls, onNavigate, onSearch }
 
   return (
     <>
-    
       <SEO
         title={currentSeo.title}
         description={currentSeo.description}
